@@ -22,7 +22,6 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/editText"
-            android:focusable="false"
             android:layout_marginTop="143dp"
             android:layout_marginBottom="31dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/editText2" app:layout_constraintTop_toTopOf="parent"
