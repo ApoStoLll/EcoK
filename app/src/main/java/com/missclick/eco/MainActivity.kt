@@ -22,19 +22,18 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_home -> {
                 textMessage.setText(R.string.title_home)
                 //conn("Home")
-                val mt = MyTask()
-                mt.execute()
+                LolTask().execute(0)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
                 textMessage.setText(R.string.title_dashboard)
                 //conn("DashBoard")
-                val mt = MyTask()
-                mt.execute()
+                LolTask().execute(1)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
                 textMessage.setText(R.string.title_notifications)
+                LolTask().execute(2)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -64,31 +63,5 @@ class MainActivity : AppCompatActivity() {
         textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-    }
-    internal inner class MyTask : AsyncTask<Unit, Unit, Unit>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
-        override fun doInBackground(vararg params: Unit): Unit? {
-            try {
-                val soc = Socket("95.158.11.238", 8080)
-                Log.e("krash", "Connect")
-                val writer = PrintWriter(soc.getOutputStream())
-                writer.write("hellp")
-                writer.flush()
-                writer.close()
-                soc.close()
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-
-            return null
-        }
-
-        override fun onPostExecute(result: Unit?) {
-            super.onPostExecute(result)
-        }
     }
 }
