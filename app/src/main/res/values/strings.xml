@@ -7,4 +7,6 @@
     //registerActivity
     <string name="logIn">Log In</string>
     <string name="SignUp">Sign Up</string>
+    <string name="nickname">Nickname</string>
+    <string name="password">Password</string>
 </resources>
