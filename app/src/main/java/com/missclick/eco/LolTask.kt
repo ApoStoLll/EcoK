@@ -2,8 +2,6 @@ package com.missclick.eco
 
 import android.os.AsyncTask
 import android.util.Log
-import java.io.PrintWriter
-import java.net.Socket
 
 class LolTask : AsyncTask<Int, Unit, Unit>() {
 
@@ -13,27 +11,19 @@ class LolTask : AsyncTask<Int, Unit, Unit>() {
 
     override fun doInBackground(vararg value: Int?): Unit? {
         try {
-            val soc = Socket("95.158.11.238", 8080)
+            //val soc = Socket("95.158.11.238", 8080)
             Log.e("krash", "Connect")
-            val writer = PrintWriter(soc.getOutputStream())
+            //val writer = PrintWriter(soc.getOutputStream())
+            val client = HttpClient("95.158.11.238", 8080)
             when(value[0]){
                 0 -> {
-                    writer.write("0")
-                    writer.flush()
-                    writer.close()
-                    soc.close()
+                    client.writeRequest("0", "GET")
                 }
                 1 -> {
-                    writer.write("1")
-                    writer.flush()
-                    writer.close()
-                    soc.close()
+                    client.writeRequest("1", "GET")
                 }
                 2 -> {
-                    writer.write("2")
-                    writer.flush()
-                    writer.close()
-                    soc.close()
+                    client.writeRequest("2", "GET")
                 }
             }
 
