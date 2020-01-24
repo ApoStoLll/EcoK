@@ -7,8 +7,9 @@
         android:layout_height="match_parent"
         tools:context=".RegisterActivity"
         android:orientation="vertical">
+    <Button android:layout_width="match_parent" android:layout_height="50dp" android:id="@+id/button4"/>
     <fragment
-            android:name="com.missclick.eco.LogIn"
+            android:name="com.missclick.eco.Empty"
             android:id="@+id/fragment_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

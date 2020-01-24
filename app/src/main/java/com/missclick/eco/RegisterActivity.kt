@@ -7,22 +7,21 @@ import android.content.Intent
 import android.widget.Button
 
 
-class RegisterActivity : AppCompatActivity() {
-
+class RegisterActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        findViewById<Button>(R.id.button2).setOnClickListener({logIn()})
-        findViewById<Button>(R.id.button3).setOnClickListener({signUp()})
+        //findViewById<Button>(R.id.button2).setOnClickListener({logIn()})
+        logi()
+
+
     }
-    fun logIn(){
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-    fun signUp(){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_holder,SignUp())
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
+
+     fun logi(){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_holder,LogIn())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
 }
