@@ -14,6 +14,7 @@ class RegisterActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         logInMenu()
+        // проверка, если авторизован, то входим логИн()
     }
 
     private fun logInMenu(){
@@ -34,6 +35,8 @@ class RegisterActivity : AppCompatActivity(){
     fun logIn(){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+
+        // переходим в мэин на свой акк
     }
 
     fun signUp(){
