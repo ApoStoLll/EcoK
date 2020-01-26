@@ -17,18 +17,18 @@ class RegisterActivity : AppCompatActivity(){
     }
 
     private fun logInMenu(){
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_holder,LogIn())
-            transaction.addToBackStack(null)
-            transaction.commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_holder,LogIn())
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     fun signUpMenu(){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.remove(LogIn())
         transaction.replace(R.id.fragment_holder,SignUp())
-         transaction.addToBackStack(null)
-         transaction.commit()
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     fun logIn(){

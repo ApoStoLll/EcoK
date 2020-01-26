@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".LogIn">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editTextNickname"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/nickname" app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="74dp"
+                android:layout_marginBottom="20dp" app:layout_constraintBottom_toTopOf="@+id/editTextPassword"/>
+        <EditText
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/editTextPassword"
+                android:hint="@string/password" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNickname" android:layout_marginBottom="28dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnLogIn"/>
+        <Button
+                android:text="@string/logIn"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/btnLogIn" app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPassword" android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnSignUp"/>
+        <Button
+                android:text="@string/SignUp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/btnSignUp" app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/btnLogIn"
+                android:layout_marginBottom="389dp"/>
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
