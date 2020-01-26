@@ -12,7 +12,7 @@ import kotlin.math.log
 import javax.xml.datatype.DatatypeConstants.SECONDS
 import android.os.AsyncTask
 
-
+//kek
 
 class MainActivity : AppCompatActivity() {
 
