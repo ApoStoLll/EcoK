@@ -14,7 +14,7 @@ class LolTask : AsyncTask<Int, Unit, Unit>() {
             //val soc = Socket("95.158.11.238", 8080)
             Log.e("krash", "Connect")
             //val writer = PrintWriter(soc.getOutputStream())
-            val client = HttpClient("95.158.11.238", 8080)
+            val client = HttpClient("192.168.0.135", 8080)
             when(value[0]){
                 0 -> {
                     client.writeRequest("0", "GET")

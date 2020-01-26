@@ -1,39 +1,36 @@
 package com.missclick.eco
 
 import android.util.Log
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.PrintWriter
+import java.net.HttpURLConnection
 import java.net.Socket
-
+import java.net.URL
+import java.util.*
+import java.io.*
+import java.net.CacheRequest
+import android.system.Os.socket
 
 class HttpClient(val ip : String, val port : Int){
-    var writer : PrintWriter
+    var out : BufferedWriter
     var input : BufferedReader
     var soc : Socket
     init {
         soc = Socket(ip, port)
-        writer = PrintWriter(soc.getOutputStream())
-        input = BufferedReader(InputStreamReader(soc.getInputStream()));
+        out = BufferedWriter(OutputStreamWriter(soc.getOutputStream()))
+        input = BufferedReader(InputStreamReader(soc.getInputStream()))
     }
     fun writeRequest(str : String, method: String){
-        Log.e("Request", "1")
-        val request_line = "${method} ${str} HTTP/1.1\r\n"
-        Log.e("Request", request_line)
-        val host = "Host: ${ip}:${port}\r\n"
-        Log.e("Request", host)
-        val request = request_line + host
-        this.writer.write(request)
-        val serverWord = input.readLine() // ждём, что скажет сервер'
-        Log.e("RESPONSE", "STARTING RESPONSE")
-        Log.e("RESPONSE", serverWord)
-        Log.e("RESPONSE", "End")
-        writer.flush()
-        writer.close()
-        input.close()
-        soc.close()
+        val requestLine = "$method $str HTTP/1.1\r\n"
+        val host = "Host: $ip:$port\r\n"
+        val request = requestLine + host
+        write(request)
     }
-    fun readResponse(){
-
+    fun write(request: String){
+        //val socket = Socket("192.168.0.135", 8080)
+        out.write(request)
+        out.flush()
+        Thread.sleep(1000)
+        Log.e("RESPONSE: ", input.read() as String)
+        input.close()
+        out.close()
     }
 }
