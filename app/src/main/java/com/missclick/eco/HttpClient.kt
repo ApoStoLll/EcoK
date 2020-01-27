@@ -29,8 +29,8 @@ class HttpClient(val ip : String, val port : Int){
         out.write(request)
         out.flush()
         Thread.sleep(1000)
-        Log.e("RESPONSE: ", input.read() as String)
-        input.close()
+        //Log.e("RESPONSE: ", input.readLine())
+        //input.close()
         out.close()
     }
 }
