@@ -10,14 +10,16 @@ import java.net.CacheRequest
 import android.system.Os.socket
 
 class HttpClient(val ip : String, val port : Int){
-    var out : BufferedWriter
-    var input : BufferedReader
-    var soc : Socket
-    init {
+    lateinit var out : BufferedWriter
+    lateinit var input : BufferedReader
+    lateinit var soc : Socket
+
+    fun connect(){
         soc = Socket(ip, port)
         out = BufferedWriter(OutputStreamWriter(soc.getOutputStream()))
         input = BufferedReader(InputStreamReader(soc.getInputStream()))
     }
+
     fun writeRequest(str : String, method: String){
         val requestLine = "$method $str HTTP/1.1\r\n"
         val host = "Host: $ip:$port\r\n"
@@ -29,6 +31,11 @@ class HttpClient(val ip : String, val port : Int){
         soc.close()
         Log.e("RESPONSE: ", message)
     }
+
+    /*fun addUser(username : String, name : String, pass : String, email : String){
+        writeRequest("/users?username=$username&name=$name&password=$pass&email=$email", "POST")
+    }*/
+
     fun write(request: String){
         //val socket = Socket("192.168.0.135", 8080)
         Log.e("REQUEST: ", request)

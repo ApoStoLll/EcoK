@@ -1,5 +1,6 @@
 package com.missclick.eco
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
@@ -25,50 +26,34 @@ import kotlin.coroutines.suspendCoroutine
 class MainActivity : AppCompatActivity() {
 
     private lateinit var textMessage: TextView
-
+    val client = HttpClient("192.168.0.135", 8080)
+    lateinit var user : User
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
                 textMessage.setText(R.string.title_home)
-                conn(0)
-                //LolTask().execute(0)
+                conn("0", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
                 textMessage.setText(R.string.title_dashboard)
-                conn(1)
-                //LolTask().execute(1)
+                conn("1", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
                 textMessage.setText(R.string.title_notifications)
-                //LolTask().execute(2)
+                conn("2", "GET")
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
     }
 
-    /*fun conn(str: String){
-        Log.e("krash", "AFJHEFHIEUFHIEUFHNKEFNAIUEFNAUENFJKAE")
-        try{
-            val soc = Socket("95.158.11.238", 8080)
-            Log.e("krash", "Connect")
-            val writer = PrintWriter(soc.getOutputStream())
-            writer.write(str)
-            writer.flush()
-            writer.close()
-            soc.close()
-        }catch (e: Exception){
-            Log.e("krash", "bol" + e.toString())
-        }
-    }*/
-
-    fun conn(code : Int){
+    fun conn(message : String, method : String){
         GlobalScope.launch {
             withContext(Dispatchers.IO){
-                val client = HttpClient("192.168.0.135", 8080)
-                client.writeRequest("0", "GET")
+                client.connect()
+                client.writeRequest(message, method)
             }
             Log.e("COROUTINE", "DONE")
         }
@@ -77,6 +62,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        user = User()
+        if(!user.isAuthorizate){
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         textMessage = findViewById(R.id.message)
