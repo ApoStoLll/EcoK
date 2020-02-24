@@ -1,5 +1,6 @@
 package com.missclick.eco
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -21,8 +22,9 @@ class RegisterActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        // create upload of file
+        //if(readFile("isAuth")=="true") startMain()
         logInMenu() // по дефолту запускаем ЛогИн меню
-        // сделать проверку, если авторизован, то входим логИн()
     }
 
     private fun logInMenu(){ // лоигИн меню интерфейс
@@ -32,7 +34,7 @@ class RegisterActivity : AppCompatActivity(){
         transaction.commit()
     }
 
-    fun signUpMenu(){ // cbuyfg меню интерфейс
+    fun signUpMenu(){ // сигнАп меню интерфейс
         val transaction = supportFragmentManager.beginTransaction()
         transaction.remove(LogIn())
         transaction.replace(R.id.fragment_holder,SignUp())
@@ -40,17 +42,22 @@ class RegisterActivity : AppCompatActivity(){
         transaction.commit()
     }
 
-    fun logIn(){ // вход
+    fun logIn(){
+        var isAuth = false
         GlobalScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 client.connect()
-                //client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())
+                if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
+                    runOnUiThread(){
+                        startMain()
+                    }
+                }
             }
+
         }
+        if(isAuth)startMain()
         writeFile(nickname_logIn.text.toString(), password_logIn.text.toString(),true)
-        readFile()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        if(readFile("isAuth")=="True") startMain()
         // переходим в мэин на свой акк
     }
 
@@ -91,7 +98,7 @@ class RegisterActivity : AppCompatActivity(){
         }
     }
 
-    fun readFile() {
+    fun readFile(call : String):String {
         try {
             // открываем поток для чтения
             val br = BufferedReader(
@@ -99,17 +106,24 @@ class RegisterActivity : AppCompatActivity(){
                     openFileInput("fileName.txt")
                 )
             )
-            var str = br.readLine()
-            // читаем содержимое
-            while (str != null) {
-                Log.d("Files", str)
-                str = br.readLine()
-            }
+            val nickname = br.readLine()
+            val password = br.readLine()
+            val isAuth = br.readLine()
+            Log.d("1: ", nickname)
+            Log.d("2: ", password)
+            Log.d("3: ", isAuth)
+            if (call == "nickname") return nickname
+            if (call == "password") return password
+            if (call == "isAuth") return isAuth
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
         }
+        return ""
     }
-
+    fun startMain(){
+        val intent = Intent(this, MainActivity::class.java)// вход
+        startActivity(intent)
+    }
 }
