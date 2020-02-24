@@ -26,7 +26,7 @@ import kotlin.coroutines.suspendCoroutine
 class MainActivity : AppCompatActivity() {
 
     private lateinit var textMessage: TextView
-    val client = HttpClient("192.168.0.135", 8080)
+    val client = HttpClient("95.158.11.238", 8080)
     lateinit var user : User
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
