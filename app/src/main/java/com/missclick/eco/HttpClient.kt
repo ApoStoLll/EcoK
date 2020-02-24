@@ -20,7 +20,7 @@ class HttpClient(val ip : String, val port : Int){
         input = BufferedReader(InputStreamReader(soc.getInputStream()))
     }
 
-    fun writeRequest(str : String, method: String) : String{
+    fun writeRequest(str : String, method: String) : Message{
         val requestLine = "$method $str HTTP/1.1\r\n"
         val host = "Host: $ip:$port\r\n"
         val request = requestLine + host
@@ -30,15 +30,19 @@ class HttpClient(val ip : String, val port : Int){
         //input.close()
         soc.close()
         Log.e("RESPONSE: ", message)
-        return message
+        val ms = Message(message)
+        return ms
     }
 
     fun addUser(username : String, name : String, pass : String, email : String){
         writeRequest("/users?username=$username&name=$name&password=$pass&email=$email", "POST")
     }
 
-    fun CheckUser(username : String, password : String){
-        writeRequest("/user?username=$username&password=$password", "POST")
+    fun checkUser(username : String, password : String) : Boolean{
+        val answ = writeRequest("/user?username=$username&password=$password", "POST")
+        Log.e("RESPONSE: ", "CODE: " + answ.code)
+        if(answ.code == 200) return true
+        return false
     }
 
     fun write(request: String){

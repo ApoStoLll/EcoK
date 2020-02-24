@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity(){
         GlobalScope.launch {
             withContext(Dispatchers.IO){
                 client.connect()
-                //client.checkUser()
+                client.checkUser("1", "1")
             }
         }
         val intent = Intent(this, MainActivity::class.java)
