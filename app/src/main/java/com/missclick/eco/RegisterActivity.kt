@@ -6,6 +6,7 @@ import android.view.View
 import android.content.Intent
 
 import android.widget.Button
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -39,20 +40,25 @@ class RegisterActivity : AppCompatActivity(){
     }
 
     fun logIn(){ // вход
+        GlobalScope.launch {
+            withContext(Dispatchers.IO){
+                client.connect()
+                //client.checkUser()
+            }
+        }
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         // переходим в мэин на свой акк
     }
 
     fun signUp(){ // регистрация
-
         GlobalScope.launch {
             withContext(Dispatchers.IO){
                 client.connect()
-                client.addUser("Petya228","Petro","1235","titanka228@apple.com")
+                if(password.text.toString() == password_two.text.toString()) client.addUser(nickname.text.toString(),
+                    name.text.toString(),password.text.toString(), email.text.toString())
             }
         }
-
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
