@@ -32,9 +32,9 @@ class HttpClient(val ip : String, val port : Int){
         Log.e("RESPONSE: ", message)
     }
 
-    /*fun addUser(username : String, name : String, pass : String, email : String){
+    fun addUser(username : String, name : String, pass : String, email : String){
         writeRequest("/users?username=$username&name=$name&password=$pass&email=$email", "POST")
-    }*/
+    }
 
     fun write(request: String){
         //val socket = Socket("192.168.0.135", 8080)
