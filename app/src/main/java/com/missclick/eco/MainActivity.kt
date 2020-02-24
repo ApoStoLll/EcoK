@@ -62,11 +62,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        user = User()
-        if(!user.isAuthorizate){
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         textMessage = findViewById(R.id.message)
