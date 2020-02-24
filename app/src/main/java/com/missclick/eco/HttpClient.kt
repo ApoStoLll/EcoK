@@ -36,6 +36,10 @@ class HttpClient(val ip : String, val port : Int){
         writeRequest("/users?username=$username&name=$name&password=$pass&email=$email", "POST")
     }
 
+    fun CheckUser(username : String, password : String){
+        writeRequest("/user?username=$username&password=$password", "POST")
+    }
+
     fun write(request: String){
         //val socket = Socket("192.168.0.135", 8080)
         Log.e("REQUEST: ", request)
@@ -45,14 +49,4 @@ class HttpClient(val ip : String, val port : Int){
         //Log.e("RESPONSE: ", recvString(soc.getInputStream()))
     }
 
-    @Throws(IOException::class)
-    fun recvString(input: InputStream): String {
-        var szBuf = ""
-        var ch = input.read()
-        while (ch >= 0 && ch != '\n'.toInt()) {
-            szBuf += ch.toChar()
-            ch = input.read()
-        }
-        return szBuf
-    }
 }
