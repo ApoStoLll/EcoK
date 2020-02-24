@@ -17,7 +17,7 @@ import java.io.*
 
 class RegisterActivity : AppCompatActivity(){
 
-    val client = HttpClient("95.158.11.238", 8080)
+    private val client = HttpClient("95.158.11.238", 8080)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,19 +43,24 @@ class RegisterActivity : AppCompatActivity(){
     }
 
     fun logIn(){
-        var isAuth = false
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 client.connect()
-                if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
-                    runOnUiThread(){
-                        startMain()
+                if (nickname_logIn.text.toString().length>2){
+                    if (password_logIn.text.toString().length>5){
+                        if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
+                            runOnUiThread(){
+                                startMain()
+                            }
+                        }
+                        else Log.d("Error: ", "Ошибка которую вернет сервер")
                     }
+                    else Log.d("Error: ", "Короткий пароль")
                 }
+                else Log.d("Error: ", "Короткий ник")
             }
 
         }
-        if(isAuth)startMain()
         writeFile(nickname_logIn.text.toString(), password_logIn.text.toString(),true)
         if(readFile("isAuth")=="True") startMain()
         // переходим в мэин на свой акк
@@ -63,22 +68,35 @@ class RegisterActivity : AppCompatActivity(){
 
     fun signUp(){ // регистрация
         GlobalScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 client.connect()
-                if(password_signUp.text.toString() == password_two.text.toString()) {
-                    writeFile(nickname_signUp.text.toString(), password_signUp.text.toString(),true)
-                    client.addUser(nickname_signUp.text.toString(),
-                        name.text.toString(),password_signUp.text.toString(), email.text.toString())
+                if (nickname_signUp.text.toString().length>2){
+                    if (password_signUp.text.toString().length>5){
+                        if (true){ // сделать проверку на почту
+                            if (password_signUp.text.toString() == password_two.text.toString()) {
+                                writeFile(nickname_signUp.text.toString(), password_signUp.text.toString(), true)
+                                if (client.addUser(
+                                        nickname_signUp.text.toString(),
+                                        name.text.toString(), password_signUp.text.toString(), email.text.toString()
+                                    )
+                                ) {
+                                    runOnUiThread() {
+                                        startMain()
+                                    }
+                                } else Log.d("Error: ", "Ошибка которую вернет сервер")
+                            } else Log.d("Error: ", "Пароли не сопадают")
+                        }
+                        else Log.d("Error: ", "Почта говно")
                     }
+                    else Log.d("Error: ", "Короткий пароль")
                 }
+                else Log.d("Error: ", "Короткий ник")
             }
+        }
 
-
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
     }
 
-    fun writeFile(nickname: String,password: String,isAuth: Boolean) {
+    private fun writeFile(nickname: String,password: String,isAuth: Boolean) {
         try {
             // отрываем поток для записи
             val bw = BufferedWriter(
@@ -98,7 +116,7 @@ class RegisterActivity : AppCompatActivity(){
         }
     }
 
-    fun readFile(call : String):String {
+    private fun readFile(call : String):String {
         try {
             // открываем поток для чтения
             val br = BufferedReader(
@@ -122,7 +140,7 @@ class RegisterActivity : AppCompatActivity(){
         }
         return ""
     }
-    fun startMain(){
+    private fun startMain(){
         val intent = Intent(this, MainActivity::class.java)// вход
         startActivity(intent)
     }
