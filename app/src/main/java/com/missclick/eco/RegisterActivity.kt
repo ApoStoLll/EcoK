@@ -35,7 +35,6 @@ class RegisterActivity : AppCompatActivity(){
     fun logIn(){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-
         // переходим в мэин на свой акк
     }
 
