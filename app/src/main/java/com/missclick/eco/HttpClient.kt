@@ -20,7 +20,7 @@ class HttpClient(val ip : String, val port : Int){
         input = BufferedReader(InputStreamReader(soc.getInputStream()))
     }
 
-    fun writeRequest(str : String, method: String){
+    fun writeRequest(str : String, method: String) : String{
         val requestLine = "$method $str HTTP/1.1\r\n"
         val host = "Host: $ip:$port\r\n"
         val request = requestLine + host
@@ -30,6 +30,7 @@ class HttpClient(val ip : String, val port : Int){
         //input.close()
         soc.close()
         Log.e("RESPONSE: ", message)
+        return message
     }
 
     fun addUser(username : String, name : String, pass : String, email : String){
