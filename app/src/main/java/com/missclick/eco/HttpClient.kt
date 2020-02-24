@@ -34,8 +34,10 @@ class HttpClient(val ip : String, val port : Int){
         return ms
     }
 
-    fun addUser(username : String, name : String, pass : String, email : String){
-        writeRequest("/users?username=$username&name=$name&password=$pass&email=$email", "POST")
+    fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
+        val answ = writeRequest("/users?username=$username&name=$name&password=$pass&email=$email", "POST")
+        if(answ.code == 204) return true
+        return false
     }
 
     fun checkUser(username : String, password : String) : Boolean{
