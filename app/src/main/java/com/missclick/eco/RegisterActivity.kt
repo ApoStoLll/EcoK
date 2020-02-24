@@ -2,11 +2,11 @@ package com.missclick.eco
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.content.Intent
+import kotlinx.android.synthetic.main.fragment_log_in.*
 
-import android.widget.Button
 import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.fragment_sign_up.nickname
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity(){
         GlobalScope.launch {
             withContext(Dispatchers.IO){
                 client.connect()
-                //client.checkUser()
+                //client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())
             }
         }
         val intent = Intent(this, MainActivity::class.java)
@@ -55,8 +55,8 @@ class RegisterActivity : AppCompatActivity(){
         GlobalScope.launch {
             withContext(Dispatchers.IO){
                 client.connect()
-                if(password.text.toString() == password_two.text.toString()) client.addUser(nickname.text.toString(),
-                    name.text.toString(),password.text.toString(), email.text.toString())
+                if(password_signUp.text.toString() == password_two.text.toString()) client.addUser(nickname_signUp.text.toString(),
+                    name.text.toString(),password_signUp.text.toString(), email.text.toString())
             }
         }
         val intent = Intent(this, MainActivity::class.java)
