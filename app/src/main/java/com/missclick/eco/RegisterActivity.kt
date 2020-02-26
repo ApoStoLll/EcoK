@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_log_in.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,9 @@ class RegisterActivity : AppCompatActivity(){
     fun logIn(){
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
-                client.connect()
+
+                    client.connect()
+
                 if (nickname_logIn.text.toString().length>2){
                     if (password_logIn.text.toString().length>5){
                         if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
@@ -53,11 +56,11 @@ class RegisterActivity : AppCompatActivity(){
                                 startMain()
                             }
                         }
-                        else Log.d("Error: ", "Ошибка которую вернет сервер")
+                        else runOnUiThread() {warnings(1)}
                     }
-                    else Log.d("Error: ", "Короткий пароль")
+                    else runOnUiThread() {warnings(2)}
                 }
-                else Log.d("Error: ", "Короткий ник")
+                else runOnUiThread() {warnings(3)}
             }
 
         }
@@ -83,14 +86,14 @@ class RegisterActivity : AppCompatActivity(){
                                     runOnUiThread() {
                                         startMain()
                                     }
-                                } else Log.d("Error: ", "Ошибка которую вернет сервер")
-                            } else Log.d("Error: ", "Пароли не сопадают")
+                                } else runOnUiThread() {warnings(4)}
+                            } else runOnUiThread() {warnings(5)}
                         }
-                        else Log.d("Error: ", "Почта говно")
+                        else runOnUiThread() {warnings(6)}
                     }
-                    else Log.d("Error: ", "Короткий пароль")
+                    else runOnUiThread() {warnings(7)}
                 }
-                else Log.d("Error: ", "Короткий ник")
+                else runOnUiThread() {warnings(8)}
             }
         }
 
@@ -143,5 +146,19 @@ class RegisterActivity : AppCompatActivity(){
     private fun startMain(){
         val intent = Intent(this, MainActivity::class.java)// вход
         startActivity(intent)
+    }
+    private fun warnings(number : Int){
+        when(number){
+            // warnings in logIn
+            1-> Toast.makeText(this,"Ошибка которую вернет сервер",Toast.LENGTH_SHORT).show()
+            2-> Toast.makeText(this,"Короткий пароль",Toast.LENGTH_SHORT).show()
+            3-> Toast.makeText(this,"Короткий ник",Toast.LENGTH_SHORT).show()
+            // warnings in signUp
+            4-> Toast.makeText(this,"Ошибка которую вернет сервер",Toast.LENGTH_SHORT).show()
+            5-> Toast.makeText(this,"Пароли не сопадают",Toast.LENGTH_SHORT).show()
+            6-> Toast.makeText(this,"Почта говно",Toast.LENGTH_SHORT).show()
+            7-> Toast.makeText(this,"Короткий пароль",Toast.LENGTH_SHORT).show()
+            8-> Toast.makeText(this,"Короткий ник",Toast.LENGTH_SHORT).show()
+        }
     }
 }
