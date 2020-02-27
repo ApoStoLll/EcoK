@@ -46,27 +46,26 @@ class RegisterActivity : AppCompatActivity(){
     fun logIn(){
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
-
+                try { // хз мб не работает
                     client.connect()
+                }
+                catch (e: NumberFormatException) {
+                    runOnUiThread() {warnings(1)}
+                }
 
-                if (nickname_logIn.text.toString().length>2){
-                    if (password_logIn.text.toString().length>5){
+                if (nickname_logIn.text.toString().isNotEmpty() && password_logIn.text.toString().isNotEmpty()){
                         if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
                             runOnUiThread(){
                                 startMain()
                             }
                         }
-                        else runOnUiThread() {warnings(1)}
-                    }
-                    else runOnUiThread() {warnings(2)}
+                        else runOnUiThread() {warnings(2)}
                 }
-                else runOnUiThread() {warnings(3)}
+                else runOnUiThread() {warnings(1)}
             }
 
         }
         writeFile(nickname_logIn.text.toString(), password_logIn.text.toString(),true)
-        if(readFile("isAuth")=="True") startMain()
-        // переходим в мэин на свой акк
     }
 
     fun signUp(){ // регистрация
@@ -74,26 +73,31 @@ class RegisterActivity : AppCompatActivity(){
             withContext(Dispatchers.IO) {
                 client.connect()
                 if (nickname_signUp.text.toString().length>2){
-                    if (password_signUp.text.toString().length>5){
-                        if (true){ // сделать проверку на почту
-                            if (password_signUp.text.toString() == password_two.text.toString()) {
-                                writeFile(nickname_signUp.text.toString(), password_signUp.text.toString(), true)
-                                if (client.addUser(
-                                        nickname_signUp.text.toString(),
-                                        name.text.toString(), password_signUp.text.toString(), email.text.toString()
-                                    )
-                                ) {
-                                    runOnUiThread() {
-                                        startMain()
-                                    }
-                                } else runOnUiThread() {warnings(4)}
-                            } else runOnUiThread() {warnings(5)}
+                    if (nickname_signUp.text.toString().isNotEmpty()){
+                        if (password_signUp.text.toString().length>5){
+                            if (true){ // сделать проверку на почту
+                                if (password_signUp.text.toString() == password_two.text.toString()) {
+
+                                    writeFile(nickname_signUp.text.toString(), password_signUp.text.toString(), true)
+                                    if (client.addUser(
+                                            nickname_signUp.text.toString(),
+                                            name.text.toString(), password_signUp.text.toString(), email.text.toString()
+                                        )
+                                    ) {
+                                        runOnUiThread() {
+                                            startMain()
+                                        }
+                                    } else runOnUiThread() {warnings(8)}
+
+                                } else runOnUiThread() {warnings(7)}
+                            }
+                            else runOnUiThread() {warnings(6)}
                         }
-                        else runOnUiThread() {warnings(6)}
+                        else runOnUiThread() {warnings(5)}
                     }
-                    else runOnUiThread() {warnings(7)}
+                    else runOnUiThread() {warnings(4)}
                 }
-                else runOnUiThread() {warnings(8)}
+                else runOnUiThread() {warnings(3)}
             }
         }
 
@@ -149,16 +153,14 @@ class RegisterActivity : AppCompatActivity(){
     }
     private fun warnings(number : Int){
         when(number){
-            // warnings in logIn
-            1-> Toast.makeText(this,"Ошибка которую вернет сервер",Toast.LENGTH_SHORT).show()
-            2-> Toast.makeText(this,"Короткий пароль",Toast.LENGTH_SHORT).show()
-            3-> Toast.makeText(this,"Короткий ник",Toast.LENGTH_SHORT).show()
-            // warnings in signUp
-            4-> Toast.makeText(this,"Ошибка которую вернет сервер",Toast.LENGTH_SHORT).show()
-            5-> Toast.makeText(this,"Пароли не сопадают",Toast.LENGTH_SHORT).show()
-            6-> Toast.makeText(this,"Почта говно",Toast.LENGTH_SHORT).show()
-            7-> Toast.makeText(this,"Короткий пароль",Toast.LENGTH_SHORT).show()
-            8-> Toast.makeText(this,"Короткий ник",Toast.LENGTH_SHORT).show()
+            1-> Toast.makeText(this,getString(R.string.fieldsIsEmpty),Toast.LENGTH_SHORT).show()
+            2-> Toast.makeText(this,getString(R.string.wrongData),Toast.LENGTH_SHORT).show()
+            3-> Toast.makeText(this,getString(R.string.stortNickname),Toast.LENGTH_SHORT).show()
+            4-> Toast.makeText(this,getString(R.string.nameIsEmpty),Toast.LENGTH_SHORT).show()
+            5-> Toast.makeText(this,getString(R.string.shortPassword),Toast.LENGTH_SHORT).show()
+            6-> Toast.makeText(this,getString(R.string.emailIsBad),Toast.LENGTH_SHORT).show()
+            7-> Toast.makeText(this,getString(R.string.passwordDNMatch),Toast.LENGTH_SHORT).show()
+            8-> Toast.makeText(this,getString(R.string.nicknameIsBusy),Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -38,7 +38,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/password_logIn" android:layout_marginBottom="20dp"
                 app:layout_constraintBottom_toTopOf="@+id/btnSignUp"/>
         <Button
-                android:text="@string/SignUp"
+                android:text="@string/signUp"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
