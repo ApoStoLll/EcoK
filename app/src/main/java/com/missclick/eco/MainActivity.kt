@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.TextView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -13,33 +12,31 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var textMessage: TextView
-    val client = HttpClient("95.158.11.238", 8080)
-    lateinit var user : User
+    private val client = HttpClient("95.158.11.238", 8080)
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_feed -> {
-                textMessage.setText(R.string.title_feed)
+                feedMenu()
                 conn("0", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_exercises -> {
-                textMessage.setText(R.string.title_exercises)
+                signUpMenu()
                 conn("1", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
-                textMessage.setText(R.string.title_profile)
+                logInMenu()
                 conn("2", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {
-                textMessage.setText(R.string.title_map)
+                signUpMenu()
                 conn("3", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_etc -> {
-                textMessage.setText(R.string.title_etc)
+                logInMenu()
                 conn("4", "GET")
                 return@OnNavigationItemSelectedListener true
             }
@@ -62,9 +59,32 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
+    }
+
+
+    private fun feedMenu(){ // лоигИн меню интерфейс
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_holder,Feed())
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+
+    // for testing, delete it later
+    private fun logInMenu(){ // лоигИн меню интерфейс
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_holder,LogIn())
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    fun signUpMenu(){ // сигнАп меню интерфейс
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.remove(LogIn())
+        transaction.replace(R.id.fragment_holder,SignUp())
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }
