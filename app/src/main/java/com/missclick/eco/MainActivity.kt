@@ -1,27 +1,15 @@
 package com.missclick.eco
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import kotlinx.coroutines.launch
-import java.io.PrintWriter
-import java.lang.Exception
-import java.net.Socket
-import kotlin.math.log
-import javax.xml.datatype.DatatypeConstants.SECONDS
-import android.os.AsyncTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
-
-//kek
 
 class MainActivity : AppCompatActivity() {
 
