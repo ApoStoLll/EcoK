@@ -150,7 +150,7 @@ class RegisterActivity : AppCompatActivity(){
         when(number){
             1-> Toast.makeText(this,getString(R.string.fieldsIsEmpty),Toast.LENGTH_SHORT).show()
             2-> Toast.makeText(this,getString(R.string.wrongData),Toast.LENGTH_SHORT).show()
-            3-> Toast.makeText(this,getString(R.string.stortNickname),Toast.LENGTH_SHORT).show()
+            3-> Toast.makeText(this,getString(R.string.shortNickname),Toast.LENGTH_SHORT).show()
             4-> Toast.makeText(this,getString(R.string.nameIsEmpty),Toast.LENGTH_SHORT).show()
             5-> Toast.makeText(this,getString(R.string.shortPassword),Toast.LENGTH_SHORT).show()
             6-> Toast.makeText(this,getString(R.string.emailIsBad),Toast.LENGTH_SHORT).show()

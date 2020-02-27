@@ -15,7 +15,7 @@
     //warnings
     <string name="fieldsIsEmpty">Fill in all the fields!</string> // Заполните все поля!
     <string name="wrongData">Wrong data</string> // Неверные данные
-    <string name="stortNickname">Short nickname</string> // Короткий ник
+    <string name="shortNickname">Short nickname</string> // Короткий ник
     <string name="nameIsEmpty">Enter your name</string> // Укажите имя
     <string name="shortPassword">Short password</string> // короткий пароль
     <string name="emailIsBad">Email is bad</string> // Почта говно
