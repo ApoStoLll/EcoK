@@ -1,13 +1,9 @@
 package com.missclick.eco
 
 import android.util.Log
-import java.net.HttpURLConnection
 import java.net.Socket
-import java.net.URL
-import java.util.*
 import java.io.*
-import java.net.CacheRequest
-import android.system.Os.socket
+
 
 class HttpClient(val ip : String, val port : Int){
     lateinit var out : BufferedWriter
@@ -30,8 +26,7 @@ class HttpClient(val ip : String, val port : Int){
         //input.close()
         soc.close()
         Log.e("RESPONSE: ", message)
-        val ms = Message(message)
-        return ms
+        return Message(message)
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
