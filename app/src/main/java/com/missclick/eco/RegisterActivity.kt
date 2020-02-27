@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity(){
         setContentView(R.layout.activity_register)
         // create upload of file
         //if(readFile("isAuth")=="true") startMain()
+        startMain() // could be changed
         logInMenu() // по дефолту запускаем ЛогИн меню
     }
 

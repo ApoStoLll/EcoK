@@ -1,8 +1,13 @@
 <resources>
+
     <string name="app_name">Eco</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+    // menu
+    <string name="title_feed">Feed</string>
+    <string name="title_exercises">Exercises</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_map">Map</string>
+    <string name="title_etc">...</string>
 
     //registerActivity
     <string name="logIn">Log In</string>

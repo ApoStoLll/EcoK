@@ -18,19 +18,29 @@ class MainActivity : AppCompatActivity() {
     lateinit var user : User
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
-                textMessage.setText(R.string.title_home)
+            R.id.navigation_feed -> {
+                textMessage.setText(R.string.title_feed)
                 conn("0", "GET")
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
-                textMessage.setText(R.string.title_dashboard)
+            R.id.navigation_exercises -> {
+                textMessage.setText(R.string.title_exercises)
                 conn("1", "GET")
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
-                textMessage.setText(R.string.title_notifications)
+            R.id.navigation_profile -> {
+                textMessage.setText(R.string.title_profile)
                 conn("2", "GET")
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_map -> {
+                textMessage.setText(R.string.title_map)
+                conn("3", "GET")
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_etc -> {
+                textMessage.setText(R.string.title_etc)
+                conn("4", "GET")
                 return@OnNavigationItemSelectedListener true
             }
         }
