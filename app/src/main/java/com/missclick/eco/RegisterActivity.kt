@@ -1,6 +1,5 @@
 package com.missclick.eco
 
-import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -50,18 +49,16 @@ class RegisterActivity : AppCompatActivity(){
                     client.connect()
                 }
                 catch (e: NumberFormatException) {
-                    runOnUiThread() {warnings(1)}
+                    runOnUiThread {warnings(1)}
                 }
 
                 if (nickname_logIn.text.toString().isNotEmpty() && password_logIn.text.toString().isNotEmpty()){
                         if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
-                            runOnUiThread(){
-                                startMain()
-                            }
+                            runOnUiThread {startMain()}
                         }
-                        else runOnUiThread() {warnings(2)}
+                        else runOnUiThread {warnings(2)}
                 }
-                else runOnUiThread() {warnings(1)}
+                else runOnUiThread {warnings(1)}
             }
 
         }
@@ -84,20 +81,18 @@ class RegisterActivity : AppCompatActivity(){
                                             name.text.toString(), password_signUp.text.toString(), email.text.toString()
                                         )
                                     ) {
-                                        runOnUiThread() {
-                                            startMain()
-                                        }
-                                    } else runOnUiThread() {warnings(8)}
+                                        runOnUiThread {startMain()}
+                                    } else runOnUiThread {warnings(8)}
 
-                                } else runOnUiThread() {warnings(7)}
+                                } else runOnUiThread {warnings(7)}
                             }
-                            else runOnUiThread() {warnings(6)}
+                            else runOnUiThread {warnings(6)}
                         }
-                        else runOnUiThread() {warnings(5)}
+                        else runOnUiThread {warnings(5)}
                     }
-                    else runOnUiThread() {warnings(4)}
+                    else runOnUiThread {warnings(4)}
                 }
-                else runOnUiThread() {warnings(3)}
+                else runOnUiThread {warnings(3)}
             }
         }
 
