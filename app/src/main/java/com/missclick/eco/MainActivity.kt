@@ -16,27 +16,27 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_feed -> {
-                feedMenu()
+                startMenu(1)
                 conn("0", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_exercises -> {
-                signUpMenu()
+                startMenu(2)
                 conn("1", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
-                logInMenu()
+                startMenu(3)
                 conn("2", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {
-                signUpMenu()
+                startMenu(4)
                 conn("3", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_etc -> {
-                logInMenu()
+                startMenu(5)
                 conn("4", "GET")
                 return@OnNavigationItemSelectedListener true
             }
@@ -60,31 +60,22 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
+        startMenu(1)
     }
 
 
-    private fun feedMenu(){ // лоигИн меню интерфейс
+    private fun startMenu(num : Int){
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_holder,Feed())
+        when(num){
+            1-> transaction.replace(R.id.fragment_holder,Feed())
+            2-> transaction.replace(R.id.fragment_holder,Exercises())
+            3-> transaction.replace(R.id.fragment_holder,Profile())
+            4-> transaction.replace(R.id.fragment_holder,Map())
+            5-> transaction.replace(R.id.fragment_holder,Etc())
+        }
         transaction.addToBackStack(null)
         transaction.commit()
     }
 
 
-    // for testing, delete it later
-    private fun logInMenu(){ // лоигИн меню интерфейс
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_holder,LogIn())
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
-    fun signUpMenu(){ // сигнАп меню интерфейс
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.remove(LogIn())
-        transaction.replace(R.id.fragment_holder,SignUp())
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
 }
