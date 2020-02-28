@@ -24,7 +24,6 @@ class RegisterActivity : AppCompatActivity(){
         setContentView(R.layout.activity_register)
         // create upload of file
         //if(readFile("isAuth")=="true") startMain()
-        startMain() // could be changed
         logInMenu() // по дефолту запускаем ЛогИн меню
     }
 
@@ -48,8 +47,10 @@ class RegisterActivity : AppCompatActivity(){
             withContext(Dispatchers.IO) {
                 try { // хз мб не работает
                     client.connect()
+                    Log.d("Try","Success")
                 }
                 catch (e: NumberFormatException) {
+                    Log.d("Try","Bad")
                     runOnUiThread {warnings(1)}
                 }
 
@@ -143,7 +144,7 @@ class RegisterActivity : AppCompatActivity(){
         }
         return ""
     }
-    private fun startMain(){
+    fun startMain(){
         val intent = Intent(this, MainActivity::class.java)// вход
         startActivity(intent)
     }

@@ -35,6 +35,10 @@ class LogIn : Fragment() {
             (activity as RegisterActivity).signUpMenu()
         }
 
+        view.findViewById<Button>(R.id.button3).setOnClickListener {
+            (activity as RegisterActivity).startMain()
+        }
+
     }
 
 
