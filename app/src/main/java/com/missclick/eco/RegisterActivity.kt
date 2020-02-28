@@ -56,7 +56,7 @@ class RegisterActivity : AppCompatActivity(){
 
                 if (nickname_logIn.text.toString().isNotEmpty() && password_logIn.text.toString().isNotEmpty()){
                         if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
-                            runOnUiThread {startMain()}
+                            runOnUiThread {startMain(1)}
                         }
                         else runOnUiThread {warnings(2)}
                 }
@@ -83,7 +83,7 @@ class RegisterActivity : AppCompatActivity(){
                                             name.text.toString(), password_signUp.text.toString(), email.text.toString()
                                         )
                                     ) {
-                                        runOnUiThread {startMain()}
+                                        runOnUiThread {startMain(2)}
                                     } else runOnUiThread {warnings(8)}
 
                                 } else runOnUiThread {warnings(7)}
@@ -144,8 +144,13 @@ class RegisterActivity : AppCompatActivity(){
         }
         return ""
     }
-    fun startMain(){
+    fun startMain(from: Int){
         val intent = Intent(this, MainActivity::class.java)// вход
+        when(from){
+            1-> intent.putExtra("nickname",nickname_logIn.text.toString())
+            2-> intent.putExtra("nickname",nickname_signUp.text.toString())
+            else -> intent.putExtra("nickname","Test")
+        }
         startActivity(intent)
     }
     private fun warnings(number : Int){

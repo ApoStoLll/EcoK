@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var nickname : String
     private val client = HttpClient("95.158.11.238", 8080)
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_exercises -> {
                 startMenu(2)
                 conn("1", "GET")
+                Log.d("Nick: ", nickname)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
@@ -57,7 +58,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val nickname:String = intent.getStringExtra("nickname")
+        this@MainActivity.nickname = nickname
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         startMenu(1)

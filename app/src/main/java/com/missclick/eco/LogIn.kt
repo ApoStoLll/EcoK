@@ -36,7 +36,7 @@ class LogIn : Fragment() {
         }
 
         view.findViewById<Button>(R.id.button3).setOnClickListener {
-            (activity as RegisterActivity).startMain()
+            (activity as RegisterActivity).startMain(3)
         }
 
     }
