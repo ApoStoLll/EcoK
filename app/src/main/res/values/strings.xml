@@ -35,6 +35,9 @@
     <string name="nicknameIsBusy">Nickname is busy</string>
     // Ник занят
 
+    <string name="text">Nick</string>
+    // Ник занят
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
