@@ -21,12 +21,26 @@ class HttpClient(val ip : String, val port : Int){
         val host = "Host: $ip:$port\r\n"
         val request = requestLine + host
         write(request)
-        val message = input.readLine()
+        var message = ""
+        //Log.e("RESPONSE 1", "KEK")
+        var kek : String
+        while(true){
+            kek = input.readLine()
+            //Log.e("While 1", kek)
+            if(kek == "") break
+            message = message + "\r\n" + kek
+        }
+        Log.e("RESPONSE 1", message)
         //out.close()
         //input.close()
         soc.close()
-        Log.e("RESPONSE: ", message)
         return Message(message)
+    }
+
+    fun getUserData(username : String){
+        val str = writeRequest("/user_data?username=$username", "GET")
+        Log.e("STROKA: ", str.toString())
+        parseString(str)
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
@@ -40,6 +54,14 @@ class HttpClient(val ip : String, val port : Int){
         Log.e("RESPONSE: ", "CODE: " + answ.code)
         if(answ.code == 200) return true
         return false
+    }
+
+    fun parseString(str: Message){
+        val data = HashMap<String, String>()
+        val kek = str.body.split(", ")
+        for(s in kek){
+            Log.e("STROKA: ", s)
+        }
     }
 
     fun write(request: String){

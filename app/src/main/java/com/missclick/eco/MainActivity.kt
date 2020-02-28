@@ -38,7 +38,14 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.navigation_etc -> {
                 startMenu(5)
-                conn("4", "GET")
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO){
+                            client.connect()
+                            client.getUserData("aloxa")
+                        }
+                        Log.e("COROUTINE", "DONE")
+
+                }
                 return@OnNavigationItemSelectedListener true
             }
         }

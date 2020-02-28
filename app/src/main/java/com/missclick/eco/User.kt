@@ -1,5 +1,7 @@
 package com.missclick.eco
 
-class User(){
-    var isAuthorizate = false
+import android.media.Image
+
+class User(username : String, score : Int, image : Image, followers : String, following : String){
+    
 }
