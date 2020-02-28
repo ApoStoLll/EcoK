@@ -24,7 +24,6 @@ class RegisterActivity : AppCompatActivity(){
         setContentView(R.layout.activity_register)
         // create upload of file
         //if(readFile("isAuth")=="true") startMain()
-        //startMain() // could be changed
         logInMenu() // по дефолту запускаем ЛогИн меню
     }
 
@@ -48,14 +47,16 @@ class RegisterActivity : AppCompatActivity(){
             withContext(Dispatchers.IO) {
                 try { // хз мб не работает
                     client.connect()
+                    Log.d("Try","Success")
                 }
                 catch (e: NumberFormatException) {
+                    Log.d("Try","Bad")
                     runOnUiThread {warnings(1)}
                 }
 
                 if (nickname_logIn.text.toString().isNotEmpty() && password_logIn.text.toString().isNotEmpty()){
                         if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
-                            runOnUiThread {startMain()}
+                            runOnUiThread {startMain(1)}
                         }
                         else runOnUiThread {warnings(2)}
                 }
@@ -82,7 +83,7 @@ class RegisterActivity : AppCompatActivity(){
                                             name.text.toString(), password_signUp.text.toString(), email.text.toString()
                                         )
                                     ) {
-                                        runOnUiThread {startMain()}
+                                        runOnUiThread {startMain(2)}
                                     } else runOnUiThread {warnings(8)}
 
                                 } else runOnUiThread {warnings(7)}
@@ -143,8 +144,13 @@ class RegisterActivity : AppCompatActivity(){
         }
         return ""
     }
-    private fun startMain(){
+    fun startMain(from: Int){
         val intent = Intent(this, MainActivity::class.java)// вход
+        when(from){
+            1-> intent.putExtra("nickname",nickname_logIn.text.toString())
+            2-> intent.putExtra("nickname",nickname_signUp.text.toString())
+            else -> intent.putExtra("nickname","Test")
+        }
         startActivity(intent)
     }
     private fun warnings(number : Int){
