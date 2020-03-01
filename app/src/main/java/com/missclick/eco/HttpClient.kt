@@ -37,10 +37,11 @@ class HttpClient(val ip : String, val port : Int){
         return Message(message)
     }
 
-    fun getUserData(username : String){
+    fun getUserData(username : String):User{
         val str = writeRequest("/user_data?username=$username", "GET")
         Log.e("STROKA: ", str.toString())
         parseString(str)
+        return User(username,"Petro",26,"follower","following")
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{

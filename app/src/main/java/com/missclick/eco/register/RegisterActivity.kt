@@ -152,7 +152,7 @@ class RegisterActivity : AppCompatActivity(){
         when(from){
             1-> intent.putExtra("nickname",nickname_logIn.text.toString())
             2-> intent.putExtra("nickname",nickname_signUp.text.toString())
-            else -> intent.putExtra("nickname","Test")
+            else -> intent.putExtra("nickname","1")
         }
         startActivity(intent)
     }

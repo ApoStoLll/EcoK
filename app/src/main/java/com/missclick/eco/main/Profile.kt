@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -38,7 +39,8 @@ class Profile : Fragment() {
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 client.connect()
-                //http запрос, получаем инфа для юзера
+                val user = client.getUserData((activity as MainActivity).nickname)
+                //name_profile = user.get
             }
         }
     }

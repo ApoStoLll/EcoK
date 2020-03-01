@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var nickname : String
+    lateinit var nickname : String
     private val client = HttpClient("95.158.11.238", 8080)
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
