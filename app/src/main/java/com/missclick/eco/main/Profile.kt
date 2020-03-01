@@ -7,9 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.missclick.eco.HttpClient
+import com.missclick.eco.Profile_positive
 import com.missclick.eco.R
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,8 +32,12 @@ class Profile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         update()
-        Log.d("Profile","Its work")
-            //view.findViewById<Button>(R.id.btnPositive ).setOnClickListener { }
+        view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
+            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_holder, Profile_positive())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     private fun update(){
