@@ -1,4 +1,4 @@
-package com.missclick.eco
+package com.missclick.eco.register
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.missclick.eco.HttpClient
+import com.missclick.eco.R
+import com.missclick.eco.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +32,7 @@ class RegisterActivity : AppCompatActivity(){
 
     private fun logInMenu(){ // лоигИн меню интерфейс
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_holder,LogIn())
+        transaction.replace(R.id.fragment_holder, LogIn())
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -37,7 +40,7 @@ class RegisterActivity : AppCompatActivity(){
     fun signUpMenu(){ // сигнАп меню интерфейс
         val transaction = supportFragmentManager.beginTransaction()
         transaction.remove(LogIn())
-        transaction.replace(R.id.fragment_holder,SignUp())
+        transaction.replace(R.id.fragment_holder, SignUp())
         transaction.addToBackStack(null)
         transaction.commit()
     }

@@ -1,9 +1,11 @@
-package com.missclick.eco
+package com.missclick.eco.main
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.missclick.eco.HttpClient
+import com.missclick.eco.R
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -76,11 +78,11 @@ class MainActivity : AppCompatActivity() {
     private fun startMenu(num : Int){
         val transaction = supportFragmentManager.beginTransaction()
         when(num){
-            1-> transaction.replace(R.id.fragment_holder,Feed())
-            2-> transaction.replace(R.id.fragment_holder,Exercises())
-            3-> transaction.replace(R.id.fragment_holder,Profile())
-            4-> transaction.replace(R.id.fragment_holder,Map())
-            5-> transaction.replace(R.id.fragment_holder,Etc())
+            1-> transaction.replace(R.id.fragment_holder, Feed())
+            2-> transaction.replace(R.id.fragment_holder, Exercises())
+            3-> transaction.replace(R.id.fragment_holder, Profile())
+            4-> transaction.replace(R.id.fragment_holder, Map())
+            5-> transaction.replace(R.id.fragment_holder, Etc())
         }
         transaction.addToBackStack(null)
         transaction.commit()

@@ -1,4 +1,4 @@
-package com.missclick.eco
+package com.missclick.eco.main
 
 
 import android.os.Bundle
@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import kotlinx.android.synthetic.main.fragment_log_in.*
+import com.missclick.eco.HttpClient
+import com.missclick.eco.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
