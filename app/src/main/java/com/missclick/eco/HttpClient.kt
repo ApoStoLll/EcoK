@@ -48,12 +48,12 @@ class HttpClient(private val ip : String,private val port : Int){
     fun getUserData(username : String) : User{
         val answ = writeRequest("/user_data?username=$username", "GET")
         var str = answ.body[4]
-        str = str.substring(2, str.length-2)
+            //str = str.substring(2, str.length-2)
         //Log.e("STR", str[str.length-1].toString())
-        val img = decodeBase64(str)//str.toByteArray()
+        //val img = decodeBase64(str)//str.toByteArray()
         //Log.e("STR", byte.toString())
         //val img = BitmapFactory.decodeByteArray(byte, 0, str.length)
-        return  User(username, answ.body[1], answ.body[3], img, answ.body[5], answ.body[6])
+        return  User(username, answ.body[1], answ.body[3], null, answ.body[5], answ.body[6])
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
