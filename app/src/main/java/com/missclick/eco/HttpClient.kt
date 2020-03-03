@@ -23,18 +23,14 @@ class HttpClient(val ip : String, val port : Int){
         write(request)
         val message = ArrayList<String>()
         var kek : String
-        //Log.e("RESPONSE 1", "KEK")
         while(true){
             kek = input.readLine() ?: break
             if(kek == "") break
-            Log.e("While 1", kek)
             message.add(kek)
         }
         for(item in message){
             Log.e("RESPONSE 1", item)
         }
-        //out.close()
-        //input.close()
         soc.close()
         return Message(message)
     }
@@ -57,13 +53,11 @@ class HttpClient(val ip : String, val port : Int){
         return false
     }
 
-    fun write(request: String){
-        //val socket = Socket("192.168.0.135", 8080)
+    private fun write(request: String){
         Log.e("REQUEST: ", request)
         out.write(request)
         out.flush()
         soc.shutdownOutput()
-        //Log.e("RESPONSE: ", recvString(soc.getInputStream()))
     }
 
 }

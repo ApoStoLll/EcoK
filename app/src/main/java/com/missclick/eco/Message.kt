@@ -1,7 +1,7 @@
 package com.missclick.eco
 
 
-class Message(message : ArrayList<String>){
+data class Message(val message : ArrayList<String>){
 
     var code : Int
     var reason : String
