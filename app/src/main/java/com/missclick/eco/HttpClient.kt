@@ -22,13 +22,13 @@ class HttpClient(val ip : String, val port : Int){
         val request = requestLine + host
         write(request)
         var message = ""
-        //Log.e("RESPONSE 1", "KEK")
         var kek : String
+        //Log.e("RESPONSE 1", "KEK")
         while(true){
-            kek = input.readLine()
-            //Log.e("While 1", kek)
+            kek = input.readLine() ?: break
             if(kek == "") break
-            message = message + "\r\n" + kek
+            Log.e("While 1", kek)
+            message += kek + "\r\n"
         }
         Log.e("RESPONSE 1", message)
         //out.close()
@@ -37,11 +37,10 @@ class HttpClient(val ip : String, val port : Int){
         return Message(message)
     }
 
-    fun getUserData(username : String):User{
+    fun getUserData(username : String){
         val str = writeRequest("/user_data?username=$username", "GET")
         Log.e("STROKA: ", str.toString())
-        parseString(str)
-        return User(username,"Petro",26,"follower","following")
+        parseData(str).get("id")
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
@@ -57,12 +56,19 @@ class HttpClient(val ip : String, val port : Int){
         return false
     }
 
-    fun parseString(str: Message){
+    fun parseData(str: Message) : HashMap<String, String>{
         val data = HashMap<String, String>()
-        val kek = str.body.split(", ")
-        for(s in kek){
-            Log.e("STROKA: ", s)
+        val kek = str.body.split("\r\n")
+        for(item in kek){
+            Log.e("parse: ", item)
         }
+        /*data.put("id", kek[0])
+        data.put("username", kek[1])
+        data.put("score", kek[2])
+        data.put("image", kek[3])
+        data.put("followers", kek[4])
+        data.put("following", kek[5])*/
+        return data
     }
 
     fun write(request: String){
