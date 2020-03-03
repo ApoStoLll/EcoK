@@ -46,6 +46,7 @@ class Profile : Fragment() {
                 client.connect()
                 val user = client.getUserData((activity as MainActivity).nickname)
                 name_profile.text = user.name
+                image_profile.setImageBitmap(user.image)
                 score_profile.text = user.score
             }
         }
