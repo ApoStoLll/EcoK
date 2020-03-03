@@ -10,7 +10,7 @@ import android.view.ViewGroup
 
 
 
-class Profile_positive : Fragment() {
+class ProfilePositive : Fragment() {
 
 
     override fun onCreateView(

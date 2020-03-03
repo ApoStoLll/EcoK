@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    fun conn(message : String, method : String){
+    private fun conn(message : String, method : String){
         GlobalScope.launch {
             withContext(Dispatchers.IO){
                 client.connect()

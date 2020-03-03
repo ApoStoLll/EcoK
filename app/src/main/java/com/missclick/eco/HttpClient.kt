@@ -10,10 +10,10 @@ import android.graphics.Bitmap
 import android.util.Base64
 
 
-class HttpClient(val ip : String, val port : Int){
-    lateinit var out : BufferedWriter
-    lateinit var input : BufferedReader
-    lateinit var soc : Socket
+class HttpClient(private val ip : String,private val port : Int){
+    private lateinit var out : BufferedWriter
+    private lateinit var input : BufferedReader
+    private lateinit var soc : Socket
 
     fun connect(){
         soc = Socket(ip, port)
@@ -40,7 +40,7 @@ class HttpClient(val ip : String, val port : Int){
         return Message(message)
     }
 
-    fun decodeBase64(input: String): Bitmap {
+    private fun decodeBase64(input: String): Bitmap {
         val decodedBytes = Base64.decode(input, 0)
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
