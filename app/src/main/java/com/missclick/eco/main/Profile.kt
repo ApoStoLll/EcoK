@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.missclick.eco.HttpClient
-import com.missclick.eco.Profile_positive
+import com.missclick.eco.ProfilePositive
 import com.missclick.eco.R
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ class Profile : Fragment() {
         update()
         view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_holder, Profile_positive())
+            transaction.replace(R.id.fragment_holder, ProfilePositive())
             transaction.addToBackStack(null)
             transaction.commit()
         }
