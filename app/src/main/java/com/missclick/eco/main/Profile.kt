@@ -11,6 +11,7 @@ import android.widget.Button
 import com.missclick.eco.HttpClient
 import com.missclick.eco.Profile_positive
 import com.missclick.eco.R
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +23,6 @@ class Profile : Fragment() {
     private val client = HttpClient("95.158.11.238", 8080)
 
     override fun onCreateView(
-
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -45,7 +45,8 @@ class Profile : Fragment() {
             withContext(Dispatchers.IO) {
                 client.connect()
                 val user = client.getUserData((activity as MainActivity).nickname)
-                //name_profile = user.get
+                name_profile.text = user.name
+                score_profile.text = user.score
             }
         }
     }

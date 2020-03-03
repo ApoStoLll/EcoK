@@ -39,10 +39,9 @@ class HttpClient(val ip : String, val port : Int){
         return Message(message)
     }
 
-    fun getUserData(username : String){
-        val str = writeRequest("/user_data?username=$username", "GET")
-        Log.e("STROKA: ", str.toString())
-        parseData(str).get("id")
+    fun getUserData(username : String) : User{
+        val answ = writeRequest("/user_data?username=$username", "GET")
+        return  User(username,answ.body[1],answ.body[3],answ.body[5],answ.body[6])
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
@@ -56,21 +55,6 @@ class HttpClient(val ip : String, val port : Int){
         Log.e("RESPONSE: ", "CODE: " + answ.code)
         if(answ.code == 200) return true
         return false
-    }
-
-    fun parseData(str: Message) : HashMap<String, String>{
-        val data = HashMap<String, String>()
-        val kek = str.body.split("\r\n")
-        for(item in kek){
-            Log.e("parse: ", item)
-        }
-        /*data.put("id", kek[0])
-        data.put("username", kek[1])
-        data.put("score", kek[2])
-        data.put("image", kek[3])
-        data.put("followers", kek[4])
-        data.put("following", kek[5])*/
-        return data
     }
 
     fun write(request: String){
