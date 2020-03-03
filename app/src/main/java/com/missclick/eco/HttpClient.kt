@@ -21,16 +21,18 @@ class HttpClient(val ip : String, val port : Int){
         val host = "Host: $ip:$port\r\n"
         val request = requestLine + host
         write(request)
-        var message = ""
+        val message = ArrayList<String>()
         var kek : String
         //Log.e("RESPONSE 1", "KEK")
         while(true){
             kek = input.readLine() ?: break
             if(kek == "") break
             Log.e("While 1", kek)
-            message += kek + "\r\n"
+            message.add(kek)
         }
-        Log.e("RESPONSE 1", message)
+        for(item in message){
+            Log.e("RESPONSE 1", item)
+        }
         //out.close()
         //input.close()
         soc.close()
