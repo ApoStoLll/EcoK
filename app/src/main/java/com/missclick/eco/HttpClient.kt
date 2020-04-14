@@ -72,13 +72,14 @@ class HttpClient(private val ip : String,private val port : Int){
 
         val filename = File(context.filesDir,answ.body[4])
         val fos = FileOutputStream(filename)
+        Log.e("Dir",context.filesDir.path)
         Log.e("Luck", Environment.getExternalStorageDirectory().path)
         ftp.retrieveFile(answ.body[4], fos)
         Log.e("Files: ", ftp.listNames()[0])
 
 
 
-        val image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().path + "inc.jpg")
+        val image = BitmapFactory.decodeFile(context.filesDir.path + "/inc.jpg")
 
 
 
