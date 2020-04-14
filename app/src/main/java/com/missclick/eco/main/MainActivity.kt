@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                     GlobalScope.launch {
                         withContext(Dispatchers.IO){
                             client.connect()
-                            client.getUserData("aloxa")
+                            //client.getUserData("aloxa",)
                         }
                         Log.e("COROUTINE", "DONE")
 
@@ -72,6 +72,8 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         startMenu(1)
+
+
     }
 
 

@@ -44,7 +44,7 @@ class Profile : Fragment() {
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 client.connect()
-                val user = client.getUserData((activity as MainActivity).nickname)
+                val user = client.getUserData((activity as MainActivity).nickname,(activity as MainActivity))
                 name_profile.text = user.name
                 image_profile.setImageBitmap(user.image)
                 score_profile.text = user.score

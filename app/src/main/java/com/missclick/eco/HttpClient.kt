@@ -1,5 +1,6 @@
 package com.missclick.eco
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.media.Image
 import android.media.ImageReader
@@ -7,10 +8,17 @@ import android.util.Log
 import java.net.Socket
 import java.io.*
 import android.graphics.Bitmap
+import android.os.Environment
 import android.util.Base64
+import android.widget.ImageView
+import com.missclick.eco.main.MainActivity
+import com.missclick.eco.register.RegisterActivity
+import com.squareup.picasso.Picasso
 import java.io.IOException;
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPReply
+import org.apache.commons.net.ftp.FTP
+import com.squareup.picasso.Target
 
 class HttpClient(private val ip : String,private val port : Int){
     private lateinit var out : BufferedWriter
@@ -47,10 +55,10 @@ class HttpClient(private val ip : String,private val port : Int){
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
 
-    fun getUserData(username : String) : User{
+    fun getUserData(username : String,context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
         val imageName = answ.body[4]
-        Log.d("test",imageName)
+        Log.d("test", imageName)
         val server = "95.158.11.238" //Server can be either host name or IP address.
         val port = 21
         val user = "kek"
@@ -58,7 +66,30 @@ class HttpClient(private val ip : String,private val port : Int){
         val ftp = FTPClient()
         ftp.connect(server, port)
         ftp.login(user, pass)
-        return  User(username, answ.body[1], answ.body[3], null, answ.body[5], answ.body[6])
+        ftp.enterLocalPassiveMode() // important!
+        ftp.setFileType(FTP.BINARY_FILE_TYPE)
+
+
+        val filename = File(context.filesDir,answ.body[4])
+        val fos = FileOutputStream(filename)
+        Log.e("Luck", Environment.getExternalStorageDirectory().path)
+        ftp.retrieveFile(answ.body[4], fos)
+        Log.e("Files: ", ftp.listNames()[0])
+
+
+
+        val image = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().path + "inc.jpg")
+
+
+
+
+        /* Picasso
+            .with(context) // give it the context
+            .load("ftp://95.158.11.238/inc.jpg") // load the image
+            .into(view) // select the ImageView to load it into*/
+        ftp.logout()
+        ftp.disconnect()
+        return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
