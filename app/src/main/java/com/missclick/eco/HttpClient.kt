@@ -50,6 +50,7 @@ class HttpClient(private val ip : String,private val port : Int){
     fun getUserData(username : String) : User{
         val answ = writeRequest("/user_data?username=$username", "GET")
         val imageName = answ.body[4]
+        Log.d("test",imageName)
         val server = "95.158.11.238" //Server can be either host name or IP address.
         val port = 21
         val user = "kek"
