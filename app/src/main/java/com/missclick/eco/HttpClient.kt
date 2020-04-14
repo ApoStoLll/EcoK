@@ -8,7 +8,9 @@ import java.net.Socket
 import java.io.*
 import android.graphics.Bitmap
 import android.util.Base64
-
+import java.io.IOException;
+import org.apache.commons.net.ftp.FTPClient
+import org.apache.commons.net.ftp.FTPReply
 
 class HttpClient(private val ip : String,private val port : Int){
     private lateinit var out : BufferedWriter
@@ -48,6 +50,13 @@ class HttpClient(private val ip : String,private val port : Int){
     fun getUserData(username : String) : User{
         val answ = writeRequest("/user_data?username=$username", "GET")
         val imageName = answ.body[4]
+        val server = "95.158.11.238" //Server can be either host name or IP address.
+        val port = 21
+        val user = "kek"
+        val pass = ""
+        val ftp = FTPClient()
+        ftp.connect(server, port)
+        ftp.login(user, pass)
         return  User(username, answ.body[1], answ.body[3], null, answ.body[5], answ.body[6])
     }
 
