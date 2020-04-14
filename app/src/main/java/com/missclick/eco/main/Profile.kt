@@ -1,6 +1,7 @@
 package com.missclick.eco.main
 
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -41,15 +42,19 @@ class Profile : Fragment() {
     }
 
     private fun update(){
+        fun setImg(image: Bitmap){
+            image_profile.setImageBitmap(image)
+        }
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 client.connect()
                 val user = client.getUserData((activity as MainActivity).nickname,(activity as MainActivity))
                 name_profile.text = user.name
-                image_profile.setImageBitmap(user.image)
+                (activity as MainActivity).runOnUiThread{setImg(user.image)}
                 score_profile.text = user.score
             }
         }
+
     }
 
     fun addPositive (){

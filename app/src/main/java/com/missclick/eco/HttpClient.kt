@@ -77,13 +77,7 @@ class HttpClient(private val ip : String,private val port : Int){
         ftp.retrieveFile(answ.body[4], fos)
         Log.e("Files: ", ftp.listNames()[0])
 
-
-
         val image = BitmapFactory.decodeFile(context.filesDir.path + "/inc.jpg")
-
-
-
-
         /* Picasso
             .with(context) // give it the context
             .load("ftp://95.158.11.238/inc.jpg") // load the image
