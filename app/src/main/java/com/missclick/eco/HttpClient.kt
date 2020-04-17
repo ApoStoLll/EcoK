@@ -71,7 +71,8 @@ class HttpClient(private val ip : String,private val port : Int){
         val filename = File(context.filesDir,"ava.png")
         val fos = FileOutputStream(filename)
         ftp.retrieveFile(answ.body[4], fos)
-        val image = BitmapFactory.decodeFile(context.filesDir.path + "/ava.png")
+        var image = BitmapFactory.decodeFile(context.filesDir.path + "/ava.png")
+        image = Bitmap.createScaledBitmap(image, 400, 400, false)
         fos.close()
         ftp.logout()
         ftp.disconnect()
@@ -101,11 +102,12 @@ class HttpClient(private val ip : String,private val port : Int){
         ftp.enterLocalPassiveMode() // important!
         ftp.setFileType(FTP.BINARY_FILE_TYPE)
         val fis =  FileInputStream(path)
-        ftp.storeFile("/$username$/ava.png", fis)
+        ftp.storeFile("/$username/ava.png", fis)
+        Log.e("Username",username)
         fis.close()
         ftp.logout()
         ftp.disconnect()
-        writeRequest("/user?username=$username&image=/$username&ava.png", "POST")
+        writeRequest("/changeAvatar?image=/$username/ava.png&username=$username", "POST")
     }
     private fun write(request: String){
         Log.e("REQUEST: ", request)
