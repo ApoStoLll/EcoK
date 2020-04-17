@@ -70,11 +70,11 @@ class HttpClient(private val ip : String,private val port : Int){
         ftp.setFileType(FTP.BINARY_FILE_TYPE)
 
 
-        val filename = File(context.filesDir,answ.body[4])
+        val filename = File(context.filesDir,"ava1.png")//answ.body[4])
         val fos = FileOutputStream(filename)
-        ftp.retrieveFile(answ.body[4], fos)
+        ftp.retrieveFile("ava1.png" /*answ.body[4]*/, fos)
 
-        val image = BitmapFactory.decodeFile(context.filesDir.path + "/inc.jpg")
+        val image = BitmapFactory.decodeFile(context.filesDir.path + "/ava1.png")
         ftp.logout()
         ftp.disconnect()
         return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
@@ -93,7 +93,7 @@ class HttpClient(private val ip : String,private val port : Int){
         return false
     }
 
-    fun uploadImage(filename : String,path: String?,username : String){
+    fun uploadImage(filename : String,path: File,username : String){
         val server = "95.158.11.238" //Server can be either host name or IP address.
         val port = 21
         val user = "kek"
@@ -106,15 +106,15 @@ class HttpClient(private val ip : String,private val port : Int){
 
 
 
-        var sdPath = Environment.getExternalStorageDirectory()
+        //var sdPath = Environment.getExternalStorageDirectory()
         // добавляем свой каталог к пути
-        Log.e("Dir23",sdPath.absolutePath.toString())
-        sdPath = File(sdPath.absolutePath.toString() + path!!.split(sdPath.absolutePath.toString())[1])
+        //Log.e("Dir4",sdPath.absolutePath.toString())
+        //sdPath = File(sdPath.absolutePath.toString() + path!!.split(sdPath.absolutePath.toString())[1])
 
-           // val fIn = context.openFileInput(sdPath.absolutePath.toString())
 
-        val fis =  FileInputStream(sdPath)
-        ftp.storeFile("ava.png", fis)
+
+        val fis =  FileInputStream(path)
+        ftp.storeFile("ava1.png", fis)
         fis.close()
         ftp.logout()
         ftp.disconnect()
