@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.provider.MediaStore
 import android.graphics.Bitmap
+import android.net.Uri
 import java.io.File
 import java.io.FileOutputStream
 
@@ -49,6 +50,7 @@ class Settings : Fragment() {
 
 
 
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -58,17 +60,16 @@ class Settings : Fragment() {
             1 -> {
                 if (resultCode == RESULT_OK) {
                     val chosenImageUri = data!!.data
-                    Log.e("Dirrr ",chosenImageUri?.getPath())
-
-                    val client = HttpClient("95.158.11.238", 8080)
                     val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).getContentResolver(), chosenImageUri)
-                    val file = File((activity as MainActivity).filesDir.path + "/ava1.jpg")
+                    val file = File((activity as MainActivity).filesDir.path , "ava.png")
                     val fOut = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
+                    fOut.close()
+                    val client = HttpClient("95.158.11.238", 8080)
                     GlobalScope.launch {
                         withContext(Dispatchers.IO) {
                             client.connect()
-                            client.uploadImage("sgsge",file,(activity as MainActivity).nickname)
+                            client.uploadImage(file,(activity as MainActivity).nickname)
 
                         }
                     }

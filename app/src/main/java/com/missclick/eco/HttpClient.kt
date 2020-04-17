@@ -57,8 +57,7 @@ class HttpClient(private val ip : String,private val port : Int){
 
     fun getUserData(username : String,context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
-        val imageName = answ.body[4]
-        Log.d("test", imageName)
+
         val server = "95.158.11.238" //Server can be either host name or IP address.
         val port = 21
         val user = "kek"
@@ -69,12 +68,11 @@ class HttpClient(private val ip : String,private val port : Int){
         ftp.enterLocalPassiveMode() // important!
         ftp.setFileType(FTP.BINARY_FILE_TYPE)
 
-
-        val filename = File(context.filesDir,"ava1.png")//answ.body[4])
+        val filename = File(context.filesDir,"ava.png")
         val fos = FileOutputStream(filename)
-        ftp.retrieveFile("ava1.png" /*answ.body[4]*/, fos)
-
-        val image = BitmapFactory.decodeFile(context.filesDir.path + "/ava1.png")
+        ftp.retrieveFile(answ.body[4], fos)
+        val image = BitmapFactory.decodeFile(context.filesDir.path + "/ava.png")
+        fos.close()
         ftp.logout()
         ftp.disconnect()
         return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
@@ -88,12 +86,11 @@ class HttpClient(private val ip : String,private val port : Int){
 
     fun checkUser(username : String, password : String) : Boolean{
         val answ = writeRequest("/user?username=$username&password=$password", "POST")
-        Log.e("RESPONSE: ", "CODE: " + answ.code)
         if(answ.code == 200) return true
         return false
     }
 
-    fun uploadImage(filename : String,path: File,username : String){
+    fun uploadImage(path: File,username : String){
         val server = "95.158.11.238" //Server can be either host name or IP address.
         val port = 21
         val user = "kek"
@@ -103,21 +100,12 @@ class HttpClient(private val ip : String,private val port : Int){
         ftp.login(user, pass)
         ftp.enterLocalPassiveMode() // important!
         ftp.setFileType(FTP.BINARY_FILE_TYPE)
-
-
-
-        //var sdPath = Environment.getExternalStorageDirectory()
-        // добавляем свой каталог к пути
-        //Log.e("Dir4",sdPath.absolutePath.toString())
-        //sdPath = File(sdPath.absolutePath.toString() + path!!.split(sdPath.absolutePath.toString())[1])
-
-
-
         val fis =  FileInputStream(path)
-        ftp.storeFile("ava1.png", fis)
+        ftp.storeFile("/$username$/ava.png", fis)
         fis.close()
         ftp.logout()
         ftp.disconnect()
+        writeRequest("/user?username=$username&image=/$username&ava.png", "POST")
     }
     private fun write(request: String){
         Log.e("REQUEST: ", request)
