@@ -72,16 +72,9 @@ class HttpClient(private val ip : String,private val port : Int){
 
         val filename = File(context.filesDir,answ.body[4])
         val fos = FileOutputStream(filename)
-        Log.e("Dir",context.filesDir.path)
-        Log.e("Luck", Environment.getExternalStorageDirectory().path)
         ftp.retrieveFile(answ.body[4], fos)
-        Log.e("Files: ", ftp.listNames()[0])
 
         val image = BitmapFactory.decodeFile(context.filesDir.path + "/inc.jpg")
-        /* Picasso
-            .with(context) // give it the context
-            .load("ftp://95.158.11.238/inc.jpg") // load the image
-            .into(view) // select the ImageView to load it into*/
         ftp.logout()
         ftp.disconnect()
         return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
@@ -100,11 +93,38 @@ class HttpClient(private val ip : String,private val port : Int){
         return false
     }
 
+    fun uploadImage(filename : String,path: String?,username : String){
+        val server = "95.158.11.238" //Server can be either host name or IP address.
+        val port = 21
+        val user = "kek"
+        val pass = ""
+        val ftp = FTPClient()
+        ftp.connect(server, port)
+        ftp.login(user, pass)
+        ftp.enterLocalPassiveMode() // important!
+        ftp.setFileType(FTP.BINARY_FILE_TYPE)
+
+
+
+        var sdPath = Environment.getExternalStorageDirectory()
+        // добавляем свой каталог к пути
+        Log.e("Dir23",sdPath.absolutePath.toString())
+        sdPath = File(sdPath.absolutePath.toString() + path!!.split(sdPath.absolutePath.toString())[1])
+
+           // val fIn = context.openFileInput(sdPath.absolutePath.toString())
+
+        val fis =  FileInputStream(sdPath)
+        ftp.storeFile("ava.png", fis)
+        fis.close()
+        ftp.logout()
+        ftp.disconnect()
+    }
     private fun write(request: String){
         Log.e("REQUEST: ", request)
         out.write(request)
         out.flush()
         soc.shutdownOutput()
     }
+
 
 }

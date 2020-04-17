@@ -39,6 +39,12 @@ class Profile : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+        view.findViewById<Button>(R.id.btnSettings ).setOnClickListener {
+            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_holder, Settings())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     private fun update(){
@@ -62,10 +68,6 @@ class Profile : Fragment() {
     }
 
     fun addNegative(){
-
-    }
-
-    fun settings(){
 
     }
 }

@@ -1,5 +1,6 @@
 package com.missclick.eco.register
 
+import android.Manifest
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,16 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
+import android.support.v4.app.ActivityCompat
+import android.os.Build
+import android.content.pm.PackageManager
+import android.Manifest.permission
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.support.v4.content.ContextCompat
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+
+
+
 
 
 class RegisterActivity : AppCompatActivity(){
@@ -24,9 +35,27 @@ class RegisterActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        // create upload of file
-        //if(readFile("isAuth")=="true") startMain()
+
+        val permission =
+            arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ActivityCompat.requestPermissions(this, permission, 1)
+            }
+        }
+
+
+        setContentView(com.missclick.eco.R.layout.activity_register)
+
         logInMenu() // по дефолту запускаем ЛогИн меню
     }
 
