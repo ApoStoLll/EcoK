@@ -24,11 +24,13 @@ class HttpClient(private val ip : String,private val port : Int){
     private lateinit var out : BufferedWriter
     private lateinit var input : BufferedReader
     private lateinit var soc : Socket
+    private lateinit var ftp : FtpManager
 
     fun connect(){
         soc = Socket(ip, port)
         out = BufferedWriter(OutputStreamWriter(soc.getOutputStream()))
         input = BufferedReader(InputStreamReader(soc.getInputStream()))
+        ftp = FtpManager("95.158.11.238", "kek")
     }
 
     fun writeRequest(str : String, method: String) : Message{
@@ -55,27 +57,9 @@ class HttpClient(private val ip : String,private val port : Int){
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
 
-    fun getUserData(username : String,context : Context) : User {
+    fun getUserData(username : String, context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
-
-        val server = "95.158.11.238" //Server can be either host name or IP address.
-        val port = 21
-        val user = "kek"
-        val pass = ""
-        val ftp = FTPClient()
-        ftp.connect(server, port)
-        ftp.login(user, pass)
-        ftp.enterLocalPassiveMode() // important!
-        ftp.setFileType(FTP.BINARY_FILE_TYPE)
-
-        val filename = File(context.filesDir,"ava.png")
-        val fos = FileOutputStream(filename)
-        ftp.retrieveFile(answ.body[4], fos)
-        var image = BitmapFactory.decodeFile(context.filesDir.path + "/ava.png")
-        image = Bitmap.createScaledBitmap(image, 400, 400, false)
-        fos.close()
-        ftp.logout()
-        ftp.disconnect()
+        val image = ftp.getImage("ava.png",answ.body[4], context)
         return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
     }
 
