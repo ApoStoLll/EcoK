@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.missclick.eco.R
+import com.missclick.eco.main.MainActivity
 
 class PositiveAdapter(var items: List<PositiveItem>, val callback: Callback) : RecyclerView.Adapter<PositiveAdapter.MainHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
@@ -18,8 +19,8 @@ class PositiveAdapter(var items: List<PositiveItem>, val callback: Callback) : R
         private val firstName = itemView.findViewById<TextView>(R.id.firstName1)
         private val lastName = itemView.findViewById<TextView>(R.id.lastName1)
         fun bind(item: PositiveItem) {
-            firstName.text = item.firstName
-            lastName.text = item.lastName
+            firstName.text = item.action
+            lastName.text = item.score.toString()
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }

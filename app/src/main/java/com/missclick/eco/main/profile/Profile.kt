@@ -54,7 +54,7 @@ class Profile : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       update()
+        //update()
         view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_holder, ProfilePositive())

@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun startMenu(num : Int){
+    fun startMenu(num : Int){
         val transaction = supportFragmentManager.beginTransaction()
         when(num){
             1-> transaction.replace(R.id.fragment_holder, Feed())
