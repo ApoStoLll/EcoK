@@ -1,24 +1,9 @@
 package com.missclick.eco
 
 import android.content.Context
-import android.graphics.BitmapFactory
-import android.media.Image
-import android.media.ImageReader
 import android.util.Log
 import java.net.Socket
 import java.io.*
-import android.graphics.Bitmap
-import android.os.Environment
-import android.util.Base64
-import android.widget.ImageView
-import com.missclick.eco.main.MainActivity
-import com.missclick.eco.register.RegisterActivity
-import com.squareup.picasso.Picasso
-import java.io.IOException;
-import org.apache.commons.net.ftp.FTPClient
-import org.apache.commons.net.ftp.FTPReply
-import org.apache.commons.net.ftp.FTP
-import com.squareup.picasso.Target
 
 class HttpClient(private val ip : String,private val port : Int){
     private lateinit var out : BufferedWriter
@@ -72,6 +57,7 @@ class HttpClient(private val ip : String,private val port : Int){
 
     fun uploadImage(path: File, username : String){
         val fileName = path.name
+        ftp.deleteAllfiles("/$username/")
         ftp.uploadImage(path, fileName, username)
         writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
     }

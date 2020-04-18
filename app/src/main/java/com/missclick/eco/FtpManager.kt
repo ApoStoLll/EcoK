@@ -42,4 +42,12 @@ class FtpManager(val server : String, val user : String, val pass : String = "",
         ftp.logout()
         ftp.disconnect()
     }
+
+    fun deleteAllfiles(path : String){
+        conn()
+        for(file in ftp.listFiles(path))
+            ftp.deleteFile(path + file.name)
+        ftp.logout()
+        ftp.disconnect()
+    }
 }
