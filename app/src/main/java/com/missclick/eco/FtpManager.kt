@@ -34,6 +34,7 @@ class FtpManager(val server : String, val user : String, val pass : String = "",
     }
 
     fun uploadImage(path : File, imageName : String, username : String){
+        conn()
         val fis =  FileInputStream(path)
         ftp.storeFile("/$username/$imageName", fis)
         Log.e("Username", username)

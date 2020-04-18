@@ -54,7 +54,7 @@ class HttpClient(private val ip : String,private val port : Int){
 
     fun getUserData(username : String, context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
-        val image = ftp.getImage("ava.png", answ.body[4], context)
+        val image = ftp.getImage(answ.body[4].split("/")[1], answ.body[4], context) //ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
         return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
     }
 
@@ -71,9 +71,9 @@ class HttpClient(private val ip : String,private val port : Int){
     }
 
     fun uploadImage(path: File, username : String){
-        //val fileName = path.name
-        ftp.uploadImage(path, "ava.png", username)
-        writeRequest("/changeAvatar?image=/$username/ava.png&username=$username", "POST")
+        val fileName = path.name
+        ftp.uploadImage(path, fileName, username)
+        writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
     }
     private fun write(request: String){
         Log.e("REQUEST: ", request)
