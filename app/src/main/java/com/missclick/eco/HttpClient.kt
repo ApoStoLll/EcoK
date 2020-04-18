@@ -52,14 +52,9 @@ class HttpClient(private val ip : String,private val port : Int){
         return Message(message)
     }
 
-    private fun decodeBase64(input: String): Bitmap {
-        val decodedBytes = Base64.decode(input, 0)
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-    }
-
     fun getUserData(username : String, context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
-        val image = ftp.getImage("ava.png",answ.body[4], context)
+        val image = ftp.getImage("ava.png", answ.body[4], context)
         return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
     }
 
@@ -75,22 +70,9 @@ class HttpClient(private val ip : String,private val port : Int){
         return false
     }
 
-    fun uploadImage(path: File,username : String){
-        val server = "95.158.11.238" //Server can be either host name or IP address.
-        val port = 21
-        val user = "kek"
-        val pass = ""
-        val ftp = FTPClient()
-        ftp.connect(server, port)
-        ftp.login(user, pass)
-        ftp.enterLocalPassiveMode() // important!
-        ftp.setFileType(FTP.BINARY_FILE_TYPE)
-        val fis =  FileInputStream(path)
-        ftp.storeFile("/$username/ava.png", fis)
-        Log.e("Username",username)
-        fis.close()
-        ftp.logout()
-        ftp.disconnect()
+    fun uploadImage(path: File, username : String){
+        //val fileName = path.name
+        ftp.uploadImage(path, "ava.png", username)
         writeRequest("/changeAvatar?image=/$username/ava.png&username=$username", "POST")
     }
     private fun write(request: String){
