@@ -9,19 +9,19 @@
         tools:context=".main.MainActivity"
         android:orientation="vertical">
     <fragment
-            android:name="com.missclick.eco.Empty"
             android:id="@+id/fragment_holder"
+            android:name="com.missclick.eco.Empty"
             android:layout_width="match_parent"
-            android:layout_height="542dp">
+            android:layout_height="593dp">
 
     </fragment>
 
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
-            android:layout_height="67dp"
-            android:layout_marginEnd="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
             android:background="?android:attr/windowBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

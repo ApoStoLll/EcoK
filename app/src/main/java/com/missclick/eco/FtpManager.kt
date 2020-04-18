@@ -11,7 +11,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class FtpManager(val server : String, val user : String, val pass : String = "", val port : Int = 21) {
-    val ftp = FTPClient()
+    private val ftp = FTPClient()
 
     private fun conn(){
         ftp.connect(server, port)

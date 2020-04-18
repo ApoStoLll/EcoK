@@ -14,11 +14,11 @@ import layout.Client
 class ClientAdapter(val userList: ArrayList<Client>) : RecyclerView.Adapter<ClientAdapter.ViewHolder>() {
     override fun onBindViewHolder(p0: ClientAdapter.ViewHolder, p1: Int) {
        val client: Client = userList[p1]
-        p0.textViewName?.text = client.name
+        p0.textViewName.text = client.name
 
     }
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ClientAdapter.ViewHolder {
-       val v = LayoutInflater.from(p0?.context).inflate(R.layout.feeditems,p0,false)
+       val v = LayoutInflater.from(p0.context).inflate(R.layout.feeditems,p0,false)
         return ViewHolder(v)
     }
 

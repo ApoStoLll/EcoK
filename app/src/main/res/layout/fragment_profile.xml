@@ -3,7 +3,7 @@
              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".main.Profile">
+             tools:context=".main.profile.Profile">
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -28,7 +28,7 @@
                 android:text="+" app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.159"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/name_profile" app:layout_constraintVertical_bias="0.291"/>
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.335"/>
         <Button
                 android:id="@+id/btnAddNeg_profile"
                 android:layout_width="wrap_content"
@@ -37,10 +37,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp" android:text="-" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.518"
-                app:layout_constraintStart_toEndOf="@+id/btnAddPos_profile"
-                app:layout_constraintTop_toBottomOf="@+id/progress_profile"
-                app:layout_constraintVertical_bias="0.141"/>
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.706"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.335"/>
         <TextView
                 android:id="@+id/name_profile"
                 android:layout_width="109dp"
@@ -87,15 +86,16 @@
                 app:layout_constraintHorizontal_bias="0.766" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/score_profile" app:layout_constraintVertical_bias="0.015"/>
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="363dp"
-                android:layout_height="415dp"
+                android:id="@+id/recV"
+                android:layout_width="355dp"
+                android:layout_height="324dp"
                 android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp" android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.973"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnAddNeg_profile"/>
         <Button
                 android:id="@+id/btnSettings"
                 android:layout_width="0dp"

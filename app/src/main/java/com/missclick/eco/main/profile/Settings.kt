@@ -1,4 +1,4 @@
-package com.missclick.eco.main
+package com.missclick.eco.main.profile
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,17 +10,14 @@ import com.missclick.eco.R
 import android.content.Intent
 
 import android.app.Activity.RESULT_OK
-import android.database.Cursor
-import android.util.Log
 import com.missclick.eco.HttpClient
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.provider.MediaStore
 import android.graphics.Bitmap
-import android.net.Uri
+import com.missclick.eco.main.MainActivity
 import java.io.File
 import java.io.FileOutputStream
 
