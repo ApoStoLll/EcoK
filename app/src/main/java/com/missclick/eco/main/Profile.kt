@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 
 class Profile : Fragment() {
 
-    private val client = HttpClient("95.158.11.238", 8080)
+   // private
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +51,7 @@ class Profile : Fragment() {
         fun setImg(image: Bitmap){
             image_profile.setImageBitmap(image)
         }
+        val client = (activity as MainActivity).client
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 client.connect()
