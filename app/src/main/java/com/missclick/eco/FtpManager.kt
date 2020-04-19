@@ -25,11 +25,11 @@ class FtpManager(val server : String, val user : String, val pass : String = "",
         val filename = File(context.filesDir, fileName)
         val fos = FileOutputStream(filename)
         ftp.retrieveFile(imageName, fos)
-        var image = BitmapFactory.decodeFile(context.filesDir.path + "/" + fileName)
-        image = Bitmap.createScaledBitmap(image, 400, 400, false)
         fos.close()
         ftp.logout()
         ftp.disconnect()
+        var image = BitmapFactory.decodeFile(context.filesDir.path + "/" + fileName)
+        image = Bitmap.createScaledBitmap(image, 400, 400, false)
         return image
     }
 
