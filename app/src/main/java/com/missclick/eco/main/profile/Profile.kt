@@ -105,6 +105,9 @@ class Profile : Fragment() {
             withContext(Dispatchers.IO) {
                 client.connect()
                 val user = client.getUserData((activity as MainActivity).nickname,(activity as MainActivity))
+                val client2 = HttpClient("95.158.11.238", 8080)
+                client2.connect()
+                client2.getProfilePost((activity as MainActivity).nickname)
                 name_profile.text = user.name
                 (activity as MainActivity).runOnUiThread{setImg(user.image)}
                 score_profile.text = user.score

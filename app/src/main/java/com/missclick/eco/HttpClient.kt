@@ -2,6 +2,7 @@ package com.missclick.eco
 
 import android.content.Context
 import android.util.Log
+import com.missclick.eco.main.profile.PositiveItem
 import java.net.Socket
 import java.io.*
 
@@ -40,6 +41,7 @@ class HttpClient(private val ip : String,private val port : Int){
     fun getUserData(username : String, context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
         val image = ftp.getImage(answ.body[4].split("/")[1], answ.body[4], context) //ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
+
         return  User(username, answ.body[1], answ.body[3], image, answ.body[5], answ.body[6])
     }
 
@@ -62,9 +64,17 @@ class HttpClient(private val ip : String,private val port : Int){
         writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
     }
 
-    fun doAction(id : Int,username: String){
+    fun doAction(id : Int, username: String){
         writeRequest("/addProfilePost?action=$id&username=$username", "POST")
     }
+
+    fun getProfilePost(username : String){
+        val answ = writeRequest("/getProfilePost?username=$username", "POST")
+        //return PositiveItem(answ[])
+        for(kek in answ.body)
+            Log.e("RESPONSE POST: ", kek)
+    }
+
     private fun write(request: String){
         Log.e("REQUEST: ", request)
         out.write(request)
