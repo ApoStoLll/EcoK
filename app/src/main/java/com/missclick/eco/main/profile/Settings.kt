@@ -59,7 +59,7 @@ class Settings : Fragment() {
                     val chosenImageUri = data!!.data
                     val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).getContentResolver(), chosenImageUri)
                     val arr = chosenImageUri.path.split('/')
-                    val file = File((activity as MainActivity).filesDir.path , arr[arr.size - 1] + ".png") //НАЗВАНИЕ ФАЙЛА ТУТ
+                    val file = File((activity as MainActivity).filesDir.path , "ava.png")//arr[arr.size - 1] + ".png") //НАЗВАНИЕ ФАЙЛА ТУТ
                     val fOut = FileOutputStream(file)
                     bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
                     fOut.close()
