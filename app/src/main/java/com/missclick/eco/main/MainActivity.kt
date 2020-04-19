@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
     fun startMenu(num : Int){
         val transaction = supportFragmentManager.beginTransaction()
         when(num){
+
             1-> transaction.replace(R.id.fragment_holder, Feed())
             2-> transaction.replace(R.id.fragment_holder, Exercises())
             3-> transaction.replace(R.id.fragment_holder, Profile())

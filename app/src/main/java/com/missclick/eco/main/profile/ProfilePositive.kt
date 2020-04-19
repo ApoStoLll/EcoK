@@ -10,17 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.missclick.eco.main.MainActivity
-import com.missclick.eco.main.profile.PositiveAdapter
-import com.missclick.eco.main.profile.PositiveItem
-import com.missclick.eco.main.profile.ProfileAdapter
-import com.missclick.eco.main.profile.ProfileItem
+import com.missclick.eco.main.profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile_positive.*
 
 
 class ProfilePositive : Fragment() {
 
-    private val actions = listOf(
+    private val positive = listOf(
         PositiveItem("Поднял бутылку", 10),
         PositiveItem("Поднял бумажку", 5),
         PositiveItem("Провел уборку", 25),
@@ -29,7 +26,12 @@ class ProfilePositive : Fragment() {
         PositiveItem("Поднял окурок", 5),
         PositiveItem("Отсортровал мусор", 20)
     )
+    private val negative = listOf(
+        PositiveItem("Выкинул бутылку", -10),
+        PositiveItem("Выкинул бумажку", -5)
 
+    )
+    private var actions = positive
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,12 +41,15 @@ class ProfilePositive : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //if (arguments!!.getBoolean("positive"))  //actions = positive
         val myAdapter = PositiveAdapter(
             actions,
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
                     (activity as MainActivity).startMenu(3)
                     Log.e("Score", item.score.toString())
+
                 }
             })
         PositiveActions.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL,false)

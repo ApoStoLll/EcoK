@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,15 +50,28 @@ class Profile : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //update()
         view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
+            //ProfilePositive().arguments?.putBoolean("positive",true)
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_holder, ProfilePositive())
+
+
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+        view.findViewById<Button>(R.id.btnAddNeg_profile ).setOnClickListener {
+            val pr = ProfilePositive()
+            //pr.arguments?.putString("p","rrr")
+            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_holder, pr)
             transaction.addToBackStack(null)
             transaction.commit()
         }
