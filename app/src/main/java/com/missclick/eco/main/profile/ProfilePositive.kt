@@ -64,7 +64,7 @@ class ProfilePositive : Fragment() {
             val client = (activity as MainActivity).client
             withContext(Dispatchers.IO) {
                 client.connect()
-                client.doAction(id)
+                client.doAction(id,(activity as MainActivity).nickname)
             }
         }
     }

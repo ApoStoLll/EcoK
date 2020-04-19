@@ -62,8 +62,8 @@ class HttpClient(private val ip : String,private val port : Int){
         writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
     }
 
-    fun doAction(id : Int){
-        //todo request to server
+    fun doAction(id : Int,username: String){
+        writeRequest("/addProfilePost?action=$id&username=$username", "POST")
     }
     private fun write(request: String){
         Log.e("REQUEST: ", request)
