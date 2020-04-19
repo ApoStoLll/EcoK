@@ -46,6 +46,9 @@ class Profile : Fragment() {
         ProfileItem("Владимир", "Маяковский")
     )
 
+    val profile = ProfilePositive()
+    val bundle = Bundle()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,19 +62,18 @@ class Profile : Fragment() {
 
         //update()
         view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
-            //ProfilePositive().arguments?.putBoolean("positive",true)
+            bundle.putBoolean("arg",true)
+            profile.arguments = bundle
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_holder, ProfilePositive())
-
-
+            transaction.replace(R.id.fragment_holder,profile)
             transaction.addToBackStack(null)
             transaction.commit()
         }
         view.findViewById<Button>(R.id.btnAddNeg_profile ).setOnClickListener {
-            val pr = ProfilePositive()
-            //pr.arguments?.putString("p","rrr")
+            bundle.putBoolean("arg",false)
+            profile.arguments = bundle
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_holder, pr)
+            transaction.replace(R.id.fragment_holder, profile)
             transaction.addToBackStack(null)
             transaction.commit()
         }
@@ -111,11 +113,4 @@ class Profile : Fragment() {
 
     }
 
-    fun addPositive (){
-
-    }
-
-    fun addNegative(){
-
-    }
 }

@@ -61,6 +61,10 @@ class HttpClient(private val ip : String,private val port : Int){
         ftp.uploadImage(path, fileName, username)
         writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
     }
+
+    fun doAction(id : Int){
+        //todo request to server
+    }
     private fun write(request: String){
         Log.e("REQUEST: ", request)
         out.write(request)
