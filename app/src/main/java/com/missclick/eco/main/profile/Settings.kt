@@ -63,7 +63,7 @@ class Settings : Fragment() {
                     val fOut = FileOutputStream(file)
                     bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
                     fOut.close()
-                    val client = (activity as MainActivity).client
+                    val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
                     GlobalScope.launch {
                         withContext(Dispatchers.IO) {
                             client.connect()

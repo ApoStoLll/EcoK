@@ -101,7 +101,7 @@ class Profile : Fragment() {
             image_profile.setImageBitmap(image)
         }
         GlobalScope.launch {
-            val client = (activity as MainActivity).client
+            val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
             withContext(Dispatchers.IO) {
                 client.connect()
                 val user = client.getUserData((activity as MainActivity).nickname,(activity as MainActivity))
