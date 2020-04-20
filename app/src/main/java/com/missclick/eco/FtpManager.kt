@@ -21,13 +21,15 @@ class FtpManager(val server : String, val user : String, val pass : String = "",
     }
 
     fun getImage(fileName : String, imageName: String, context : Context) : Bitmap{
-        conn()
-        val filename = File(context.filesDir, fileName)
-        val fos = FileOutputStream(filename)
-        ftp.retrieveFile(imageName, fos)
-        fos.close()
-        ftp.logout()
-        ftp.disconnect()
+        if(BitmapFactory.decodeFile(context.filesDir.path + "/" + fileName) == null){
+            conn()
+            val filename = File(context.filesDir, fileName)
+            val fos = FileOutputStream(filename)
+            ftp.retrieveFile(imageName, fos)
+            fos.close()
+            ftp.logout()
+            ftp.disconnect()
+        }
         var image = BitmapFactory.decodeFile(context.filesDir.path + "/" + fileName)
         image = Bitmap.createScaledBitmap(image, 400, 400, false)
         return image

@@ -20,6 +20,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.BufferedReader
+import java.io.FileNotFoundException
+import java.io.InputStreamReader
 
 class Profile : Fragment() {
 
@@ -86,20 +89,32 @@ class Profile : Fragment() {
             withContext(Dispatchers.IO) {
                 client.connect()
                 val user = client.getUserData((activity as MainActivity).nickname,(activity as MainActivity))
-                //val client2 = HttpClient("95.158.11.238", 8080)
-                //client2.connect()
                 client.connect()
-                //Thread.sleep(5000)
+
                 items = client.getProfilePost((activity as MainActivity).nickname)
                 (activity as MainActivity).runOnUiThread{updRec()}
-                name_profile.text = user.name
-                (activity as MainActivity).runOnUiThread{setImg(user.image)}
-                score_profile.text = user.score
 
+                (activity as MainActivity).runOnUiThread{setImg(user.image)}
+                name_profile.text = user.name
+                score_profile.text = user.score
             }
         }
 
 
+    }
+    private fun updateFromFile(){
+        try {
+            // открываем поток для чтения
+            val br = BufferedReader(
+                InputStreamReader(
+                    (activity as MainActivity).openFileInput((activity as MainActivity).nickname+".txt")
+                )
+            )
+            name_profile.text = br.readLine()
+            score_profile.text = br.readLine()
+        }catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
     }
 
 }
