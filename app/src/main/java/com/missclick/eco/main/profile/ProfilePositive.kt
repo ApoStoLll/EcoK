@@ -61,7 +61,7 @@ class ProfilePositive : Fragment() {
 
     fun requestToServer(item : PositiveItem){
         GlobalScope.launch {
-            val client = (activity as MainActivity).client
+            val client = HttpClient("95.158.11.238", 8080)
             withContext(Dispatchers.IO) {
                 client.connect()
                 client.addProfilePost(item,(activity as MainActivity).nickname)

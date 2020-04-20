@@ -15,12 +15,10 @@ import android.widget.LinearLayout
 import com.missclick.eco.HttpClient
 import com.missclick.eco.ProfilePositive
 import com.missclick.eco.R
+import com.missclick.eco.User
 import com.missclick.eco.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStreamReader
@@ -66,15 +64,17 @@ class Profile : Fragment() {
             transaction.commit()
         }
 
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
 
     }
+
     private fun update(){
 
-        fun setImg(image: Bitmap){
-            image_profile.setImageBitmap(image)
-        }
-        fun updRec(){
+        fun upd(user : User){
+            if(name_profile == null) return
             val myAdapter = PositiveAdapter(
                 items,
                 object : PositiveAdapter.Callback {
@@ -84,24 +84,23 @@ class Profile : Fragment() {
                 })
             recV.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL,false)
             recV.adapter = myAdapter
+            name_profile.text = user.name
+            var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
+            image = Bitmap.createScaledBitmap(image, 400, 400, false)
+            image_profile.setImageBitmap(image)
+            score_profile.text = user.score
         }
+
         GlobalScope.launch {
             val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
             withContext(Dispatchers.IO) {
                 client.connect()
-                val user = client.getUserData((activity as MainActivity).nickname,(activity as MainActivity))
+                val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
                 client.connect()
-
                 items = client.getProfilePost((activity as MainActivity).nickname)
-                (activity as MainActivity).runOnUiThread{updRec()}
-                var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
-                image = Bitmap.createScaledBitmap(image, 400, 400, false)
-                (activity as MainActivity).runOnUiThread{setImg(image)}
-                name_profile.text = user.name
-                score_profile.text = user.score
+                (activity as MainActivity).runOnUiThread { upd(user) }
             }
         }
-
 
     }
     private fun updateFromFile(){

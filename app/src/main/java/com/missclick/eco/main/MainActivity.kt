@@ -16,54 +16,44 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
     lateinit var nickname : String
 
-    val client = HttpClient("95.158.11.238", 8080)
+    //val client = HttpClient("95.158.11.238", 8080)
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_feed -> {
                 startMenu(1)
-                conn("0", "GET")
+                //conn("0", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_exercises -> {
                 startMenu(2)
-                conn("1", "GET")
+               // conn("1", "GET")
                 Log.d("Nick: ", nickname)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
                 startMenu(3)
-                conn("2", "GET")
+                //conn("2", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {
                 startMenu(4)
-                conn("3", "GET")
+               // conn("3", "GET")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_etc -> {
                 startMenu(5)
-                    GlobalScope.launch {
+                    /* GlobalScope.launch {
                         withContext(Dispatchers.IO){
                             client.connect()
                             //client.getUserData("aloxa",)
                         }
                         Log.e("COROUTINE", "DONE")
 
-                }
+                }*/
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
-    }
-
-    private fun conn(message : String, method : String){
-        GlobalScope.launch {
-            withContext(Dispatchers.IO){
-                client.connect()
-                client.writeRequest(message, method)
-            }
-            Log.e("COROUTINE", "DONE")
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
