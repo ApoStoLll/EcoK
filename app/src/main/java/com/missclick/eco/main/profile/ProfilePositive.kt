@@ -51,7 +51,7 @@ class ProfilePositive : Fragment() {
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
                     (activity as MainActivity).startMenu(3)
-                    requestToServer(item.id)
+                    requestToServer(item)
 
                 }
             })
@@ -59,12 +59,12 @@ class ProfilePositive : Fragment() {
         PositiveActions.adapter = myAdapter
     }
 
-    fun requestToServer(id : Int){
+    fun requestToServer(item : PositiveItem){
         GlobalScope.launch {
             val client = (activity as MainActivity).client
             withContext(Dispatchers.IO) {
                 client.connect()
-                client.addProfilePost(id,(activity as MainActivity).nickname)
+                client.addProfilePost(item,(activity as MainActivity).nickname)
             }
         }
     }
