@@ -2,6 +2,7 @@ package com.missclick.eco.main.profile
 
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -93,8 +94,9 @@ class Profile : Fragment() {
 
                 items = client.getProfilePost((activity as MainActivity).nickname)
                 (activity as MainActivity).runOnUiThread{updRec()}
-
-                (activity as MainActivity).runOnUiThread{setImg(user.image)}
+                var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
+                image = Bitmap.createScaledBitmap(image, 400, 400, false)
+                (activity as MainActivity).runOnUiThread{setImg(image)}
                 name_profile.text = user.name
                 score_profile.text = user.score
             }
@@ -112,6 +114,10 @@ class Profile : Fragment() {
             )
             name_profile.text = br.readLine()
             score_profile.text = br.readLine()
+            val imageName = br.readLine()
+            var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
+            image = Bitmap.createScaledBitmap(image, 400, 400, false)
+
         }catch (e: FileNotFoundException) {
             e.printStackTrace()
         }

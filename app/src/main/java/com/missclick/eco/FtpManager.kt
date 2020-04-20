@@ -20,7 +20,7 @@ class FtpManager(val server : String, val user : String, val pass : String = "",
         ftp.setFileType(FTP.BINARY_FILE_TYPE)
     }
 
-    fun getImage(fileName : String, imageName: String, context : Context) : Bitmap{
+    fun getImage(fileName : String, imageName: String, context : Context){
         if(BitmapFactory.decodeFile(context.filesDir.path + "/" + fileName) == null){
             conn()
             val filename = File(context.filesDir, fileName)
@@ -30,9 +30,6 @@ class FtpManager(val server : String, val user : String, val pass : String = "",
             ftp.logout()
             ftp.disconnect()
         }
-        var image = BitmapFactory.decodeFile(context.filesDir.path + "/" + fileName)
-        image = Bitmap.createScaledBitmap(image, 400, 400, false)
-        return image
     }
 
     fun uploadImage(path : File, imageName : String, username : String){
