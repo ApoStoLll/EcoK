@@ -64,15 +64,23 @@ class HttpClient(private val ip : String,private val port : Int){
         writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
     }
 
-    fun doAction(id : Int, username: String){
+    fun addProfilePost(id : Int, username: String){
         writeRequest("/addProfilePost?action=$id&username=$username", "POST")
     }
 
-    fun getProfilePost(username : String){
+    fun getProfilePost(username : String):List<PositiveItem>{
         val answ = writeRequest("/getProfilePost?username=$username", "POST")
-        //return PositiveItem(answ[])
-        for(kek in answ.body)
-            Log.e("RESPONSE POST: ", kek)
+        val actions:MutableList<PositiveItem> = mutableListOf()
+        // actions = listOf(PositiveItem(1,"smth",8))
+        for(kek in answ.body){
+            if(kek[0] == 'C' || kek[5] == '/') continue
+            val item = Post().getItem(kek.split(',')[1].split(' ')[1].toInt(),kek.split(',')[2])
+            Log.e(item.action,item.score.toString())
+            actions.add(item)
+
+        }
+        actions.reverse()
+        return actions
     }
 
     private fun write(request: String){

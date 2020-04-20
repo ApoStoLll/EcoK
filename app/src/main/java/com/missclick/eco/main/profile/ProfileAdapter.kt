@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.missclick.eco.R
 
 
-class ProfileAdapter(var items: List<ProfileItem>, val callback: Callback) : RecyclerView.Adapter<ProfileAdapter.MainHolder>() {
+class ProfileAdapter(var items: List<PositiveItem>, val callback: Callback) : RecyclerView.Adapter<ProfileAdapter.MainHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = MainHolder(LayoutInflater.from(parent.context).inflate(R.layout.profile_items, parent, false))
     override fun getItemCount() = items.size
@@ -18,15 +18,15 @@ class ProfileAdapter(var items: List<ProfileItem>, val callback: Callback) : Rec
     inner class MainHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val firstName = itemView.findViewById<TextView>(R.id.firstName)
         private val lastName = itemView.findViewById<TextView>(R.id.lastName)
-        fun bind(item: ProfileItem) {
-            firstName.text = item.firstName
-            lastName.text = item.lastName
+        fun bind(item: PositiveItem) {
+            firstName.text = item.id.toString()
+            lastName.text = item.action
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
         }
     }
     interface Callback {
-        fun onItemClicked(item: ProfileItem)
+        fun onItemClicked(item: PositiveItem)
     }
 }

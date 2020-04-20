@@ -23,29 +23,7 @@ import kotlinx.coroutines.withContext
 
 class Profile : Fragment() {
 
-    private val items = listOf(
-        ProfileItem("Александр", "Пушкин"),
-        ProfileItem("Михаил", "Лермонтов"),
-        ProfileItem("Александр", "Блок"),
-        ProfileItem("Николай", "Некрасов"),
-        ProfileItem("Фёдор", "Тютчев"),
-        ProfileItem("Сергей", "Есенин"),
-        ProfileItem("Владимир", "Маяковский"),
-        ProfileItem("Михаил", "Лермонтов"),
-        ProfileItem("Александр", "Блок"),
-        ProfileItem("Николай", "Некрасов"),
-        ProfileItem("Фёдор", "Тютчев"),
-        ProfileItem("Сергей", "Есенин"),
-        ProfileItem("Владимир", "Маяковский"),
-        ProfileItem("Александр", "Пушкин"),
-        ProfileItem("Михаил", "Лермонтов"),
-        ProfileItem("Александр", "Блок"),
-        ProfileItem("Николай", "Некрасов"),
-        ProfileItem("Фёдор", "Тютчев"),
-        ProfileItem("Сергей", "Есенин"),
-        ProfileItem("Владимир", "Маяковский")
-    )
-
+    private var items:List<PositiveItem> = listOf()
     val profile = ProfilePositive()
     val bundle = Bundle()
 
@@ -84,21 +62,24 @@ class Profile : Fragment() {
             transaction.commit()
         }
 
-        val myAdapter = ProfileAdapter(
-            items,
-            object : ProfileAdapter.Callback {
-                override fun onItemClicked(item: ProfileItem) {
 
-                }
-            })
-        recV.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL,false)
-        recV.adapter = myAdapter
 
     }
-
     private fun update(){
+
         fun setImg(image: Bitmap){
             image_profile.setImageBitmap(image)
+        }
+        fun updRec(){
+            val myAdapter = PositiveAdapter(
+                items,
+                object : PositiveAdapter.Callback {
+                    override fun onItemClicked(item: PositiveItem) {
+
+                    }
+                })
+            recV.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL,false)
+            recV.adapter = myAdapter
         }
         GlobalScope.launch {
             val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
@@ -108,12 +89,15 @@ class Profile : Fragment() {
                 //val client2 = HttpClient("95.158.11.238", 8080)
                 //client2.connect()
                 client.connect()
-                client.getProfilePost((activity as MainActivity).nickname)
+                items = client.getProfilePost((activity as MainActivity).nickname)
+                (activity as MainActivity).runOnUiThread{updRec()}
                 name_profile.text = user.name
                 (activity as MainActivity).runOnUiThread{setImg(user.image)}
                 score_profile.text = user.score
+
             }
         }
+
 
     }
 
