@@ -89,6 +89,7 @@ class Profile : Fragment() {
                 //val client2 = HttpClient("95.158.11.238", 8080)
                 //client2.connect()
                 client.connect()
+                //Thread.sleep(5000)
                 items = client.getProfilePost((activity as MainActivity).nickname)
                 (activity as MainActivity).runOnUiThread{updRec()}
                 name_profile.text = user.name
