@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <EditText
-                android:id="@+id/nickname_logIn"
+                android:id="@+id/nicknameLogIn"
                 android:layout_width="256dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="8dp"
@@ -21,7 +21,7 @@
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.092"/>
         <EditText
-                android:id="@+id/password_logIn"
+                android:id="@+id/passwordLogIn"
                 android:layout_width="239dp"
                 android:layout_height="57dp"
                 android:layout_marginTop="16dp"
@@ -29,7 +29,7 @@
                 android:hint="@string/password" android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nickname_logIn"/>
+                app:layout_constraintTop_toBottomOf="@+id/nicknameLogIn"/>
         <Button
                 android:id="@+id/btnLogIn"
                 android:layout_width="100dp"
@@ -38,7 +38,7 @@
                 android:text="@string/logIn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox_rem"/>
+                app:layout_constraintTop_toBottomOf="@+id/checkBoxLogIn"/>
         <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="100dp"
@@ -58,7 +58,7 @@
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
                 app:layout_constraintVertical_bias="0.021"/>
         <CheckBox
-                android:id="@+id/checkBox_rem"
+                android:id="@+id/checkBoxLogIn"
                 android:layout_width="159dp"
                 android:layout_height="31dp" android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
@@ -67,7 +67,7 @@
                 android:layout_marginRight="8dp"
                 android:text="Remember me"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/password_logIn"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/passwordLogIn"
         />
     </android.support.constraint.ConstraintLayout>
 
