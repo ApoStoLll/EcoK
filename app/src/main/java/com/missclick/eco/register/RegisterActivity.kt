@@ -35,7 +35,7 @@ class RegisterActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        /*
         val permission =
             arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
@@ -52,10 +52,9 @@ class RegisterActivity : AppCompatActivity(){
                 ActivityCompat.requestPermissions(this, permission, 1)
             }
         }
-
-
-        setContentView(com.missclick.eco.R.layout.activity_register)
-
+        */
+        readFile()
+        setContentView(R.layout.activity_register)
         logInMenu() // по дефолту запускаем ЛогИн меню
     }
 
@@ -74,7 +73,7 @@ class RegisterActivity : AppCompatActivity(){
         transaction.commit()
     }
 
-    fun logIn(){
+    fun logIn(isAuth: Boolean,nickname :String = nickname_logIn.text.toString(),password: String = password_logIn.text.toString() ){
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 try { // хз мб не работает
@@ -86,9 +85,9 @@ class RegisterActivity : AppCompatActivity(){
                     runOnUiThread {warnings(1)}
                 }
 
-                if (nickname_logIn.text.toString().isNotEmpty() && password_logIn.text.toString().isNotEmpty()){
-                        if (client.checkUser(nickname_logIn.text.toString(), password_logIn.text.toString())){
-                            runOnUiThread {startMain(1)}
+                if (nickname.isNotEmpty() && password.isNotEmpty()){
+                        if (client.checkUser(nickname,password)){
+                            runOnUiThread {startMain(1,nickname)}
                         }
                         else runOnUiThread {warnings(2)}
                 }
@@ -96,7 +95,8 @@ class RegisterActivity : AppCompatActivity(){
             }
 
         }
-        writeFile(nickname_logIn.text.toString(), password_logIn.text.toString(),true)
+        if(isAuth)
+            writeFile(nickname_logIn.text.toString(), password_logIn.text.toString())
     }
 
     fun signUp(){ // регистрация
@@ -109,7 +109,7 @@ class RegisterActivity : AppCompatActivity(){
                             if (true){ // сделать проверку на почту
                                 if (password_signUp.text.toString() == password_two.text.toString()) {
 
-                                    writeFile(nickname_signUp.text.toString(), password_signUp.text.toString(), true)
+                                    //writeFile(nickname_signUp.text.toString(), password_signUp.text.toString())
                                     if (client.addUser(
                                             nickname_signUp.text.toString(),
                                             name.text.toString(), password_signUp.text.toString(), email.text.toString()
@@ -132,16 +132,16 @@ class RegisterActivity : AppCompatActivity(){
 
     }
 
-    private fun writeFile(nickname: String,password: String,isAuth: Boolean) {
+    private fun writeFile(nickname: String,password: String) {
         try {
             // отрываем поток для записи
             val bw = BufferedWriter(
                 OutputStreamWriter(
-                    openFileOutput("fileName.txt", Context.MODE_PRIVATE)
+                    openFileOutput("AutoEntrance.txt", Context.MODE_PRIVATE)
                 )
             )
             // пишем данные
-            bw.write("$nickname\n$password\n$isAuth")
+            bw.write("$nickname\n$password\n")
             // закрываем поток
             bw.close()
             Log.d("Files: ", "Файл записан")
@@ -152,34 +152,27 @@ class RegisterActivity : AppCompatActivity(){
         }
     }
 
-    private fun readFile(call : String):String {
+    private fun readFile(){
         try {
             // открываем поток для чтения
             val br = BufferedReader(
                 InputStreamReader(
-                    openFileInput("fileName.txt")
+                    openFileInput("AutoEntrance.txt")
                 )
             )
             val nickname = br.readLine()
             val password = br.readLine()
-            val isAuth = br.readLine()
-            Log.d("1: ", nickname)
-            Log.d("2: ", password)
-            Log.d("3: ", isAuth)
-            if (call == "nickname") return nickname
-            if (call == "password") return password
-            if (call == "isAuth") return isAuth
+            logIn(false, nickname ,password)
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        return ""
     }
-    fun startMain(from: Int){
+    fun startMain(from: Int,nickname: String = nickname_logIn.text.toString()){
         val intent = Intent(this, MainActivity::class.java)// вход
         when(from){
-            1-> intent.putExtra("nickname",nickname_logIn.text.toString())
+            1-> intent.putExtra("nickname",nickname)
             2-> intent.putExtra("nickname",nickname_signUp.text.toString())
             else -> intent.putExtra("nickname","aloxa")
         }

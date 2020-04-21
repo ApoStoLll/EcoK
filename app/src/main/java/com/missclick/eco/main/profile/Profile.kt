@@ -86,6 +86,7 @@ class Profile : Fragment() {
             recV.adapter = myAdapter
             name_profile.text = user.name
             var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
+            if (image == null) return
             image = Bitmap.createScaledBitmap(image, 400, 400, false)
             image_profile.setImageBitmap(image)
             score_profile.text = user.score
@@ -104,6 +105,7 @@ class Profile : Fragment() {
 
     }
     private fun updateToFile(name: String,score: String,imageName: String){
+        //todo upd to db
         try {
             // отрываем поток для записи
             val bw = BufferedWriter(
@@ -120,6 +122,7 @@ class Profile : Fragment() {
         }
     }
     private fun updateFromFile(){
+        //todo upd from db
         try {
             // открываем поток для чтения
             val br = BufferedReader(
@@ -131,6 +134,7 @@ class Profile : Fragment() {
             score_profile.text = br.readLine()
             val imageName = br.readLine()
             var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
+            if (image == null) return
             image = Bitmap.createScaledBitmap(image, 400, 400, false)
             image_profile.setImageBitmap(image)
         }catch (e: FileNotFoundException) {

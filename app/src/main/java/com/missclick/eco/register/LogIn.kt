@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.missclick.eco.R
+import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
 class LogIn : Fragment() {
@@ -24,7 +25,7 @@ class LogIn : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.btnLogIn).setOnClickListener {
-            (activity as RegisterActivity).logIn()
+            (activity as RegisterActivity).logIn(checkBox_rem.isChecked)
         }
         view.findViewById<Button>(R.id.btnSignUp).setOnClickListener {
             (activity as RegisterActivity).signUpMenu()
@@ -33,7 +34,6 @@ class LogIn : Fragment() {
         view.findViewById<Button>(R.id.button3).setOnClickListener {
             (activity as RegisterActivity).startMain(3)
         }
-
     }
 
 
