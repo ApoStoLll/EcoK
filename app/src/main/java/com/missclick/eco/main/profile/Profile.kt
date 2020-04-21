@@ -1,6 +1,7 @@
 package com.missclick.eco.main.profile
 
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -19,9 +20,7 @@ import com.missclick.eco.User
 import com.missclick.eco.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.*
-import java.io.BufferedReader
-import java.io.FileNotFoundException
-import java.io.InputStreamReader
+import java.io.*
 
 class Profile : Fragment() {
 
@@ -39,7 +38,7 @@ class Profile : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        updateFromFile()
         update()
         view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
             bundle.putBoolean("arg",true)
@@ -74,6 +73,7 @@ class Profile : Fragment() {
     private fun update(){
 
         fun upd(user : User){
+            updateToFile(user.name,user.score,user.imageName)
             if(name_profile == null) return
             val myAdapter = PositiveAdapter(
                 items,
@@ -103,6 +103,22 @@ class Profile : Fragment() {
         }
 
     }
+    private fun updateToFile(name: String,score: String,imageName: String){
+        try {
+            // отрываем поток для записи
+            val bw = BufferedWriter(
+                OutputStreamWriter(
+                    (activity as MainActivity).openFileOutput((activity as MainActivity).nickname+".txt", Context.MODE_PRIVATE)
+                )
+            )
+            bw.write("$name\n$score\n$imageName")
+            // закрываем поток
+            bw.close()
+
+        } catch (e: FileNotFoundException){
+            return
+        }
+    }
     private fun updateFromFile(){
         try {
             // открываем поток для чтения
@@ -116,9 +132,9 @@ class Profile : Fragment() {
             val imageName = br.readLine()
             var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
             image = Bitmap.createScaledBitmap(image, 400, 400, false)
-
+            image_profile.setImageBitmap(image)
         }catch (e: FileNotFoundException) {
-            e.printStackTrace()
+            return
         }
     }
 
