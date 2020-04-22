@@ -19,9 +19,13 @@ import android.provider.MediaStore
 import android.graphics.Bitmap
 import android.util.Log
 import com.missclick.eco.main.MainActivity
+import com.missclick.eco.register.RegisterActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.net.ConnectException
+
+
+
 
 
 class Settings : Fragment() {
@@ -37,8 +41,11 @@ class Settings : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<Button>(R.id.btnChangeAva ).setOnClickListener {
+        view.findViewById<Button>(R.id.btnChangeAva).setOnClickListener {
             changeAvatar()
+        }
+        view.findViewById<Button>(R.id.btnExit).setOnClickListener {
+            exit()
         }
     }
 
@@ -46,10 +53,17 @@ class Settings : Fragment() {
         val photoPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
         photoPickerIntent.type = "image/*"
         startActivityForResult(photoPickerIntent, 1)
+    }
 
-
-
-
+    private fun exit(){
+        try{
+            File((activity as MainActivity).filesDir,"AutoEntrance.txt").delete()
+            File((activity as MainActivity).filesDir,(activity as MainActivity).toString()+".txt").delete()
+        }catch (e : ConnectException){ // другая ошибка
+            Log.e("ERROR", e.toString())
+        }
+        val intent = Intent(activity as MainActivity, RegisterActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -81,8 +95,6 @@ class Settings : Fragment() {
                 }
             }
         }
-
-
     }
 
 }
