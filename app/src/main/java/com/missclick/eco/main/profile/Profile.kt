@@ -41,6 +41,10 @@ class Profile : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         updateFromFile()
         update()
+        swipeRefreshLayout.setOnRefreshListener{
+            update()
+            swipeRefreshLayout.isRefreshing = false
+        }
         view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
             bundle.putBoolean("arg",true)
             profile.arguments = bundle
@@ -72,7 +76,7 @@ class Profile : Fragment() {
     }
 
     private fun update(){
-
+        Log.e("UPD", "UPDATE")
         fun upd(user : User){
             updateToFile(user.name,user.score,user.imageName)
             if(name_profile == null) return
