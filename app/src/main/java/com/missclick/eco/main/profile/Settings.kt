@@ -58,7 +58,7 @@ class Settings : Fragment() {
     private fun exit(){
         try{
             File((activity as MainActivity).filesDir,"AutoEntrance.txt").delete()
-            File((activity as MainActivity).filesDir,(activity as MainActivity).toString()+".txt").delete()
+            File((activity as MainActivity).filesDir,(activity as MainActivity).nickname + ".txt").delete()
         }catch (e : ConnectException){ // другая ошибка
             Log.e("ERROR", e.toString())
         }
