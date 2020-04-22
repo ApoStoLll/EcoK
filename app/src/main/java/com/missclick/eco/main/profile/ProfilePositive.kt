@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.ConnectException
 
 
 class ProfilePositive : Fragment() {
@@ -63,8 +64,13 @@ class ProfilePositive : Fragment() {
         GlobalScope.launch {
             val client = HttpClient("95.158.11.238", 8080)
             withContext(Dispatchers.IO) {
-                client.connect()
-                client.addProfilePost(item,(activity as MainActivity).nickname)
+                try{
+                    client.connect()
+                    client.addProfilePost(item,(activity as MainActivity).nickname)
+                }catch (e : ConnectException){
+                    Log.e("ERROR", e.toString())
+                }
+
             }
         }
     }

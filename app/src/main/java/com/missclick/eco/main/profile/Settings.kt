@@ -17,9 +17,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.provider.MediaStore
 import android.graphics.Bitmap
+import android.util.Log
 import com.missclick.eco.main.MainActivity
 import java.io.File
 import java.io.FileOutputStream
+import java.net.ConnectException
 
 
 class Settings : Fragment() {
@@ -58,7 +60,7 @@ class Settings : Fragment() {
                 if (resultCode == RESULT_OK) {
                     val chosenImageUri = data!!.data
                     val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).getContentResolver(), chosenImageUri)
-                    val arr = chosenImageUri.path.split('/')
+                    val arr = chosenImageUri!!.path.split('/')
                     val file = File((activity as MainActivity).filesDir.path ,arr[arr.size - 1] + ".png") //"ava.png")// //НАЗВАНИЕ ФАЙЛА ТУТ
                     val fOut = FileOutputStream(file)
                     bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
@@ -66,8 +68,13 @@ class Settings : Fragment() {
                     val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
                     GlobalScope.launch {
                         withContext(Dispatchers.IO) {
-                            client.connect()
-                            client.uploadImage(file,(activity as MainActivity).nickname)
+                            try{
+                                client.connect()
+                                client.uploadImage(file,(activity as MainActivity).nickname)
+                            }catch (e : ConnectException){
+                                Log.e("ERROR", e.toString())
+                            }
+
 
                         }
                     }

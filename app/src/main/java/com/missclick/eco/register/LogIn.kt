@@ -18,6 +18,7 @@ import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStreamReader
+import java.net.ConnectException
 
 
 class LogIn : Fragment() {
@@ -70,6 +71,8 @@ class LogIn : Fragment() {
                     } catch (e: NumberFormatException) {
                         Log.d("Try", "Bad")
                         activity.runOnUiThread { activity.warnings(1) }
+                    }catch (e : ConnectException){
+                        Log.e("ERROR", e.toString())
                     }
                 }
         }

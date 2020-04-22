@@ -2,6 +2,7 @@ package com.missclick.eco.register
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.ConnectException
 
 
 class SignUp : Fragment() {
@@ -60,12 +62,17 @@ class SignUp : Fragment() {
         }
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
-                client.connect()
-                if (client.addUser(nickname,name,password,email))
-                {
-                    if(isAuth) activity.writeAuthToFile(nickname,password)
-                    activity.runOnUiThread {activity.startMain(nickname)}
-                } else activity.runOnUiThread {activity.warnings(8)}
+                try{
+                    client.connect()
+                    if (client.addUser(nickname,name,password,email))
+                    {
+                        if(isAuth) activity.writeAuthToFile(nickname,password)
+                        activity.runOnUiThread {activity.startMain(nickname)}
+                    } else activity.runOnUiThread {activity.warnings(8)}
+                }catch (e : ConnectException){
+                    Log.e("ERROR", e.toString())
+                }
+
             }
         }
     }

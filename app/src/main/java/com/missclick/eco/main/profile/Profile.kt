@@ -21,6 +21,7 @@ import com.missclick.eco.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.*
 import java.io.*
+import java.net.ConnectException
 
 class Profile : Fragment() {
 
@@ -93,13 +94,18 @@ class Profile : Fragment() {
         }
 
         GlobalScope.launch {
+
             val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
             withContext(Dispatchers.IO) {
-                client.connect()
-                val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
-                client.connect()
-                items = client.getProfilePost((activity as MainActivity).nickname)
-                (activity as MainActivity).runOnUiThread { upd(user) }
+                try{
+                    client.connect()
+                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+                    client.connect()
+                    items = client.getProfilePost((activity as MainActivity).nickname)
+                    (activity as MainActivity).runOnUiThread { upd(user) }
+                }catch (e : ConnectException){
+                    Log.e("ERROR", e.toString())
+                }
             }
         }
 
