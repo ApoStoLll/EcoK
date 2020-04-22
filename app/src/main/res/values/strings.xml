@@ -18,25 +18,27 @@
     <string name="username">Name</string>
 
     //warnings
-    <string name="fieldsIsEmpty">Fill in all the fields!</string>
+    <string name="fieldsIsEmpty">Please, fill in all fields</string>
     // Заполните все поля!
-    <string name="wrongData">Wrong data</string>
+    <string name="wrongData">Incorrect username or password. Please, try again</string>
     // Неверные данные
-    <string name="shortNickname">Short nickname</string>
+    <string name="shortNickname">Username is too short</string>
     // Короткий ник
-    <string name="nameIsEmpty">Enter your name</string>
+    <string name="nameIsEmpty">Please, enter your name</string>
     // Укажите имя
-    <string name="shortPassword">Short password</string>
+    <string name="shortPassword">Password is too short</string>
     // короткий пароль
-    <string name="emailIsBad">Email is bad</string>
+    <string name="emailIsBad">Invalid e-mail</string>
     // Почта говно
-    <string name="passwordDNMatch">Passwords do not match</string>
+    <string name="passwordDNMatch">The password and confirmation password do not match</string>
     // Пароли не совпадают
-    <string name="nicknameIsBusy">Nickname is busy</string>
+    <string name="nicknameIsBusy">Username has already been taken</string>
     // Ник занят
+    <string name="offlineMode">Server is not response. Offline mode</string>
+    // offline mode
 
     <string name="text">Nick</string>
-    // Ник занят
+    // Ник
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -13,15 +13,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import com.missclick.eco.HttpClient
-import com.missclick.eco.ProfilePositive
-import com.missclick.eco.R
-import com.missclick.eco.User
+import com.missclick.eco.*
+import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.*
 import java.io.*
 import java.net.ConnectException
+import android.content.ContentValues
+
+
 
 class Profile : Fragment() {
 
@@ -70,32 +71,7 @@ class Profile : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
     private fun update(){
-        Log.e("UPD", "UPDATE")
-        fun upd(user : User){
-            updateToFile(user.name,user.score,user.imageName)
-            if(name_profile == null) return
-            val myAdapter = PositiveAdapter(
-                items,
-                object : PositiveAdapter.Callback {
-                    override fun onItemClicked(item: PositiveItem) {
-
-                    }
-                })
-            recV.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL,false)
-            recV.adapter = myAdapter
-            name_profile.text = user.name
-            var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
-            if (image == null) return
-            image = Bitmap.createScaledBitmap(image, 400, 400, false)
-            image_profile.setImageBitmap(image)
-            score_profile.text = user.score
-        }
 
         GlobalScope.launch {
 
@@ -115,22 +91,68 @@ class Profile : Fragment() {
 
     }
     private fun updateToFile(name: String,score: String,imageName: String){
-        //todo upd to db
+        val activity = activity as MainActivity
+        /*
+        val db = activity.getBaseContext().openOrCreateDatabase(activity.nickname + ".db", Context.MODE_PRIVATE, null)
+        db.execSQL("CREATE TABLE posts (actions TEXT, score INTEGER,time TEXT)")
+
+        db.execSQL("INSERT INTO posts ($act, $score, $time) VALUES (actions, score, time)")
+        */
+        val act = "action123"
+        val score1 = items[0].score
+        val time = items[0].time
+        val dbHelper = DBHelper(activity)
+        val db = dbHelper.getWritableDatabase()
+        val cv = ContentValues()
+        cv.put("name",act)
+        cv.put("score",score1)
+//        cv.put("time",time)
+        db.insert("posts", null, cv)
+
+         val c = db.query("posts", null, null, null, null, null, null)
+
+      // ставим позицию курсора на первую строку выборки
+      // если в выборке нет строк, вернется false
+      if (c.moveToFirst())
+{
+
+ // определяем номера столбцов по имени в выборке
+        val idColIndex = c.getColumnIndex("id")
+    val nameColIndex = c.getColumnIndex("name")
+    val emailColIndex = c.getColumnIndex("score")
+    //val emailColIndex1 = c.getColumnIndex("time")
+
+do
+{
+ // получаем значения по номерам столбцов и пишем все в лог
+          Log.e("LOG_TAG",
+              "ID = " + c.getInt(idColIndex) +
+              ", name = " + c.getString(nameColIndex) +
+              ", score = " + c.getString(emailColIndex)
+          )
+ // переход на следующую строку
+          // а если следующей нет (текущая - последняя), то false - выходим из цикла
+        }
+while (c.moveToNext())
+}
+else
+Log.e("feseges", "0 rows")
+      c.close()
+
+
         try {
-            // отрываем поток для записи
             val bw = BufferedWriter(
                 OutputStreamWriter(
-                    (activity as MainActivity).openFileOutput((activity as MainActivity).nickname+".txt", Context.MODE_PRIVATE)
+                    activity.openFileOutput(activity.nickname+".txt", Context.MODE_PRIVATE)
                 )
             )
             bw.write("$name\n$score\n$imageName")
-            // закрываем поток
             bw.close()
-
         } catch (e: FileNotFoundException){
             return
         }
     }
+
     private fun updateFromFile(){
         //todo upd from db
         try {
@@ -144,12 +166,30 @@ class Profile : Fragment() {
             score_profile.text = br.readLine()
             val imageName = br.readLine()
             var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
-            if (image == null) return
-            image = Bitmap.createScaledBitmap(image, 400, 400, false)
+            image = if (image != null) Bitmap.createScaledBitmap(image, 400, 400, false) else return
             image_profile.setImageBitmap(image)
         }catch (e: FileNotFoundException) {
             return
         }
+    }
+
+    fun upd(user : User){
+        updateToFile(user.name,user.score,user.imageName)
+        if(name_profile == null) return
+        val myAdapter = PositiveAdapter(
+            items,
+            object : PositiveAdapter.Callback {
+                override fun onItemClicked(item: PositiveItem) {
+
+                }
+            })
+        recV.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL,false)
+        recV.adapter = myAdapter
+        name_profile.text = user.name
+        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
+        image = if (image != null) Bitmap.createScaledBitmap(image, 400, 400, false) else return
+        image_profile.setImageBitmap(image)
+        score_profile.text = user.score
     }
 
 }

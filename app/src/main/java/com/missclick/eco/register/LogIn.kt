@@ -70,7 +70,7 @@ class LogIn : Fragment() {
                             }
                         } else activity.runOnUiThread { activity.warnings(2) }
                     }catch (e : ConnectException){
-                        activity.runOnUiThread { activity.warnings(1) }
+                        activity.runOnUiThread { activity.warnings(9) }
                         Log.e("ERROR", e.toString())
                         if(isAuth == 3) activity.runOnUiThread{activity.startMain(nickname)}
                     }

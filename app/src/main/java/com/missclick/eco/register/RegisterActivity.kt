@@ -85,6 +85,7 @@ class RegisterActivity : AppCompatActivity(){
             6-> Toast.makeText(this,getString(R.string.emailIsBad),Toast.LENGTH_SHORT).show()
             7-> Toast.makeText(this,getString(R.string.passwordDNMatch),Toast.LENGTH_SHORT).show()
             8-> Toast.makeText(this,getString(R.string.nicknameIsBusy),Toast.LENGTH_SHORT).show()
+            9-> Toast.makeText(this,getString(R.string.offlineMode),Toast.LENGTH_SHORT).show()
         }
     }
 
