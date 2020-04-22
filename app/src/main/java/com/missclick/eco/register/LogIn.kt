@@ -35,7 +35,9 @@ class LogIn : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         readAuthFromFile()
         view.findViewById<Button>(R.id.btnLogIn).setOnClickListener {
-            logIn(checkBoxLogIn.isChecked,nicknameLogIn.text.toString(),passwordLogIn.text.toString())
+            var isAuth = 0
+            if(checkBoxLogIn.isChecked) isAuth = 1
+            logIn(isAuth,nicknameLogIn.text.toString(),passwordLogIn.text.toString())
         }
         view.findViewById<Button>(R.id.btnSignUp).setOnClickListener {
             (activity as RegisterActivity).signUpMenu()
@@ -46,7 +48,7 @@ class LogIn : Fragment() {
         }
     }
 
-    private fun logIn(isAuth : Boolean, nickname : String, password : String){
+    private fun logIn(isAuth : Int, nickname : String, password : String){
 
         val activity = activity as RegisterActivity
         val client = HttpClient("95.158.11.238", 8080)
@@ -62,17 +64,15 @@ class LogIn : Fragment() {
                         Log.d("Try", "Success")
                         if (client.checkUser(nickname, password)) {
                             activity.runOnUiThread {
-                                if(isAuth)
+                                if(isAuth == 1)
                                     activity.writeAuthToFile(nickname, password)
                                 activity.runOnUiThread{activity.startMain(nickname)}
                             }
                         } else activity.runOnUiThread { activity.warnings(2) }
-
-                    } catch (e: NumberFormatException) {
-                        Log.d("Try", "Bad")
-                        activity.runOnUiThread { activity.warnings(1) }
                     }catch (e : ConnectException){
+                        activity.runOnUiThread { activity.warnings(1) }
                         Log.e("ERROR", e.toString())
+                        if(isAuth == 3) activity.runOnUiThread{activity.startMain(nickname)}
                     }
                 }
         }
@@ -87,7 +87,7 @@ class LogIn : Fragment() {
             )
             val nickname = br.readLine()
             val password = br.readLine()
-            logIn(false, nickname, password)
+            logIn(3, nickname, password)
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {
