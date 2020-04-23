@@ -1,119 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".main.profile.Profile">
-    <android.support.v4.widget.SwipeRefreshLayout
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".main.profile.Profile">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/main.appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                          android:layout_height="wrap_content"
+                                                          android:orientation="horizontal"
+                                                          app:layout_scrollFlags="scroll|enterAlways">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/image_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_launcher_foreground"
+                        app:civ_border_width="2dp"
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        app:civ_border_color="#FF000000"
+                        android:elevation="5dp"
+                        android:layout_marginTop = "12dp"
+                        android:layout_marginLeft = "8dp"
+                        android:layout_marginBottom = "20dp"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                              android:layout_height="wrap_content"
+                                                              android:orientation="vertical"
+                                                              app:layout_scrollFlags="scroll|enterAlways"
+                >
+
+                    <TextView
+                            android:textColor="#FFFFFF"
+                            android:id="@+id/name_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="40dp"
+                            android:fontFamily="@font/roboto_mono_thin"
+                            android:gravity="end" android:text="name"/>
+
+                    <TextView
+                            android:textColor="#FFFFFF"
+                            android:id="@+id/score_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="40dp"
+                            android:gravity="end"
+                            android:text="score"/>
+
+                    <ProgressBar
+                            android:id="@+id/progress_profile"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="40dp"
+                            android:layout_marginStart="50dp"
+                            android:layout_height="wrap_content"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <Button
+                    android:id="@+id/btnSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:elevation="5dp"
+                    android:layout_gravity="center"
+                    android:text="Edit Profile"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="20dp"/>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <ImageView
-                android:id="@+id/image_profile"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:layout_marginStart="38dp" android:layout_marginLeft="38dp"
-                android:layout_marginTop="8dp" android:layout_marginEnd="171dp"
-                android:layout_marginRight="171dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintEnd_toStartOf="@+id/btnSettings"
-                app:layout_constraintHorizontal_bias="0.112" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.059"
-                tools:src="@tools:sample/avatars"/>
-        <Button
-                android:id="@+id/btnAddPos_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp" android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-                android:text="+" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.159"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.335"/>
-        <Button
-                android:id="@+id/btnAddNeg_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp" android:text="-" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.706"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.335"/>
-        <TextView
-                android:id="@+id/name_profile"
-                android:layout_width="109dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp" android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-                android:text="name" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.769"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.051"/>
-        <TextView
-                android:id="@+id/lvl__profile"
-                android:layout_width="50dp"
-                android:layout_height="41dp"
-                android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp" android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-                android:text="lvl" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.397"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="@+id/image_profile"
-                app:layout_constraintVertical_bias="0.144"/>
-        <TextView
-                android:id="@+id/score_profile"
-                android:layout_width="111dp"
-                android:layout_height="23dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp" android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-                android:text="score" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.767"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/name_profile"
-                app:layout_constraintVertical_bias="0.013"/>
-        <ProgressBar
-                android:id="@+id/progress_profile"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="112dp"
-                android:layout_height="19dp"
-                android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp" android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.766" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/score_profile" app:layout_constraintVertical_bias="0.015"/>
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recV"
-                android:layout_width="355dp"
-                android:layout_height="324dp"
-                android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp" android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnAddNeg_profile"/>
-        <Button
-                android:id="@+id/btnSettings"
-                android:layout_width="0dp"
-                android:layout_height="65dp"
-                android:layout_marginStart="8dp" android:layout_marginLeft="8dp" android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp" android:layout_marginBottom="8dp"
-                android:text="Settings" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/btnAddNeg_profile" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.032"/>
-    </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</FrameLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_height="wrap_content"
+                android:id="@+id/btnPlus"
+                android:layout_width="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:elevation="6dp"
+                android:src="@android:drawable/ic_input_add"
+                android:layout_gravity="bottom|end"
+                app:layout_behavior=".FAB_Float_on_Scroll"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

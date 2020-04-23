@@ -5,8 +5,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +16,14 @@ import android.widget.LinearLayout
 import com.missclick.eco.*
 import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.*
 import java.io.*
 import java.net.ConnectException
 import android.content.ContentValues
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
-
-class Profile : Fragment() {
+class Profile : androidx.fragment.app.Fragment() {
 
     val profile = ProfilePositive()
     val bundle = Bundle()
@@ -41,26 +40,19 @@ class Profile : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         updateFromFile()
         update()
-        swipeRefreshLayout.setOnRefreshListener{
+        /*swipeRefreshLayout.setOnRefreshListener{
             update()
             swipeRefreshLayout.isRefreshing = false
-        }
-        view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
+        }*/
+/*        view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
             bundle.putBoolean("arg",true)
             profile.arguments = bundle
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_holder,profile)
             transaction.addToBackStack(null)
             transaction.commit()
-        }
-        view.findViewById<Button>(R.id.btnAddNeg_profile ).setOnClickListener {
-            bundle.putBoolean("arg",false)
-            profile.arguments = bundle
-            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_holder, profile)
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
+        }*/
+
         view.findViewById<Button>(R.id.btnSettings ).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_holder, Settings())
@@ -158,7 +150,8 @@ class Profile : Fragment() {
 
                 }
             })
-        recV.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL,false)
+        recV.layoutManager =
+            androidx.recyclerview.widget.LinearLayoutManager(this.context, LinearLayout.VERTICAL, false)
         recV.adapter = myAdapter
         name_profile.text = user.name
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)

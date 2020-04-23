@@ -2,9 +2,9 @@ package com.missclick.eco.main
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +15,10 @@ import layout.Client
 import kotlin.collections.ArrayList
 
 
-class Feed : Fragment() {
+class Feed : androidx.fragment.app.Fragment() {
     val client: ArrayList<Client> = ArrayList()
 
-    lateinit var recView: RecyclerView
+    lateinit var recView: androidx.recyclerview.widget.RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -30,8 +30,9 @@ class Feed : Fragment() {
 
         addClients()
         // Creates a vertical Layout Manager
-        val recView =  view.findViewById<RecyclerView>(R.id.recycelerView)
-        recView.layoutManager = LinearLayoutManager(this.context,LinearLayout.VERTICAL,false)
+        val recView =  view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycelerView)
+        recView.layoutManager =
+            androidx.recyclerview.widget.LinearLayoutManager(this.context, LinearLayout.VERTICAL, false)
 
         val adapter = ClientAdapter(client)
         recView.adapter = adapter

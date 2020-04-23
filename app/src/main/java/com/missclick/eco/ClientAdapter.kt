@@ -1,8 +1,8 @@
 package com.missclick.eco
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import android.widget.VideoView
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import layout.Client
 
-class ClientAdapter(val userList: ArrayList<Client>) : RecyclerView.Adapter<ClientAdapter.ViewHolder>() {
+class ClientAdapter(val userList: ArrayList<Client>) : androidx.recyclerview.widget.RecyclerView.Adapter<ClientAdapter.ViewHolder>() {
     override fun onBindViewHolder(p0: ClientAdapter.ViewHolder, p1: Int) {
        val client: Client = userList[p1]
         p0.textViewName.text = client.name
@@ -29,7 +29,7 @@ class ClientAdapter(val userList: ArrayList<Client>) : RecyclerView.Adapter<Clie
 
 
     //this method is returning the view for each item in the list
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView){
         val textViewName = itemView.findViewById(R.id.nickText) as TextView
 
     }
