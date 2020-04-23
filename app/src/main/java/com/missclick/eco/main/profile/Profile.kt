@@ -26,7 +26,6 @@ import android.content.ContentValues
 
 class Profile : Fragment() {
 
-    private var items:List<PositiveItem> = listOf()
     val profile = ProfilePositive()
     val bundle = Bundle()
 
@@ -72,73 +71,35 @@ class Profile : Fragment() {
     }
 
     private fun update(){
-
         GlobalScope.launch {
-
             val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
             withContext(Dispatchers.IO) {
                 try{
                     client.connect()
                     val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
                     client.connect()
-                    items = client.getProfilePost((activity as MainActivity).nickname)
-                    (activity as MainActivity).runOnUiThread { upd(user) }
+                    val actions = client.getProfilePost((activity as MainActivity).nickname)
+                    (activity as MainActivity).runOnUiThread { upd(user,actions) }
                 }catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
             }
         }
-
     }
-    private fun updateToFile(name: String,score: String,imageName: String){
-        val activity = activity as MainActivity
-        /*
-        val db = activity.getBaseContext().openOrCreateDatabase(activity.nickname + ".db", Context.MODE_PRIVATE, null)
-        db.execSQL("CREATE TABLE posts (actions TEXT, score INTEGER,time TEXT)")
 
-        db.execSQL("INSERT INTO posts ($act, $score, $time) VALUES (actions, score, time)")
-        */
-        val act = "action123"
-        val score1 = items[0].score
-        val time = items[0].time
+    private fun updateToFile(name: String,score: String,imageName: String,actions: List<PositiveItem>){
+        val activity = activity as MainActivity
         val dbHelper = DBHelper(activity)
         val db = dbHelper.getWritableDatabase()
-        val cv = ContentValues()
-        cv.put("name",act)
-        cv.put("score",score1)
-//        cv.put("time",time)
-        db.insert("posts", null, cv)
-
-         val c = db.query("posts", null, null, null, null, null, null)
-
-      // ставим позицию курсора на первую строку выборки
-      // если в выборке нет строк, вернется false
-      if (c.moveToFirst())
-{
-
- // определяем номера столбцов по имени в выборке
-        val idColIndex = c.getColumnIndex("id")
-    val nameColIndex = c.getColumnIndex("name")
-    val emailColIndex = c.getColumnIndex("score")
-    //val emailColIndex1 = c.getColumnIndex("time")
-
-do
-{
- // получаем значения по номерам столбцов и пишем все в лог
-          Log.e("LOG_TAG",
-              "ID = " + c.getInt(idColIndex) +
-              ", name = " + c.getString(nameColIndex) +
-              ", score = " + c.getString(emailColIndex)
-          )
- // переход на следующую строку
-          // а если следующей нет (текущая - последняя), то false - выходим из цикла
+        val data = ContentValues()
+        db.delete("posts", null, null)
+        for (item in actions){
+            data.put("itemId",item.id)
+            data.put("name",item.action)
+            data.put("score",item.score)
+            data.put("time",item.time)
+            db.insert("posts", null, data)
         }
-while (c.moveToNext())
-}
-else
-Log.e("feseges", "0 rows")
-      c.close()
-
 
         try {
             val bw = BufferedWriter(
@@ -154,7 +115,23 @@ Log.e("feseges", "0 rows")
     }
 
     private fun updateFromFile(){
-        //todo upd from db
+        val dbHelper = DBHelper(activity as MainActivity)
+        val db = dbHelper.getWritableDatabase()
+        val actions:MutableList<PositiveItem> = mutableListOf()
+        val c = db.query("posts", null, null, null, null, null, null)
+        if (c.moveToFirst())
+        {
+            do{
+                val idCol = c.getString(c.getColumnIndex("itemId")).toInt()
+                val nameCol = c.getString(c.getColumnIndex("name"))
+                val scoreCol =  c.getString(c.getColumnIndex("score")).toInt()
+                val timeCol = c.getString(c.getColumnIndex("time"))
+                    actions.add(PositiveItem(idCol,nameCol,scoreCol,timeCol))
+                }
+            while (c.moveToNext())
+        }
+        else c.close()
+
         try {
             // открываем поток для чтения
             val br = BufferedReader(
@@ -162,22 +139,20 @@ Log.e("feseges", "0 rows")
                     (activity as MainActivity).openFileInput((activity as MainActivity).nickname+".txt")
                 )
             )
-            name_profile.text = br.readLine()
-            score_profile.text = br.readLine()
+            val name = br.readLine()
+            val score = br.readLine()
             val imageName = br.readLine()
-            var image = BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
-            image = if (image != null) Bitmap.createScaledBitmap(image, 400, 400, false) else return
-            image_profile.setImageBitmap(image)
+            upd(User("null",name,score,imageName),actions)
         }catch (e: FileNotFoundException) {
             return
         }
     }
 
-    fun upd(user : User){
-        updateToFile(user.name,user.score,user.imageName)
+    private fun upd(user : User,actions:List<PositiveItem>){
+        updateToFile(user.name,user.score,user.imageName,actions)
         if(name_profile == null) return
         val myAdapter = PositiveAdapter(
-            items,
+            actions,
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
 

@@ -12,7 +12,14 @@ internal class DBHelper(context: Context)// конструктор суперк�
     override fun onCreate(db:SQLiteDatabase) {
     Log.d("LOG_TAG", "--- onCreate database ---")
      // создаем таблицу с полями
-          db.execSQL("create table posts (" + "id integer primary key autoincrement," + "name text," + "score integer"  +");")
+          //db.execSQL("CREATE TABLE IF NOT EXISTS posts (name TEXT, time1 TEXT,score INTEGER)")
+            db.execSQL("create table posts ("
+                + "id integer primary key autoincrement,"
+                    +"itemId,"
+                + "name text,"
+                    +    "score integer,"
+                + "time text" + ");")
+
     }
 
     override fun onUpgrade(db:SQLiteDatabase, oldVersion:Int, newVersion:Int) {
