@@ -20,13 +20,12 @@ import kotlinx.coroutines.*
 import java.io.*
 import java.net.ConnectException
 import android.content.ContentValues
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class Profile : androidx.fragment.app.Fragment() {
-
-    val profile = ProfilePositive()
-    val bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,18 +39,16 @@ class Profile : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
         updateFromFile()
         update()
-        /*swipeRefreshLayout.setOnRefreshListener{
+        refresh.setOnRefreshListener{
             update()
-            swipeRefreshLayout.isRefreshing = false
-        }*/
-/*        view.findViewById<Button>(R.id.btnAddPos_profile ).setOnClickListener {
-            bundle.putBoolean("arg",true)
-            profile.arguments = bundle
+            refresh.isRefreshing = false
+        }
+            view.findViewById<FloatingActionButton>(R.id.btnPlus ).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_holder,profile)
+            transaction.replace(R.id.fragment_holder,ProfilePlus())
             transaction.addToBackStack(null)
             transaction.commit()
-        }*/
+        }
 
         view.findViewById<Button>(R.id.btnSettings ).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
@@ -150,8 +147,7 @@ class Profile : androidx.fragment.app.Fragment() {
 
                 }
             })
-        recV.layoutManager =
-            androidx.recyclerview.widget.LinearLayoutManager(this.context, LinearLayout.VERTICAL, false)
+        recV.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recV.adapter = myAdapter
         name_profile.text = user.name
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)

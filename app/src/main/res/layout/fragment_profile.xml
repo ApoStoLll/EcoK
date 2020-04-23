@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".main.profile.Profile">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/refresh" android:layout_width="match_parent"
+        android:layout_height="match_parent" tools:context=".main.profile.Profile">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            tools:context=".main.profile.Profile">
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -24,14 +29,14 @@
                         android:id="@+id/image_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_launcher_foreground"
-                        app:civ_border_width="2dp"
-                        app:layout_scrollFlags="scroll|enterAlways"
-                        app:civ_border_color="#FF000000"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="20dp"
                         android:elevation="5dp"
-                        android:layout_marginTop = "12dp"
-                        android:layout_marginLeft = "8dp"
-                        android:layout_marginBottom = "20dp"/>
+                        android:src="@drawable/ic_launcher_foreground"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="2dp"
+                        app:layout_scrollFlags="scroll|enterAlways"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
                                                               android:layout_height="wrap_content"
@@ -63,10 +68,10 @@
                             android:id="@+id/progress_profile"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="50dp"
-                            android:layout_height="wrap_content"/>
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="40dp"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -77,21 +82,21 @@
                     android:id="@+id/btnSettings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    android:elevation="5dp"
                     android:layout_gravity="center"
-                    android:text="Edit Profile"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="20dp"
+                    android:elevation="5dp"
+                    android:text="Edit Profile"
+                    app:layout_scrollFlags="scroll|enterAlways"/>
 
 
         </com.google.android.material.appbar.AppBarLayout>
 
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/swipeRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recV"
                 android:layout_width="match_parent"
@@ -99,14 +104,15 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_height="wrap_content"
                 android:id="@+id/btnPlus"
                 android:layout_width="wrap_content"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                app:elevation="6dp"
-                android:src="@android:drawable/ic_input_add"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:src="@android:drawable/ic_input_add"
+                app:elevation="6dp"
                 app:layout_behavior=".FAB_Float_on_Scroll"
         />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

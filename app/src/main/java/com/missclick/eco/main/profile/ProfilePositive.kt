@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.main.profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -20,7 +21,7 @@ import kotlinx.coroutines.withContext
 import java.net.ConnectException
 
 
-class ProfilePositive : androidx.fragment.app.Fragment() {
+class ProfilePositive : Fragment() {
 
     private val positive = listOf(
         PositiveItem(1,"Поднял бутылку", 10),
@@ -56,8 +57,7 @@ class ProfilePositive : androidx.fragment.app.Fragment() {
 
                 }
             })
-        PositiveActions.layoutManager =
-            androidx.recyclerview.widget.LinearLayoutManager(this.context, LinearLayout.VERTICAL, false)
+        PositiveActions.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         PositiveActions.adapter = myAdapter
     }
 
@@ -75,4 +75,6 @@ class ProfilePositive : androidx.fragment.app.Fragment() {
             }
         }
     }
+
+
 }
