@@ -80,6 +80,7 @@ class Profile : Fragment() {
                     client.connect()
                     val actions = client.getProfilePost((activity as MainActivity).nickname)
                     (activity as MainActivity).runOnUiThread { upd(user,actions) }
+                    (activity as MainActivity).runOnUiThread {updateToFile(user.name,user.score,user.imageName,actions)}
                 }catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
@@ -149,7 +150,6 @@ class Profile : Fragment() {
     }
 
     private fun upd(user : User,actions:List<PositiveItem>){
-        updateToFile(user.name,user.score,user.imageName,actions)
         if(name_profile == null) return
         val myAdapter = PositiveAdapter(
             actions,

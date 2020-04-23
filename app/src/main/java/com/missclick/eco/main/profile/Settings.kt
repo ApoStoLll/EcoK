@@ -10,6 +10,7 @@ import com.missclick.eco.R
 import android.content.Intent
 
 import android.app.Activity.RESULT_OK
+import android.content.ContentValues
 import com.missclick.eco.HttpClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,14 +19,13 @@ import kotlinx.coroutines.withContext
 import android.provider.MediaStore
 import android.graphics.Bitmap
 import android.util.Log
+import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.register.RegisterActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.net.ConnectException
-
-
-
+import java.util.regex.Pattern
 
 
 class Settings : Fragment() {
@@ -57,8 +57,14 @@ class Settings : Fragment() {
 
     private fun exit(){
         try{
-            File((activity as MainActivity).filesDir,"AutoEntrance.txt").delete()
-            File((activity as MainActivity).filesDir,(activity as MainActivity).nickname + ".txt").delete()
+            val activity = activity as MainActivity
+            for ( myFile in  activity.filesDir.listFiles()){
+                if (myFile.isFile) myFile.delete()
+                Log.e("Dir",myFile.toString())
+            }
+            val dbHelper = DBHelper(activity)
+            val db = dbHelper.getWritableDatabase()
+            db.delete("posts", null, null)
         }catch (e : ConnectException){ // другая ошибка
             Log.e("ERROR", e.toString())
         }
