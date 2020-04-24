@@ -4,9 +4,12 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toolbar
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.main.profile.Profile
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,7 +18,6 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     lateinit var nickname : String
-
     //val client = HttpClient("95.158.11.238", 8080)
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -63,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         this@MainActivity.nickname = nickname
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        //getSupportActionBar()?.hide()
+        supportActionBar?.hide()
+        setActionBar(toolbar)
         startMenu(1)
     }
 

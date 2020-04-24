@@ -36,6 +36,7 @@ class ProfileEditPost : Fragment() {
         val item = arguments!!.getParcelable<PositiveItem>("arg")
         view.findViewById<Button>(R.id.btnPost ).setOnClickListener {
             requestToServer(item)
+            (activity as MainActivity).startMenu(3)
         }
 
     }
