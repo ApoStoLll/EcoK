@@ -34,7 +34,7 @@
     <style name="AppButton" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">?attr/colorSecondary</item>
     </style> !-->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+    <!-- <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="materialButtonStyle">@style/Widget.MyApp.MyButton</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MyApp.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.MyApp.LargeComponent</item>
@@ -48,6 +48,24 @@
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">4dp</item>
     </style>
+
+    <style name="ShapeAppearance.MyApp.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearance.MyApp.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style> !-->
+
+    <style name="AppTheme" parent="Theme.MaterialComponents">
+
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MyApp.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.MyApp.LargeComponent</item>
+        <item name="fontFamily">@font/roboto_mono_thin</item>
+    </style>
+
 
     <style name="ShapeAppearance.MyApp.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">cut</item>
