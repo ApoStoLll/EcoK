@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
         this@MainActivity.nickname = nickname
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        supportActionBar?.hide()
         setActionBar(toolbar)
+        supportActionBar?.hide()
         startMenu(1)
     }
 
