@@ -46,7 +46,7 @@ class Profile : androidx.fragment.app.Fragment() {
             update()
             refresh.isRefreshing = false
         }
-            view.findViewById<FloatingActionButton>(R.id.btnPlus ).setOnClickListener {
+        view.findViewById<FloatingActionButton>(R.id.btnPlus ).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_holder,ProfilePlus())
             transaction.addToBackStack(null)
@@ -147,7 +147,14 @@ class Profile : androidx.fragment.app.Fragment() {
             actions,
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
-
+                    val profileInfo = ProfilePostInfo()
+                    val bundle = Bundle()
+                    bundle.putParcelable("arg",item)
+                    profileInfo.arguments = bundle
+                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_holder,profileInfo)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
                 }
             })
         //recV.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)

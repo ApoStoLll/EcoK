@@ -4,39 +4,28 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".main.profile.ProfileEditPost">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <Button
-                android:id="@+id/btnPost"
-                android:layout_width="188dp"
-                android:layout_height="68dp" android:layout_marginTop="476dp"
-                android:text="Post"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="189dp" android:layout_height="0dp"
-                android:layout_marginStart="57dp"
-                android:layout_marginTop="30dp" android:layout_marginBottom="45dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="220dp" android:layout_height="186dp"
                 tools:src="@tools:sample/backgrounds/scenic"/>
-        <TextView
-                android:id="@+id/textView"
-                android:layout_width="322dp"
-                android:layout_height="0dp" android:layout_marginEnd="32dp"
-                android:layout_marginBottom="36dp"
-                android:text="TextView" app:layout_constraintBottom_toTopOf="@+id/checkBoxShare"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        />
+        <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"/>
         <CheckBox
-                android:id="@+id/checkBoxShare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_marginBottom="328dp"
-                android:text="Share with my friends" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView" app:layout_constraintTop_toBottomOf="@+id/textView"
-        />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:id="@+id/checkBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="CheckBox"/>
+        <Button
+                android:id="@+id/btnPost"
+                android:layout_width="122dp"
+                android:layout_height="131dp" android:text="Post"/>
+    </LinearLayout>
 </FrameLayout>
