@@ -23,7 +23,7 @@
                     android:layout_alignParentTop="true"
 
             />
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_below="@id/image1234">
                 <TextView
@@ -35,12 +35,12 @@
                 />
                 <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
+                        android:layout_height="match_parent"
+                        android:gravity="right|center"
                         android:id="@+id/lastName1"
                         android:textSize="12sp"
 
-                        android:layout_marginEnd="4dp"
+                        android:layout_marginEnd="8dp"
                 />
             </LinearLayout>
 
