@@ -7,10 +7,10 @@ data class PositiveItem(
     val id: Int,
     val action: String,
     val score: Int,
-    var time: String = "",
-    var description : String = "",
+    var time: String = "NULL",
+    var description : String = "NULL",
     var share: Boolean = false,
-    var imageName : String = ""
+    var imageName : String = "NULL"
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),

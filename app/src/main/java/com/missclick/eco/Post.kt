@@ -1,9 +1,10 @@
 package com.missclick.eco
 
 import com.missclick.eco.main.profile.PositiveItem
+import java.io.FileDescriptor
 
 class Post{
-    fun getItem(id:Int,time: String): PositiveItem {
+    fun getItem(id:Int,time: String,imageName : String,description : String,share:String): PositiveItem {
         val actions = mapOf(
             1 to PositiveItem(1,"Поднял бутылку", 10),
             2 to PositiveItem(2,"Поднял бумажку", 5),
@@ -15,7 +16,11 @@ class Post{
             -1 to PositiveItem(-1,"Выкинул бутылку", -10),
             -2 to PositiveItem(-2,"Выкинул бумажку", -5)
         )
-        actions.getValue(id).time = time
-        return actions.getValue(id)
+        val item = actions.getValue(id)
+        item.time = time
+        item.description = description
+        item.share = share.toBoolean()
+        item.imageName = imageName
+        return item
     }
 }

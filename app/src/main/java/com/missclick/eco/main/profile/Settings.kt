@@ -85,7 +85,7 @@ class Settings : androidx.fragment.app.Fragment() {
                 withContext(Dispatchers.IO) {
                     try{
                                 client.connect()
-                                client.uploadImage(file,(activity as MainActivity).nickname)
+                                client.uploadImage(file,(activity as MainActivity).nickname,false)
                     }catch (e : ConnectException){
                                 Log.e("ERROR", e.toString())
                     }

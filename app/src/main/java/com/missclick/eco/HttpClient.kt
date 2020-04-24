@@ -20,7 +20,7 @@ class HttpClient(private val ip : String,private val port : Int){
         ftp = FtpManager("95.158.11.238", "kek")
     }
 
-    fun writeRequest(str : String, method: String) : Message{
+    private fun writeRequest(str : String, method: String) : Message{
         val requestLine = "$method $str HTTP/1.1\r\n"
         val host = "Host: $ip:$port\r\n"
         val request = requestLine + host
@@ -38,12 +38,14 @@ class HttpClient(private val ip : String,private val port : Int){
         soc.close()
         return Message(message)
     }
-
+    fun getImage(imageName:String,imagePath:String,context: Context){
+        ftp.getImage(imageName,imagePath,context) //ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
+    }
     fun getUserData(username : String, context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
         val arr = answ.body[4].split("/")
         val imageName = arr[arr.size - 1]
-        ftp.getImage(imageName, answ.body[4], context) //ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
+        getImage(imageName, answ.body[4], context)
         return  User(username, answ.body[1], answ.body[3], imageName, answ.body[5], answ.body[6])
     }
 
@@ -59,29 +61,31 @@ class HttpClient(private val ip : String,private val port : Int){
         return false
     }
 
-    fun uploadImage(path: File, username : String){
+    fun uploadImage(path: File, username : String,post: Boolean){
         val fileName = path.name
-        ftp.deleteAllfiles("/$username/")
+        //ftp.deleteAllfiles("/$username/")
         ftp.uploadImage(path, fileName, username)
-        writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
+        if(!post) writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
     }
 
     fun addProfilePost(item : PositiveItem, username: String){
         val id = item.id
         val score = item.score
-        val description = item.description
+        var description = item.description
+        if(description == "") description = "NULL"
         val share = item.share
-        val imageName = item.imageName
-        writeRequest("/addProfilePost?action=$id&username=$username&score=$score", "POST")
+        var imageName = item.imageName
+        imageName = if(imageName != "") "/$username/$imageName" else "NULL"
+        writeRequest("/addProfilePost?action=$id&username=$username&score=$score&share=$share&image=$imageName&text=$description", "POST")
     }
 
     fun getProfilePost(username : String):List<PositiveItem>{
         val answ = writeRequest("/getProfilePost?username=$username", "POST")
         val actions:MutableList<PositiveItem> = mutableListOf()
         for(kek in answ.body){
-            if(kek[0] == 'C' || kek[5] == '/') continue
-            val item = Post().getItem(kek.split(',')[1].split(' ')[1].toInt(),kek.split(',')[2])
-            Log.e(item.action,item.score.toString())
+            if(kek[0] == 'C') continue
+            val arr = kek.split(',')
+            val item = Post().getItem(arr[1].split(' ')[1].toInt(),arr[2],arr[4],arr[5],arr[6])
             actions.add(item)
 
         }

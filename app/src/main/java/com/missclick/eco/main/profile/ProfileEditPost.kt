@@ -33,6 +33,7 @@ import java.net.ConnectException
 class ProfileEditPost : Fragment() {
 
     private var imageName = ""
+    private var  file : File? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,6 +66,8 @@ class ProfileEditPost : Fragment() {
                 try{
                     client.connect()
                     client.addProfilePost(item,(activity as MainActivity).nickname)
+                    client.connect()
+                    client.uploadImage(file!!,(activity as MainActivity).nickname,true)
                 }catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
@@ -80,25 +83,12 @@ class ProfileEditPost : Fragment() {
             val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).getContentResolver(), chosenImageUri)
             val arr = chosenImageUri!!.path.split('/')
             imageName = arr[arr.size - 1] + ".png"
-            val file = File((activity as MainActivity).filesDir.path ,imageName) //"ava.png")// //НАЗВАНИЕ ФАЙЛА ТУТ
+            file = File((activity as MainActivity).filesDir.path ,imageName) //"ava.png")// //НАЗВАНИЕ ФАЙЛА ТУТ
             val fOut = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
             fOut.close()
-            Log.e("IN",imageName)
             val image = if (bitmap != null) Bitmap.createScaledBitmap(bitmap, 250, 250, false) else return
             imageCurrent.setImageBitmap(image)
-            val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
-            GlobalScope.launch {
-                withContext(Dispatchers.IO) {
-                    try{
-//                        client.connect()
-//                        client.uploadImage(file,(activity as MainActivity).nickname)
-                    }catch (e : ConnectException){
-                        Log.e("ERROR", e.toString())
-                    }
-                }
-            }
-
         }
     }
 
