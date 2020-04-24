@@ -66,8 +66,12 @@ class ProfileEditPost : Fragment() {
                 try{
                     client.connect()
                     client.addProfilePost(item,(activity as MainActivity).nickname)
-                    client.connect()
-                    client.uploadImage(file!!,(activity as MainActivity).nickname,true)
+
+                    if(file !=null) {
+                        client.uploadImage(file!!,(activity as MainActivity).nickname,true)
+                        client.connect()
+                    }
+                    else Log.e("kostil","really")
                 }catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
