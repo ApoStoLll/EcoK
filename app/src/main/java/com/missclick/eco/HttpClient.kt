@@ -69,6 +69,9 @@ class HttpClient(private val ip : String,private val port : Int){
     fun addProfilePost(item : PositiveItem, username: String){
         val id = item.id
         val score = item.score
+        val description = item.description
+        val share = item.share
+        val imageName = item.imageName
         writeRequest("/addProfilePost?action=$id&username=$username&score=$score", "POST")
     }
 

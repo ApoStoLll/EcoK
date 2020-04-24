@@ -1,7 +1,6 @@
 package com.missclick.eco.main.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import com.missclick.eco.R
 import android.content.Intent
 
 import android.app.Activity.RESULT_OK
-import android.content.ContentValues
 import com.missclick.eco.HttpClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,10 +20,10 @@ import android.util.Log
 import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.register.RegisterActivity
+import kotlinx.android.synthetic.main.fragment_profile_edit_post.*
 import java.io.File
 import java.io.FileOutputStream
 import java.net.ConnectException
-import java.util.regex.Pattern
 
 
 class Settings : androidx.fragment.app.Fragment() {
@@ -72,34 +70,28 @@ class Settings : androidx.fragment.app.Fragment() {
         startActivity(intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            1 -> {
-                if (resultCode == RESULT_OK) {
-                    val chosenImageUri = data!!.data
-                    val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).getContentResolver(), chosenImageUri)
-                    val arr = chosenImageUri!!.path.split('/')
-                    val file = File((activity as MainActivity).filesDir.path ,arr[arr.size - 1] + ".png") //"ava.png")// //НАЗВАНИЕ ФАЙЛА ТУТ
-                    val fOut = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
-                    fOut.close()
-                    val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
-                    GlobalScope.launch {
-                        withContext(Dispatchers.IO) {
-                            try{
+        if (resultCode == RESULT_OK) {
+            val chosenImageUri = data!!.data
+            val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).getContentResolver(), chosenImageUri)
+            val arr = chosenImageUri!!.path.split('/')
+            val file = File((activity as MainActivity).filesDir.path ,arr[arr.size - 1] + ".png") //"ava.png")// //НАЗВАНИЕ ФАЙЛА ТУТ
+            val fOut = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
+            fOut.close()
+            val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
+            GlobalScope.launch {
+                withContext(Dispatchers.IO) {
+                    try{
                                 client.connect()
                                 client.uploadImage(file,(activity as MainActivity).nickname)
-                            }catch (e : ConnectException){
+                    }catch (e : ConnectException){
                                 Log.e("ERROR", e.toString())
-                            }
-
-
-                        }
                     }
                 }
             }
+
         }
     }
 

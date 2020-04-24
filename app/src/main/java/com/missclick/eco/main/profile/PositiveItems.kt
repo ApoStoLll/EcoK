@@ -4,10 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class PositiveItem(
-    val id: Int = 0,
-    val action: String = "",
-    val score: Int = 0,
-    var time: String = ""
+    val id: Int,
+    val action: String,
+    val score: Int,
+    var time: String = "",
+    var description : String = "",
+    var share: Boolean = false,
+    var imageName : String = ""
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),

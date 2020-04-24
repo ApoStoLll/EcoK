@@ -4,16 +4,10 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toolbar
-import com.missclick.eco.HttpClient
 import com.missclick.eco.R
+import com.missclick.eco.main.feed.Feed
 import com.missclick.eco.main.profile.Profile
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {

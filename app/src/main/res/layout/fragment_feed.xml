@@ -3,10 +3,10 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".main.Feed">
+             tools:context=".main.feed.Feed">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycelerView"
+            android:id="@+id/feedRecycle"
             android:layout_width="match_parent"
-            android:layout_height="542dp" />
+            android:layout_height="match_parent"/>
 </FrameLayout>
