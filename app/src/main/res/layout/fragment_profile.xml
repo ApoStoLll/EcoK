@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/refresh" android:layout_width="match_parent"
-        android:layout_height="match_parent" tools:context=".main.profile.Profile">
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,6 +12,7 @@
                 android:id="@+id/main.appbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
 
 
             <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
@@ -93,16 +89,17 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/refresh" android:layout_width="match_parent"
+            android:layout_height="match_parent" tools:context=".main.profile.Profile">
+    <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnPlus"
                 android:layout_width="wrap_content"
@@ -115,4 +112,3 @@
         />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
