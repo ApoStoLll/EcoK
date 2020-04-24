@@ -52,31 +52,21 @@ class ProfilePositive : Fragment() {
             actions,
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
-                    (activity as MainActivity).startMenu(3)
-                    requestToServer(item)
-//                    (activity as MainActivity).getSupportFragmentManager().beginTransaction().remove(ProfilePositive()).commit()
-
-
+                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+                    val profileEditPost = ProfileEditPost()
+                    val bundle = Bundle()
+                    bundle.putParcelable("arg",item)
+                    profileEditPost.arguments = bundle
+                    transaction.replace(R.id.fragment_holder, profileEditPost)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
                 }
             })
         PositiveActions.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         PositiveActions.adapter = myAdapter
     }
 
-    fun requestToServer(item : PositiveItem){
-        GlobalScope.launch {
-            val client = HttpClient("95.158.11.238", 8080)
-            withContext(Dispatchers.IO) {
-                try{
-                    client.connect()
-                    client.addProfilePost(item,(activity as MainActivity).nickname)
-                }catch (e : ConnectException){
-                    Log.e("ERROR", e.toString())
-                }
 
-            }
-        }
-    }
 
 
 }
