@@ -2,6 +2,7 @@ package com.missclick.eco.main.profile
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -9,6 +10,7 @@ import com.missclick.eco.ProfilePositive
 import com.missclick.eco.main.Etc
 import com.missclick.eco.main.Exercises
 import com.missclick.eco.main.Feed
+import com.missclick.eco.main.MainActivity
 
 class PositivePagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
@@ -19,6 +21,8 @@ class PositivePagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
                 bundle.putBoolean("arg",true)
                 profile.arguments = bundle
                 profile
+
+
             }
             else -> {
                 bundle.putBoolean("arg",false)
@@ -34,9 +38,8 @@ class PositivePagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             0 -> "Positive"
-            1 -> "Negative"
             else -> {
-                return "Null"
+                return "Negative"
             }
         }
     }

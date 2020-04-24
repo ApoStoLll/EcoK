@@ -54,6 +54,8 @@ class ProfilePositive : Fragment() {
                 override fun onItemClicked(item: PositiveItem) {
                     (activity as MainActivity).startMenu(3)
                     requestToServer(item)
+//                    (activity as MainActivity).getSupportFragmentManager().beginTransaction().remove(ProfilePositive()).commit()
+
 
                 }
             })
