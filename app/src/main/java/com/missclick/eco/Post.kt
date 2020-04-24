@@ -17,10 +17,10 @@ class Post{
             -2 to PositiveItem(-2,"Выкинул бумажку", -5)
         )
         val item = actions.getValue(id)
-        item.time = time
-        item.description = description
-        item.share = share.toBoolean()
-        item.imageName = imageName
+        item.time = time.split("'")[1]
+        item.description = description.split("'")[1]
+        item.share = if(share == "'true'") true else false
+        item.imageName = imageName.split("'")[1]
         return item
     }
 }

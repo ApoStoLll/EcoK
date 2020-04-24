@@ -67,7 +67,7 @@ class ProfileEditPost : Fragment() {
                     client.connect()
                     client.addProfilePost(item,(activity as MainActivity).nickname)
 
-                    if(file !=null) {
+                    if(file != null) {
                         client.uploadImage(file!!,(activity as MainActivity).nickname,true)
                         client.connect()
                     }

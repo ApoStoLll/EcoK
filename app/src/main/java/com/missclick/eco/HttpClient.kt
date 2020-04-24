@@ -38,14 +38,15 @@ class HttpClient(private val ip : String,private val port : Int){
         soc.close()
         return Message(message)
     }
-    fun getImage(imageName:String,imagePath:String,context: Context){
-        ftp.getImage(imageName,imagePath,context) //ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
+    fun getImage(imagePath:String,context: Context):String{
+        val arr = imagePath.split("/")
+        val imageName = arr[arr.size - 1]
+        ftp.getImage(imageName,imagePath,context)
+        return imageName//ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
     }
     fun getUserData(username : String, context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
-        val arr = answ.body[4].split("/")
-        val imageName = arr[arr.size - 1]
-        getImage(imageName, answ.body[4], context)
+        val imageName = getImage(answ.body[4], context)
         return  User(username, answ.body[1], answ.body[3], imageName, answ.body[5], answ.body[6])
     }
 
