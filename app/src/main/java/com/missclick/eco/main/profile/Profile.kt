@@ -23,6 +23,9 @@ import android.content.ContentValues
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_profile.*
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+
+
 
 
 class Profile : androidx.fragment.app.Fragment() {
@@ -147,11 +150,13 @@ class Profile : androidx.fragment.app.Fragment() {
 
                 }
             })
-        recV.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        //recV.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        recV.setHasFixedSize(true)
+        recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         recV.adapter = myAdapter
         name_profile.text = user.name
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
-        image = if (image != null) Bitmap.createScaledBitmap(image, 400, 400, false) else return
+        image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
         image_profile.setImageBitmap(image)
         score_profile.text = user.score
     }
