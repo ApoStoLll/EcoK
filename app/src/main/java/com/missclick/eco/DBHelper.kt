@@ -18,7 +18,10 @@ internal class DBHelper(context: Context)// конструктор суперк�
                     +"itemId,"
                 + "name text,"
                     +    "score integer,"
-                + "time text" + ");")
+                + "time text,"
+                    +"share text,"
+                    +"description text"
+                    +");")
 
     }
 

@@ -86,6 +86,8 @@ class Profile : androidx.fragment.app.Fragment() {
             data.put("name",item.action)
             data.put("score",item.score)
             data.put("time",item.time)
+            data.put("share",item.share)
+            data.put("description",item.description)
             db.insert("posts", null, data)
         }
 
@@ -114,7 +116,9 @@ class Profile : androidx.fragment.app.Fragment() {
                 val nameCol = c.getString(c.getColumnIndex("name"))
                 val scoreCol =  c.getString(c.getColumnIndex("score")).toInt()
                 val timeCol = c.getString(c.getColumnIndex("time"))
-                    actions.add(PositiveItem(idCol,nameCol,scoreCol,timeCol))
+                val shareCol = c.getString(c.getColumnIndex("share")).toBoolean()
+                val descriptionCol = c.getString(c.getColumnIndex("description"))
+                    actions.add(PositiveItem(idCol,nameCol,scoreCol,timeCol,descriptionCol,shareCol))
                 }
             while (c.moveToNext())
         }
