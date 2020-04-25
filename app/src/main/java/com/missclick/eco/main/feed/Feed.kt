@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialFadeThrough
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
@@ -31,6 +32,14 @@ class Feed : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<MaterialButton>(R.id.search_friend_btn).setOnClickListener {
+            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_holder,FeedFind())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
         val myAdapter = FeedPostAdapter(
             posts,
             object : FeedPostAdapter.Callback {
