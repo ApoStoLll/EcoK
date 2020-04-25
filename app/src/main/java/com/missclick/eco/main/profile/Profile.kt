@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.missclick.eco.*
+
 import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
 import kotlinx.coroutines.*
@@ -24,6 +24,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.material.transition.SlideDistance
+import com.missclick.eco.HttpClient
+import com.missclick.eco.R
+import com.missclick.eco.User
 import kotlinx.android.synthetic.main.profile_positive_item.*
 
 //import com.google.android.material.transition.Hold

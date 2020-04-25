@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.button.MaterialButton
 import com.missclick.eco.HttpClient
 
-import com.missclick.eco.R
 import com.missclick.eco.User
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.main.otherFrontend.AlienProfile
@@ -23,18 +22,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.ConnectException
+import android.text.Editable
+import android.text.TextWatcher
+import com.missclick.eco.R
 
 
 class FeedFind : Fragment() {
 
-    private val found =  mutableListOf(
-        FeedFindItem("kolya288","esggse"),
-        FeedFindItem("lol123","segseg"),
-        FeedFindItem("lol123","esgs"),
-        FeedFindItem("kolya288","segseg"),
-        FeedFindItem("lol123","segseg"),
-        FeedFindItem("lol123","esgsegs")
-    )
+    private val found:MutableList<FeedFindItem> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,20 +42,33 @@ class FeedFind : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
-        GlobalScope.launch {
-            withContext(Dispatchers.IO) {
-                try{
-                    client.connect()
-                    val user = client.getUserData(find_profile_edit_text.text.toString(),activity as MainActivity)
-                    (activity as MainActivity).runOnUiThread{addToRec(user)}
-                }catch (e : ConnectException){
-                    Log.e("ERROR", e.toString())
+        find_profile_edit_text.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
+                GlobalScope.launch {
+                    withContext(Dispatchers.IO) {
+                        try{
+                            client.connect()
+                            val user = client.getUserData(find_profile_edit_text.text.toString(),activity as MainActivity)
+                             (activity as MainActivity).runOnUiThread{addToRec(user)}
+                        }catch (e : ConnectException){
+                            Log.e("ERROR", e.toString())
+                        }
+                    }
                 }
             }
-        }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
 
 
+
+    }
+
+    private fun addToRec(user : User){
+        found.add(FeedFindItem(user.username,user.name,(activity as MainActivity).filesDir.path + "/" +user.imageName))
         val myAdapter = FeedFindAdapter(
             found,
             object : FeedFindAdapter.Callback {
@@ -78,10 +86,5 @@ class FeedFind : Fragment() {
 
         findRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         findRecycle.adapter = myAdapter
-
-    }
-
-    private fun addToRec(user : User){
-        found.add(FeedFindItem(user.username,user.name))
     }
 }
