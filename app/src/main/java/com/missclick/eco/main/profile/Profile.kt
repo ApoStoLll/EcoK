@@ -38,7 +38,7 @@ class Profile : androidx.fragment.app.Fragment() {
        // exitTransition = Hold()
         exitTransition = MaterialFadeThrough.create(requireContext())
         reenterTransition = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
-        (activity as MainActivity).setSupportActionBar(tlb)
+        (activity as MainActivity).setSupportActionBar(profile_toolbar)
        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
@@ -175,6 +175,7 @@ class Profile : androidx.fragment.app.Fragment() {
         image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
         image_profile.setImageBitmap(image)
         score_profile.text = user.score
+        profile_name_toolbar.text = user.username
     }
 
 }
