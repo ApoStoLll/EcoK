@@ -20,7 +20,8 @@ internal class DBHelper(context: Context)// конструктор суперк�
                     +    "score integer,"
                 + "time text,"
                     +"share text,"
-                    +"description text"
+                    +"description text,"
+                    +"imageName text"
                     +");")
 
     }
