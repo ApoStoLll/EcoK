@@ -32,10 +32,6 @@ class ProfilePostInfo : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         exitTransition = MaterialFadeThrough.create(requireContext())
-        enterTransition = MaterialFadeThrough.create(requireContext()).apply {
-            // Replace the enter fade through's secondary transition to use a SlideDistance transition.
-            secondaryTransition = SlideDistance(requireContext(), Gravity.LEFT)
-        }
         return inflater.inflate(R.layout.fragment_profile_post_info, container, false)
     }
 
