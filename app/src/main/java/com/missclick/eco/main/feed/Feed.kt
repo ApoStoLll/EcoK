@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.missclick.eco.R
+import com.missclick.eco.main.MainActivity
 import com.missclick.eco.main.profile.PositiveItem
 import kotlinx.android.synthetic.main.fragment_feed.*
 
@@ -24,6 +25,7 @@ class Feed : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         exitTransition = MaterialFadeThrough.create(requireContext())
+        (activity as MainActivity).setSupportActionBar(feed_tool_bar)
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 

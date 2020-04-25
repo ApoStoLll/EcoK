@@ -4,11 +4,11 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import android.view.Window
 import com.missclick.eco.R
 import com.missclick.eco.main.feed.Feed
 import com.missclick.eco.main.profile.Profile
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,8 +60,10 @@ class MainActivity : AppCompatActivity() {
         this@MainActivity.nickname = nickname
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        setSupportActionBar(include)
-        supportActionBar?.hide()
+        //setSupportActionBar(include)
+        //getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+       // getSupportActionBar()?.setDisplayShowHomeEnabled(true)
+        //supportActionBar?.hide()
         startMenu(1)
     }
 
