@@ -1,9 +1,12 @@
 package com.missclick.eco.main.feed
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.missclick.eco.R
 
@@ -17,10 +20,13 @@ class FeedFindAdapter(var items: List<FeedFindItem>, val callback: Callback) : a
     inner class MainHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         private val findName1 = itemView.findViewById<TextView>(R.id.findName)
         private val findUsername1 = itemView.findViewById<TextView>(R.id.findUsername)
+        private val image = itemView.findViewById<ImageView>(R.id.image1234)
         fun bind(item: FeedFindItem) {
             findName1.text = item.name
             findUsername1.text = item.username
-            Log.e("I","m here")
+            var imageBit =  BitmapFactory.decodeFile(item.imageName)
+            imageBit = if (image != null) Bitmap.createScaledBitmap(imageBit, 250, 250, false) else return
+            image.setImageBitmap(imageBit)
             itemView.setOnClickListener {
                 if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }

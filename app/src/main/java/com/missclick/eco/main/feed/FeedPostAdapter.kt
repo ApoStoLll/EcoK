@@ -2,6 +2,7 @@ package com.missclick.eco.main.feed
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +23,10 @@ class FeedPostAdapter(var items: List<PositiveItem>, val callback: Callback) : a
     inner class MainHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         private val firstName = itemView.findViewById<TextView>(R.id.actionFeed)
         private val lastName = itemView.findViewById<TextView>(R.id.scoreFeed)
-        private val image = itemView.findViewById<ImageView>(R.id.image1234)
+
         fun bind(item: PositiveItem) {
             firstName.text = item.action
             lastName.text = item.score.toString()
-            var imageBit =  BitmapFactory.decodeFile(item.imageName)
-            imageBit = if (image != null) Bitmap.createScaledBitmap(imageBit, 250, 250, false) else return
-            image.setImageBitmap(imageBit)
             itemView.setOnClickListener {
                 if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
