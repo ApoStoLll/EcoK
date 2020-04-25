@@ -1,14 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".main.otherFrontend.AlienProfile">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        tools:context=".main.profile.Profile"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:id="@+id/alien"
+>
+    <com.google.android.material.appbar.MaterialToolbar android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:id="@+id/alien_tlb">
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/alien_main.appbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:text="@string/hello_blank_fragment"/>
+            android:layout_height="wrap_content">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar android:layout_width="wrap_content"
+                                                            android:layout_height="match_parent"
+                                                            android:id="@+id/alien_profile_toolbar"
+        >
+            <com.google.android.material.textview.MaterialTextView android:id="@+id/alien_profile_name_toolbar"
+                                                                   android:layout_width="wrap_content"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:fontFamily="@font/roboto_mono_thin"
+                                                                   android:textSize="30sp"
+                                                                   android:textStyle="bold|italic"
+                                                                   app:fontFamily="@font/roboto_mono_thin"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                      android:layout_height="wrap_content"
+                                                      android:orientation="horizontal"
+                                                      app:layout_scrollFlags="scroll|enterAlways">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/alien_image_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/ic_launcher_foreground"
+
+                    app:layout_scrollFlags="scroll|enterAlways"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                          android:layout_height="wrap_content"
+                                                          android:orientation="vertical"
+                                                          app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+                <TextView
+                        android:id="@+id/alien_name_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="end" android:text="name"/>
+
+                <TextView
+                        android:id="@+id/alien_score_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="end"
+                        android:text="score"/>
+
+                <ProgressBar
+                        android:id="@+id/alien_progress_profile"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="40dp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/alien_btnFollow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="20dp"
+                android:elevation="5dp"
+                app:cornerRadius="12dp"
+                android:text="Follow"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/alien_refresh" android:layout_width="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_height="match_parent" tools:context=".main.profile.Profile">
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/alien_recV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
