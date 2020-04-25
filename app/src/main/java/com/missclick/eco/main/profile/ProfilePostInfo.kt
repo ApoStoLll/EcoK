@@ -5,11 +5,14 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.SlideDistance
 //import com.google.android.material.transition.MaterialContainerTransform
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
@@ -28,11 +31,11 @@ class ProfilePostInfo : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val forward = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
-        enterTransition = forward
-
-        val backward = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, false)
-        returnTransition = backward
+        exitTransition = MaterialFadeThrough.create(requireContext())
+        enterTransition = MaterialFadeThrough.create(requireContext()).apply {
+            // Replace the enter fade through's secondary transition to use a SlideDistance transition.
+            secondaryTransition = SlideDistance(requireContext(), Gravity.LEFT)
+        }
         return inflater.inflate(R.layout.fragment_profile_post_info, container, false)
     }
 

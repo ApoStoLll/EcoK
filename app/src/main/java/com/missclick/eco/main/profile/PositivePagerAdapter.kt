@@ -15,8 +15,6 @@ class PositivePagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
                 bundle.putBoolean("arg",true)
                 profile.arguments = bundle
                 profile
-
-
             }
             else -> {
                 bundle.putBoolean("arg",false)

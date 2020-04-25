@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import android.provider.MediaStore
 import android.graphics.Bitmap
 import android.util.Log
+import com.google.android.material.transition.MaterialFadeThrough
 import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.register.RegisterActivity
@@ -32,6 +33,8 @@ class Settings : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //returnTransition = MaterialFadeThrough.create(requireContext())
+        exitTransition = MaterialFadeThrough.create(requireContext())
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 

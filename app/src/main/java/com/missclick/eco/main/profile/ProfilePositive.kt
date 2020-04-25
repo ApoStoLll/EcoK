@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_profile_positive.*
@@ -30,6 +32,16 @@ class ProfilePositive : Fragment() {
 
     )
     private var actions = negative
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val forward = MaterialFadeThrough.create(requireContext())
+        enterTransition = forward
+
+        val backward = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.X, false)
+        returnTransition = backward
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

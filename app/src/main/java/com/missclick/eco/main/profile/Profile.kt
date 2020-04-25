@@ -17,10 +17,13 @@ import kotlinx.coroutines.*
 import java.io.*
 import java.net.ConnectException
 import android.content.ContentValues
+import android.view.Gravity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_profile.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.SlideDistance
 import kotlinx.android.synthetic.main.profile_positive_item.*
 
 //import com.google.android.material.transition.Hold
@@ -33,12 +36,9 @@ class Profile : androidx.fragment.app.Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        // exitTransition = Hold()
-        val backward = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, false)
-        reenterTransition = backward
-
-        val forward = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
-        exitTransition = forward
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        exitTransition = MaterialFadeThrough.create(requireContext())
+        reenterTransition = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
+       return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

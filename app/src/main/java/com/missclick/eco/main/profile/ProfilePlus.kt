@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 
 import com.missclick.eco.R
 import kotlinx.android.synthetic.main.fragment_profile_plus.*
@@ -18,6 +20,8 @@ class ProfilePlus : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        returnTransition = MaterialFadeThrough.create(requireContext())
+        exitTransition = MaterialFadeThrough.create(requireContext())
         return inflater.inflate(R.layout.fragment_profile_plus, container, false)
     }
 
