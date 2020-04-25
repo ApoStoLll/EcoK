@@ -18,12 +18,12 @@ import kotlinx.android.synthetic.main.fragment_feed_find.*
 class FeedFind : Fragment() {
 
     private val found = listOf(
-        FeedFindItem("kolya288","Выкинул бутылку"),
-        FeedFindItem("lol123","Выкинул бумажку"),
-        FeedFindItem("lol123","Выкинул буawfawfмажку"),
-        FeedFindItem("kolya288","Выкинул бутылку"),
-        FeedFindItem("lol123","Выкинул бумажку"),
-        FeedFindItem("lol123","Выкинул буawfawfмажку")
+        FeedFindItem("kolya288","esggse"),
+        FeedFindItem("lol123","segseg"),
+        FeedFindItem("lol123","esgs"),
+        FeedFindItem("kolya288","segseg"),
+        FeedFindItem("lol123","segseg"),
+        FeedFindItem("lol123","esgsegs")
 
     )
 
