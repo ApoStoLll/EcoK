@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_profile.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-
-
+import com.google.android.material.transition.Hold
+import kotlinx.android.synthetic.main.profile_positive_item.*
 
 
 class Profile : androidx.fragment.app.Fragment() {
@@ -34,7 +34,7 @@ class Profile : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        exitTransition = Hold()
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
@@ -152,7 +152,8 @@ class Profile : androidx.fragment.app.Fragment() {
                     bundle.putParcelable("arg",item)
                     profileInfo.arguments = bundle
                     val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.fragment_holder,profileInfo)
+                    transaction.addSharedElement(view!!, "info")
+                    transaction.replace(R.id.fragment_holder, profileInfo)
                     transaction.addToBackStack(null)
                     transaction.commit()
                 }

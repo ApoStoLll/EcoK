@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="wrap_content" android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:padding="6dp"
 >
     <androidx.cardview.widget.CardView
             android:layout_width="104dp"
             android:layout_height="104dp"
+            app:cardCornerRadius="8dp"
+            android:elevation="10dp"
+            android:translationZ="8dp"
             android:id="@+id/cv"
     >
         <RelativeLayout
