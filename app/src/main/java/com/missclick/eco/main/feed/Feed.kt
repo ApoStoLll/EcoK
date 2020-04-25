@@ -5,15 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.missclick.eco.R
 import com.missclick.eco.main.profile.PositiveItem
-import kotlinx.android.synthetic.main.feed_post.*
 import kotlinx.android.synthetic.main.fragment_feed.*
-import kotlinx.android.synthetic.main.fragment_profile_positive.*
-import kotlin.collections.ArrayList
 
 
 class Feed : androidx.fragment.app.Fragment() {

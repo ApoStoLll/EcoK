@@ -9,13 +9,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.transition.MaterialContainerTransform
-import com.missclick.eco.FtpManager
+//import com.google.android.material.transition.MaterialContainerTransform
 import com.missclick.eco.HttpClient
-
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile_post_info.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -30,8 +27,7 @@ class ProfilePostInfo : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        sharedElementEnterTransition = MaterialContainerTransform(requireContext())
+
         return inflater.inflate(R.layout.fragment_profile_post_info, container, false)
     }
 
@@ -46,7 +42,7 @@ class ProfilePostInfo : Fragment() {
         if (item?.share == true) infoShare.text = "You have shared this post with your friends"
         else infoShare.text = "You have not shared this post with your friends"
 
-        val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
+        val client = HttpClient("95.158.11.238", 8080)
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 try {

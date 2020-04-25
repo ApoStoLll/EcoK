@@ -1,12 +1,10 @@
 package com.missclick.eco.main.profile
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.missclick.eco.R
-import com.missclick.eco.main.MainActivity
 
 class PositiveAdapter(var items: List<PositiveItem>, val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<PositiveAdapter.MainHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)

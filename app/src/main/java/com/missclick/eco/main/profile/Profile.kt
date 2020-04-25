@@ -5,14 +5,11 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import com.missclick.eco.*
 import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
@@ -20,12 +17,10 @@ import kotlinx.coroutines.*
 import java.io.*
 import java.net.ConnectException
 import android.content.ContentValues
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_profile.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.transition.Hold
-import kotlinx.android.synthetic.main.profile_positive_item.*
+//import com.google.android.material.transition.Hold
 
 
 class Profile : androidx.fragment.app.Fragment() {
@@ -34,7 +29,7 @@ class Profile : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        exitTransition = Hold()
+       // exitTransition = Hold()
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
@@ -83,7 +78,7 @@ class Profile : androidx.fragment.app.Fragment() {
     private fun updateToFile(name: String,score: String,imageName: String,actions: List<PositiveItem>){
         val activity = activity as MainActivity
         val dbHelper = DBHelper(activity)
-        val db = dbHelper.getWritableDatabase()
+        val db = dbHelper.writableDatabase
         val data = ContentValues()
         db.delete("posts", null, null)
         for (item in actions){
@@ -109,7 +104,7 @@ class Profile : androidx.fragment.app.Fragment() {
 
     private fun updateFromFile(){
         val dbHelper = DBHelper(activity as MainActivity)
-        val db = dbHelper.getWritableDatabase()
+        val db = dbHelper.writableDatabase
         val actions:MutableList<PositiveItem> = mutableListOf()
         val c = db.query("posts", null, null, null, null, null, null)
         if (c.moveToFirst())
@@ -126,7 +121,6 @@ class Profile : androidx.fragment.app.Fragment() {
         else c.close()
 
         try {
-            // открываем поток для чтения
             val br = BufferedReader(
                 InputStreamReader(
                     (activity as MainActivity).openFileInput((activity as MainActivity).nickname+".txt")
@@ -158,9 +152,8 @@ class Profile : androidx.fragment.app.Fragment() {
                     transaction.commit()
                 }
             })
-        //recV.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recV.setHasFixedSize(true)
-        recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         recV.adapter = myAdapter
         name_profile.text = user.name
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)

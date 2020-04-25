@@ -20,7 +20,6 @@ import android.util.Log
 import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.register.RegisterActivity
-import kotlinx.android.synthetic.main.fragment_profile_edit_post.*
 import java.io.File
 import java.io.FileOutputStream
 import java.net.ConnectException
@@ -61,7 +60,7 @@ class Settings : androidx.fragment.app.Fragment() {
                 Log.e("Dir",myFile.toString())
             }
             val dbHelper = DBHelper(activity)
-            val db = dbHelper.getWritableDatabase()
+            val db = dbHelper.writableDatabase
             db.delete("posts", null, null)
         }catch (e : ConnectException){ // другая ошибка
             Log.e("ERROR", e.toString())
@@ -74,9 +73,10 @@ class Settings : androidx.fragment.app.Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             val chosenImageUri = data!!.data
-            val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).getContentResolver(), chosenImageUri)
-            val arr = chosenImageUri!!.path.split('/')
-            val file = File((activity as MainActivity).filesDir.path ,arr[arr.size - 1] + ".png") //"ava.png")// //НАЗВАНИЕ ФАЙЛА ТУТ
+            val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).contentResolver, chosenImageUri)
+            val arr = chosenImageUri!!.path?.split('/')
+            lateinit var file : File
+            if ( arr != null) file = File((activity as MainActivity).filesDir.path ,arr[arr.size - 1] + ".png")
             val fOut = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
             fOut.close()

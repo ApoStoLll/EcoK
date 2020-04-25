@@ -1,7 +1,7 @@
 package com.missclick.eco
 
 import com.missclick.eco.main.profile.PositiveItem
-import java.io.FileDescriptor
+
 
 class Post{
     fun getItem(id:Int,time: String,imageName : String,description : String,share:String): PositiveItem {

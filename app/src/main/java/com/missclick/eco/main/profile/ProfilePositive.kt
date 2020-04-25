@@ -1,27 +1,16 @@
-package com.missclick.eco
+package com.missclick.eco.main.profile
 
 
-import android.app.ActionBar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
-import com.missclick.eco.main.profile.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile_positive.*
-import kotlinx.android.synthetic.main.profile_positive_item.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.ConnectException
 
 
 class ProfilePositive : Fragment() {

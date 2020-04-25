@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.missclick.eco.R
-import com.missclick.eco.main.profile.PositiveAdapter
 import com.missclick.eco.main.profile.PositiveItem
 
 class FeedPostAdapter(var items: List<PositiveItem>, val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedPostAdapter.MainHolder>() {

@@ -1,7 +1,6 @@
 package com.missclick.eco
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import org.apache.commons.net.ftp.FTP
@@ -10,7 +9,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-class FtpManager(val server : String, val user : String, val pass : String = "", val port : Int = 21) {
+class FtpManager(private val server : String,private val user : String, private val pass : String = "", private val port : Int = 21) {
     private val ftp = FTPClient()
 
     private fun conn(){

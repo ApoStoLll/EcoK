@@ -1,7 +1,6 @@
 package com.missclick.eco.register
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.ConnectException
-import java.util.regex.Pattern
 
 
 class SignUp : androidx.fragment.app.Fragment() {
