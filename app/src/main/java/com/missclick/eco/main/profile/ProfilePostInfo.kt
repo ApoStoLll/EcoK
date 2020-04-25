@@ -34,28 +34,34 @@ class ProfilePostInfo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val item = arguments?.getParcelable<PositiveItem>("arg")
+
         infoAction.text = item?.action
         infoScore.text = item?.score.toString()
         infoTime.text = item?.time
-        infoDescription.text = item?.description
-        Log.e(item?.share.toString(),item?.imageName)
+
+        if(item?.description != "NULL") infoDescription.text = item?.description
+        else infoDescription.text = ""
         if (item?.share == true) infoShare.text = "You have shared this post with your friends"
         else infoShare.text = "You have not shared this post with your friends"
 
-        val client = HttpClient("95.158.11.238", 8080)
-        GlobalScope.launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    client.connect()
-                    client.getImage(item!!.imageName, activity as MainActivity)
-                } catch (e: ConnectException) {
-                    Log.e("ERROR", e.toString())
+        if(item?.imageName != "NULL"){
+            val client = HttpClient("95.158.11.238", 8080)
+            GlobalScope.launch {
+                withContext(Dispatchers.IO) {
+                    try {
+                        client.connect()
+                        client.getImage(item!!.imageName, activity as MainActivity)
+                    } catch (e: ConnectException) {
+                        Log.e("ERROR", e.toString())
+                    }
                 }
             }
+            val arr = item?.imageName!!.split("/")
+            val imageName = arr[arr.size - 1]
+            var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
+            image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
+            infoImage.setImageBitmap(image)
         }
-        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + item?.imageName)
-        image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
-        infoImage.setImageBitmap(image)
     }
 
 }
