@@ -19,7 +19,18 @@ android:id="@+id/tlb">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
+            <com.google.android.material.appbar.MaterialToolbar android:layout_width="wrap_content"
+                                                                android:layout_height="match_parent"
+            android:id="@+id/profile_toolbar"
+            >
+                <com.google.android.material.textview.MaterialTextView android:id="@+id/profile_name_toolbar"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:fontFamily="@font/roboto_mono_thin"
+                                                                       android:textSize="30sp"
+                                                                       android:textStyle="bold|italic"
+                                                                       app:fontFamily="@font/roboto_mono_thin"/>
+            </com.google.android.material.appbar.MaterialToolbar>
 
             <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
                                                           android:layout_height="wrap_content"

@@ -12,18 +12,15 @@
                                                         android:layout_height="wrap_content"
                                                         android:minHeight="?android:attr/actionBarSize"
     android:id="@+id/feed_tool_bar">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
             <com.google.android.material.button.MaterialButton android:layout_width="wrap_content"
                                                                android:layout_height="wrap_content"
-                                                               android:gravity="end"
-                                                               android:layout_gravity="end"
+                                                               android:layout_alignParentRight="true"
                                                                android:text="search"
+                                                               android:background="@drawable/mr_media_play_dark"
+                                                               android:layout_marginEnd="16dp"
             android:id="@+id/search_friend_btn"/>
-            <com.google.android.material.textfield.TextInputEditText android:layout_width="wrap_content"
-                                                                     android:layout_height="wrap_content"
-                                                                     android:width="30dp"
-                                                                     android:id="@+id/search_friend_edit_text"/>
-        </LinearLayout>
+        </RelativeLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
