@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.transition.MaterialContainerTransform
 import com.missclick.eco.FtpManager
 import com.missclick.eco.HttpClient
 
@@ -30,6 +31,7 @@ class ProfilePostInfo : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        sharedElementEnterTransition = MaterialContainerTransform(requireContext())
         return inflater.inflate(R.layout.fragment_profile_post_info, container, false)
     }
 

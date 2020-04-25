@@ -65,7 +65,7 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.MyApp.LargeComponent</item>
         <item name="fontFamily">@font/roboto_mono_thin</item>
     </style>
-
+    >
 
     <style name="ShapeAppearance.MyApp.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">cut</item>
