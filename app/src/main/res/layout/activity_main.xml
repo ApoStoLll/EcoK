@@ -7,13 +7,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".main.MainActivity">
-    <include android:id="@+id/include" layout="@layout/toolbar"/>
+    <com.google.android.material.appbar.MaterialToolbar android:id="@+id/include"
+                                                        android:layout_width="0dp"
+                                                        android:layout_height="wrap_content"
+                                                        app:layout_constraintBottom_toTopOf="@+id/fragment_holder"
+                                                        app:layout_constraintEnd_toEndOf="parent"
+                                                        app:layout_constraintStart_toStartOf="parent"
+                                                        app:layout_constraintTop_toTopOf="parent">
+
+    </com.google.android.material.appbar.MaterialToolbar>
     <fragment
             android:id="@+id/fragment_holder"
             android:name="com.missclick.eco.Empty"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/nav_view"
+            android:layout_marginBottom="56dp" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include">
 

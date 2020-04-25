@@ -38,6 +38,7 @@ class Profile : androidx.fragment.app.Fragment() {
        // exitTransition = Hold()
         exitTransition = MaterialFadeThrough.create(requireContext())
         reenterTransition = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
+        (activity as MainActivity).setSupportActionBar(tlb)
        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 

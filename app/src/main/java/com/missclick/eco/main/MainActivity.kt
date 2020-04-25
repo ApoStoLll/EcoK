@@ -7,6 +7,7 @@ import android.util.Log
 import com.missclick.eco.R
 import com.missclick.eco.main.feed.Feed
 import com.missclick.eco.main.profile.Profile
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         this@MainActivity.nickname = nickname
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        setActionBar(toolbar)
+        setSupportActionBar(include)
         supportActionBar?.hide()
         startMenu(1)
     }
