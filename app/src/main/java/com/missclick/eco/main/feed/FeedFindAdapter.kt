@@ -1,5 +1,6 @@
 package com.missclick.eco.main.feed
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +15,12 @@ class FeedFindAdapter(var items: List<FeedFindItem>, val callback: Callback) : a
         holder.bind(items[position])
     }
     inner class MainHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
-        private val findName = itemView.findViewById<TextView>(R.id.findName)
-        private val findUsername = itemView.findViewById<TextView>(R.id.findUsername)
+        private val findName1 = itemView.findViewById<TextView>(R.id.findName)
+        private val findUsername1 = itemView.findViewById<TextView>(R.id.findUsername)
         fun bind(item: FeedFindItem) {
-            findName.text = item.name
-            findUsername.text = item.username
+            findName1.text = item.name
+            findUsername1.text = item.username
+            Log.e("I","m here")
             itemView.setOnClickListener {
                 if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }

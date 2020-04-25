@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.missclick.eco.R
 import kotlinx.android.synthetic.main.fragment_feed_find.*
@@ -17,12 +18,12 @@ import kotlinx.android.synthetic.main.fragment_feed_find.*
 class FeedFind : Fragment() {
 
     private val found = listOf(
-        FeedFindItem("kolya288","Выкинул бутылку", "esgsge"),
-        FeedFindItem("lol123","Выкинул бумажку", "efseg"),
-        FeedFindItem("lol123","Выкинул буawfawfмажку", "efseg"),
-        FeedFindItem("kolya288","Выкинул бутылку", "esgsge"),
-        FeedFindItem("lol123","Выкинул бумажку", "efseg"),
-        FeedFindItem("lol123","Выкинул буawfawfмажку", "efseg")
+        FeedFindItem("kolya288","Выкинул бутылку"),
+        FeedFindItem("lol123","Выкинул бумажку"),
+        FeedFindItem("lol123","Выкинул буawfawfмажку"),
+        FeedFindItem("kolya288","Выкинул бутылку"),
+        FeedFindItem("lol123","Выкинул бумажку"),
+        FeedFindItem("lol123","Выкинул буawfawfмажку")
 
     )
 
@@ -44,9 +45,10 @@ class FeedFind : Fragment() {
 
                 }
             })
+
         findRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         findRecycle.adapter = myAdapter
-        Log.e("I","m here")
+
     }
 
 }
