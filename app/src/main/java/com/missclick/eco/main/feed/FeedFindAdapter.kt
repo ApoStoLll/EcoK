@@ -25,7 +25,7 @@ class FeedFindAdapter(var items: List<FeedFindItem>, val callback: Callback) : a
             findName1.text = item.name
             findUsername1.text = item.username
             var imageBit =  BitmapFactory.decodeFile(item.imageName)
-            imageBit = if (image != null) Bitmap.createScaledBitmap(imageBit, 250, 250, false) else return
+            imageBit = if (image != null) Bitmap.createScaledBitmap(imageBit, 150, 150, false) else return
             image.setImageBitmap(imageBit)
             itemView.setOnClickListener {
                 if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
