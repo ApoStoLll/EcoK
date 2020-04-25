@@ -1,5 +1,7 @@
 package com.missclick.eco
 
+import android.content.Context
+import android.util.AttributeSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -7,7 +9,7 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 
 
-class FAB_Float_on_Scroll(/*context: Context, attrs: AttributeSet*/) : FloatingActionButton.Behavior() {
+class FAB_Float_on_Scroll(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior() {
 
     override fun onNestedScroll(
         coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
