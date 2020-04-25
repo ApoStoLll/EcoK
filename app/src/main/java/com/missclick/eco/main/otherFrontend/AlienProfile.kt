@@ -39,23 +39,24 @@ class AlienProfile : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        alien_name_profile.text = arguments?.getString("alienNickname")
-        update()
+        val alien_username = arguments?.getString("alienNickname")
+        alien_name_profile.text = alien_username
+        update(alien_username)
         alien_refresh.setOnRefreshListener{
-            update()
+            update(alien_username)
             alien_refresh.isRefreshing = false
         }
     }
 
-    fun update(){
+    fun update(alien_username : String?){
         GlobalScope.launch {
             val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
             withContext(Dispatchers.IO) {
                 try{
                     client.connect()
-                    val user = client.getUserData(arguments!!.getString("alienNickname"), (activity as MainActivity))
+                    val user = client.getUserData(alien_username!!, (activity as MainActivity))
                     client.connect()
-                    val actions = client.getProfilePost(arguments!!.getString("alienNickname"))
+                    val actions = client.getProfilePost(alien_username)
                     (activity as MainActivity).runOnUiThread { upd(user, actions) }
                 }catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
@@ -70,7 +71,7 @@ class AlienProfile : Fragment() {
             actions,
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
-                    val profileInfo = ProfilePostInfo()
+                    /*val profileInfo = ProfilePostInfo()
                     val bundle = Bundle()
                     bundle.putParcelable("arg",item)
                     profileInfo.arguments = bundle
@@ -78,17 +79,17 @@ class AlienProfile : Fragment() {
                     // transaction.addSharedElement(view!!, "info")
                     transaction.replace(R.id.fragment_holder, profileInfo)
                     transaction.addToBackStack(null)
-                    transaction.commit()
+                    transaction.commit()*/
                 }
             })
         alien_recV.setHasFixedSize(true)
-        alien_recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-        alien_recV.adapter = myAdapter
         alien_name_profile.text = user.name
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
         image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
         alien_image_profile.setImageBitmap(image)
         alien_score_profile.text = user.score
         alien_profile_name_toolbar.text = user.username
+        alien_recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        alien_recV.adapter = myAdapter
     }
 }
