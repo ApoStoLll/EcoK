@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.transition.MaterialSharedAxis
 //import com.google.android.material.transition.MaterialContainerTransform
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
@@ -27,7 +28,11 @@ class ProfilePostInfo : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val forward = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
+        enterTransition = forward
 
+        val backward = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, false)
+        returnTransition = backward
         return inflater.inflate(R.layout.fragment_profile_post_info, container, false)
     }
 
