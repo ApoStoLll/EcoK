@@ -67,8 +67,10 @@ class AlienProfile : Fragment() {
 
     private fun upd(user : User, actions:List<PositiveItem>){
         if(alien_name_profile == null) return
+        val actionNew : MutableList<PositiveItem> = mutableListOf()
+        for(item in actions) if (item.share) actionNew.add(item)
         val myAdapter = PositiveAdapter(
-            actions,
+            actionNew,
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
                     val profileInfo = ProfilePostInfo()

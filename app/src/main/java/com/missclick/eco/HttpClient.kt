@@ -104,6 +104,10 @@ class HttpClient(private val ip : String,private val port : Int){
         return nicknames
     }
 
+    fun follow(from: String,to: String){
+        writeRequest("/follow?from=$from&to=$to?", "POST")
+    }
+
     private fun write(request: String){
         Log.e("REQUEST: ", request)
         out.write(request)
