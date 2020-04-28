@@ -28,6 +28,7 @@ import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.User
 import kotlinx.android.synthetic.main.profile_positive_item.*
+import java.util.concurrent.TimeUnit
 
 //import com.google.android.material.transition.Hold
 
@@ -174,11 +175,11 @@ class Profile : androidx.fragment.app.Fragment() {
         recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         recV.adapter = myAdapter
         name_profile.text = user.name
+        score_profile.text = user.score
+        profile_name_toolbar.text = (activity as MainActivity).nickname
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
         image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
         image_profile.setImageBitmap(image)
-        score_profile.text = user.score
-        profile_name_toolbar.text = user.username
     }
 
 }

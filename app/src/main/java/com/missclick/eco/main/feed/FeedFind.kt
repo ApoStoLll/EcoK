@@ -29,28 +29,46 @@ import com.missclick.eco.R
 
 class FeedFind : Fragment() {
 
-    private val found:MutableList<FeedFindItem> = mutableListOf()
-
+    //private val found:MutableList<FeedFindItem> = mutableListOf()
+    private var nicknames:List<String> = listOf()
+    private var currentNicknames:MutableList<String> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_feed_find, container, false)
+        return inflater.inflate(com.missclick.eco.R.layout.fragment_feed_find, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val client = HttpClient("95.158.11.238", 8080)
+        GlobalScope.launch {
+            withContext(Dispatchers.IO) {
+                try{
+                    client.connect()
+                    nicknames = client.getAllNicknames()
+                }catch (e : ConnectException){
+                    nicknames = listOf()
+                }
+            }
+        }
+
 
         find_profile_edit_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
+                Log.e("after","onText")
                 GlobalScope.launch {
                     withContext(Dispatchers.IO) {
                         try{
-                            client.connect()
-                            val user = client.getUserData(find_profile_edit_text.text.toString(),activity as MainActivity)
-                             (activity as MainActivity).runOnUiThread{addToRec(user)}
+                            val found: MutableList<FeedFindItem> = mutableListOf()
+                            for(nick in currentNicknames){
+                                val client2 = HttpClient("95.158.11.238", 8080)
+                                client2.connect()
+                                val user = client2.getUserData(nick,activity as MainActivity)
+                                found.add(FeedFindItem(user.username,user.name,(activity as MainActivity).filesDir.path + "/" +user.imageName))
+                            }
+                            (activity as MainActivity).runOnUiThread{addToRec(found)}
                         }catch (e : ConnectException){
                             Log.e("ERROR", e.toString())
                         }
@@ -60,15 +78,21 @@ class FeedFind : Fragment() {
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                Log.e("textch","onText")
+                if(s.toString() == ""){
+                    addToRec()
+                } else {
+                    filter(s.toString().toLowerCase())
+                }
+            }
         })
 
 
 
     }
 
-    private fun addToRec(user : User){
-        found.add(FeedFindItem(user.username,user.name,(activity as MainActivity).filesDir.path + "/" +user.imageName))
+    private fun addToRec(found:List<FeedFindItem> = listOf()){
         val myAdapter = FeedFindAdapter(
             found,
             object : FeedFindAdapter.Callback {
@@ -87,4 +111,15 @@ class FeedFind : Fragment() {
         findRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         findRecycle.adapter = myAdapter
     }
+
+    private fun filter(text : String){
+        currentNicknames = mutableListOf()
+        for (nick in nicknames) {
+            if (nick.toLowerCase().contains(text)) {
+                currentNicknames.add(nick)
+            }
+        }
+    }
+
+
 }

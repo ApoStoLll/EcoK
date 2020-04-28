@@ -4,6 +4,7 @@ package com.missclick.eco.main.profile
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
@@ -23,6 +24,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.ConnectException
+import java.util.concurrent.TimeUnit
 
 
 class ProfilePostInfo : Fragment() {
@@ -62,10 +64,21 @@ class ProfilePostInfo : Fragment() {
             }
             val arr = item?.imageName!!.split("/")
             val imageName = arr[arr.size - 1]
-            var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
-            image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
-            infoImage.setImageBitmap(image)
+            setImage(imageName)
+
         }
+    }
+
+    private fun setImage(imageName: String){
+        Log.e("info",imageName)
+
+        //TimeUnit.MILLISECONDS.sleep(500L)
+        Log.e("info2",imageName)
+        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
+        if (image == null) Log.e("info3","null")
+        image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
+        Log.e("info4",imageName)
+        infoImage.setImageBitmap(image)
     }
 
 }

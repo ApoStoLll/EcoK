@@ -1,5 +1,6 @@
 package com.missclick.eco.register
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,12 +28,12 @@ class LogIn : androidx.fragment.app.Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        readAuthFromFile()
         return inflater.inflate(R.layout.fragment_log_in, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        readAuthFromFile()
         view.findViewById<Button>(R.id.btnLogIn).setOnClickListener {
             var isAuth = 0
             if(checkBoxLogIn.isChecked) isAuth = 1

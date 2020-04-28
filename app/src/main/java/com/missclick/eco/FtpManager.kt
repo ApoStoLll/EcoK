@@ -35,7 +35,7 @@ class FtpManager(private val server : String,private val user : String, private 
         conn()
         val fis =  FileInputStream(path)
         ftp.storeFile("/$username/$imageName", fis)
-        Log.e("Username", username)
+        Log.e("имагенейм", imageName)
         fis.close()
         ftp.logout()
         ftp.disconnect()

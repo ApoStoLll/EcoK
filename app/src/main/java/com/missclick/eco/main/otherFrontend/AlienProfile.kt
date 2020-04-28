@@ -66,12 +66,12 @@ class AlienProfile : Fragment() {
     }
 
     private fun upd(user : User, actions:List<PositiveItem>){
-        if(name_profile == null) return
+        if(alien_name_profile == null) return
         val myAdapter = PositiveAdapter(
             actions,
             object : PositiveAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
-                    /*val profileInfo = ProfilePostInfo()
+                    val profileInfo = ProfilePostInfo()
                     val bundle = Bundle()
                     bundle.putParcelable("arg",item)
                     profileInfo.arguments = bundle
@@ -79,11 +79,12 @@ class AlienProfile : Fragment() {
                     // transaction.addSharedElement(view!!, "info")
                     transaction.replace(R.id.fragment_holder, profileInfo)
                     transaction.addToBackStack(null)
-                    transaction.commit()*/
+                    transaction.commit()
                 }
             })
         alien_recV.setHasFixedSize(true)
         alien_name_profile.text = user.name
+        Log.e("Score",user.score)
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
         image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
         alien_image_profile.setImageBitmap(image)

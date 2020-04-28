@@ -94,6 +94,16 @@ class HttpClient(private val ip : String,private val port : Int){
         return actions
     }
 
+    fun getAllNicknames():List<String>{
+        val answ = writeRequest("/getAllNicknames", "POST")
+        val nicknames:MutableList<String> = mutableListOf()
+        for(nick in answ.body) {
+            if (nick[0] == 'C') continue
+            nicknames.add(nick.split("'")[1])
+        }
+        return nicknames
+    }
+
     private fun write(request: String){
         Log.e("REQUEST: ", request)
         out.write(request)
