@@ -47,7 +47,7 @@ class HttpClient(private val ip : String,private val port : Int){
     fun getUserData(username : String, context : Context) : User {
         val answ = writeRequest("/user_data?username=$username", "GET")
         val imageName = getImage(answ.body[4], context)
-        return  User(username, answ.body[1], answ.body[3], imageName, answ.body[5], answ.body[6])
+        return  User(username, answ.body[1], answ.body[3], imageName)
     }
 
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{

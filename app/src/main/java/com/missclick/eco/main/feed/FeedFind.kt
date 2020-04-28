@@ -115,7 +115,7 @@ class FeedFind : Fragment() {
     private fun filter(text : String){
         currentNicknames = mutableListOf()
         for (nick in nicknames) {
-            if (nick.toLowerCase().contains(text)) {
+            if (nick.toLowerCase().contains(text) && nick != (activity as MainActivity).nickname) {
                 currentNicknames.add(nick)
             }
         }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.missclick.eco.HttpClient
 
@@ -39,25 +40,41 @@ class AlienProfile : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val alien_username = arguments?.getString("alienNickname")
-        alien_name_profile.text = alien_username
-        update(alien_username)
+        val alienUsername = arguments?.getString("alienNickname")
+        alien_name_profile.text = alienUsername
+        update(alienUsername)
         alien_refresh.setOnRefreshListener{
-            update(alien_username)
+            update(alienUsername)
             alien_refresh.isRefreshing = false
+        }
+        view.findViewById<Button>(R.id.alien_btnFollow).setOnClickListener {
+            GlobalScope.launch {
+                val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
+                withContext(Dispatchers.IO) {
+                    try{
+                        client.connect()
+                        client.follow((activity as MainActivity).nickname,alienUsername!!)
+                        (activity as MainActivity).runOnUiThread { update(alienUsername) }
+                    }catch (e : ConnectException){
+                        Log.e("ERROR", e.toString())
+                    }
+                }
+            }
         }
     }
 
-    fun update(alien_username : String?){
+    private fun update(alienUsername : String?){
         GlobalScope.launch {
             val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
             withContext(Dispatchers.IO) {
                 try{
                     client.connect()
-                    val user = client.getUserData(alien_username!!, (activity as MainActivity))
+                    val user = client.getUserData(alienUsername!!, (activity as MainActivity))
                     client.connect()
-                    val actions = client.getProfilePost(alien_username)
-                    (activity as MainActivity).runOnUiThread { upd(user, actions) }
+                    val actions = client.getProfilePost(alienUsername!!)
+                    client.connect()
+                    val myUser = client.getUserData((activity as MainActivity).nickname,(activity as MainActivity))
+                    (activity as MainActivity).runOnUiThread { upd(user, actions,myUser) }
                 }catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
@@ -65,9 +82,11 @@ class AlienProfile : Fragment() {
         }
     }
 
-    private fun upd(user : User, actions:List<PositiveItem>){
+    private fun upd(user : User, actions:List<PositiveItem>, myUser: User){
         if(alien_name_profile == null) return
         val actionNew : MutableList<PositiveItem> = mutableListOf()
+        if(myUser.followers != null) for(follower in myUser.followers) if (follower == user.username)
+            alien_btnFollow.text = "unfollow"
         for(item in actions) if (item.share) actionNew.add(item)
         val myAdapter = PositiveAdapter(
             actionNew,
