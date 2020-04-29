@@ -12,6 +12,7 @@
                                                     android:layout_height="wrap_content"
 android:id="@+id/tlb">
 
+
 </com.google.android.material.appbar.MaterialToolbar>
 
         <com.google.android.material.appbar.AppBarLayout
@@ -30,6 +31,15 @@ android:id="@+id/tlb">
                                                                        android:textSize="30sp"
                                                                        android:textStyle="bold|italic"
                                                                        app:fontFamily="@font/roboto_mono_thin"/>
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                    <com.google.android.material.button.MaterialButton android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_alignParentRight="true"
+                                                                       android:text="Settings"
+                                                                       android:background="@drawable/mr_media_play_dark"
+                                                                       android:layout_marginEnd="16dp"
+                                                                       android:id="@+id/settings_btn"/>
+                </RelativeLayout>
             </com.google.android.material.appbar.MaterialToolbar>
 
             <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
@@ -87,7 +97,7 @@ android:id="@+id/tlb">
 
 
             <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSettings"
+                    android:id="@+id/btnEditProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

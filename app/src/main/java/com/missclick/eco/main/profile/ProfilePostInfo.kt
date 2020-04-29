@@ -70,14 +70,9 @@ class ProfilePostInfo : Fragment() {
     }
 
     private fun setImage(imageName: String){
-        Log.e("info",imageName)
-
-        //TimeUnit.MILLISECONDS.sleep(500L)
-        Log.e("info2",imageName)
+        TimeUnit.MILLISECONDS.sleep(350L)
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
-        if (image == null) Log.e("info3","null")
         image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
-        Log.e("info4",imageName)
         infoImage.setImageBitmap(image)
     }
 

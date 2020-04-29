@@ -33,7 +33,6 @@ class Settings : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //returnTransition = MaterialFadeThrough.create(requireContext())
         exitTransition = MaterialFadeThrough.create(requireContext())
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
@@ -41,18 +40,9 @@ class Settings : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<Button>(R.id.btnChangeAva).setOnClickListener {
-            changeAvatar()
-        }
         view.findViewById<Button>(R.id.btnExit).setOnClickListener {
             exit()
         }
-    }
-
-    private fun changeAvatar(){
-        val photoPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
-        photoPickerIntent.type = "image/*"
-        startActivityForResult(photoPickerIntent, 1)
     }
 
     private fun exit(){
@@ -70,32 +60,6 @@ class Settings : androidx.fragment.app.Fragment() {
         }
         val intent = Intent(activity as MainActivity, RegisterActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            val chosenImageUri = data!!.data
-            val bitmap = MediaStore.Images.Media.getBitmap((activity as MainActivity).contentResolver, chosenImageUri)
-            val arr = chosenImageUri!!.path?.split('/')
-            lateinit var file : File
-            if ( arr != null) file = File((activity as MainActivity).filesDir.path ,arr[arr.size - 1] + ".png")
-            val fOut = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
-            fOut.close()
-            val client = HttpClient("95.158.11.238", 8080)// (activity as MainActivity).client
-            GlobalScope.launch {
-                withContext(Dispatchers.IO) {
-                    try{
-                                client.connect()
-                                client.uploadImage(file,(activity as MainActivity).nickname,false)
-                    }catch (e : ConnectException){
-                                Log.e("ERROR", e.toString())
-                    }
-                }
-            }
-
-        }
     }
 
 }

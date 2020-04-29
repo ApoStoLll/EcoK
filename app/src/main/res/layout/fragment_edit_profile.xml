@@ -9,10 +9,10 @@
             android:layout_height="match_parent">
 
         <Button
-                android:id="@+id/btnExit"
+                android:id="@+id/btnChangeAva"
                 android:layout_width="188dp"
                 android:layout_height="68dp" android:layout_marginTop="108dp"
-                android:text="Log out"
+                android:text="ChangeAvatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.506" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>

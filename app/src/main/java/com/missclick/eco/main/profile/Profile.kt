@@ -17,18 +17,14 @@ import kotlinx.coroutines.*
 import java.io.*
 import java.net.ConnectException
 import android.content.ContentValues
-import android.view.Gravity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_profile.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.android.material.transition.SlideDistance
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.User
-import kotlinx.android.synthetic.main.profile_positive_item.*
-import java.util.concurrent.TimeUnit
 
 //import com.google.android.material.transition.Hold
 
@@ -61,7 +57,13 @@ class Profile : androidx.fragment.app.Fragment() {
             transaction.commit()
         }
 
-        view.findViewById<Button>(R.id.btnSettings ).setOnClickListener {
+        view.findViewById<Button>(R.id.btnEditProfile ).setOnClickListener {
+            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_holder, EditProfile())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+        view.findViewById<Button>(R.id.settings_btn ).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_holder, Settings())
             transaction.addToBackStack(null)

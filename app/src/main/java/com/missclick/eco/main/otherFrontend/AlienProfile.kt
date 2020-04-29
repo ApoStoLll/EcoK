@@ -26,6 +26,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.ConnectException
+import java.util.concurrent.TimeUnit
 
 
 class AlienProfile : Fragment() {
@@ -107,13 +108,13 @@ class AlienProfile : Fragment() {
             })
         alien_recV.setHasFixedSize(true)
         alien_name_profile.text = user.name
-        Log.e("Score",user.score)
-        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
-        image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
-        alien_image_profile.setImageBitmap(image)
         alien_score_profile.text = user.score
         alien_profile_name_toolbar.text = user.username
         alien_recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         alien_recV.adapter = myAdapter
+        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
+        image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
+        alien_image_profile.setImageBitmap(image)
+
     }
 }
