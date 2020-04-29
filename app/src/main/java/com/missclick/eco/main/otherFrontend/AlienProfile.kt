@@ -53,7 +53,9 @@ class AlienProfile : Fragment() {
                 withContext(Dispatchers.IO) {
                     try{
                         client.connect()
+                        if(alien_btnFollow.text.toString() == "follow")
                         client.follow((activity as MainActivity).nickname,alienUsername!!)
+                        else client.unfollow((activity as MainActivity).nickname,alienUsername!!)
                         (activity as MainActivity).runOnUiThread { update(alienUsername) }
                     }catch (e : ConnectException){
                         Log.e("ERROR", e.toString())
@@ -83,8 +85,10 @@ class AlienProfile : Fragment() {
     private fun upd(user : User, actions:List<PositiveItem>){
         if(alien_name_profile == null) return
         val actionNew : MutableList<PositiveItem> = mutableListOf()
-        if(user.following != null) for(follower in user.following)
+        alien_btnFollow.text = "follow"
+        if(user.followers != null) for(follower in user.followers)
             if (follower == (activity as MainActivity).nickname) alien_btnFollow.text = "unfollow"
+
         for(item in actions) if (item.share) actionNew.add(item)
         val myAdapter = PositiveAdapter(
             actionNew,
