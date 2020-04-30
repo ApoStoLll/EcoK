@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-    <TextView
-            android:id="@+id/actionFeed"
+              android:layout_width="wrap_content" android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:padding="6dp"
+>
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="TextView"/>
-    <TextView
-            android:id="@+id/scoreFeed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="TextView"/>
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            android:elevation="12dp"
+            android:id="@+id/cv"
+    >
+
+        <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                      android:layout_height="match_parent"
+        android:orientation="vertical">
+            <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                          android:layout_height="wrap_content">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/feed_post_image_profile"
+                        android:src="@drawable/ic_home_black_24dp"
+                        android:minHeight="48dp"
+                        android:minWidth="48dp"
+                        android:maxHeight="48dp"
+                        android:maxWidth="48dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/feed_post_name"
+                        android:textSize="12sp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_toRightOf="@id/image1234"
+                />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.imageview.ShapeableImageView android:layout_width="wrap_content"
+                                                                      android:layout_height="wrap_content"
+            android:id="@+id/feed_post_image"/>
+
+            <com.google.android.material.button.MaterialButton android:layout_width="wrap_content"
+                                                               android:layout_height="wrap_content"
+            android:id="@+id/feed_post_like"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
