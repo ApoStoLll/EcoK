@@ -25,10 +25,9 @@ import java.net.ConnectException
 
 class Feed : androidx.fragment.app.Fragment() {
 
-    private var posts: MutableList<PositiveItem> = mutableListOf(
-        PositiveItem(-1,"Выкинул бутылку", -10),
-        PositiveItem(-2,"Выкинул бумажку", -5)
-
+    private var posts: MutableList<PostItem> = mutableListOf(
+        PostItem("aloxa","Выкинул бутылку", -10),
+        PostItem("aloxa","Выкинул бумажку", -5)
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -48,10 +47,10 @@ class Feed : androidx.fragment.app.Fragment() {
             transaction.commit()
         }
         getPosts()
-        val myAdapter = FeedPostAdapter(
+        val myAdapter = FeedAdapter(
             posts,
-            object : FeedPostAdapter.Callback {
-                override fun onItemClicked(item: PositiveItem) {
+            object : FeedAdapter.Callback {
+                override fun onItemClicked(item: PostItem) {
                     val profileInfo = ProfilePostInfo()
                     val bundle = Bundle()
                     bundle.putParcelable("arg",item)
@@ -81,7 +80,7 @@ class Feed : androidx.fragment.app.Fragment() {
                         client2.connect()
                         val userPosts: List<PositiveItem> = client2.getProfilePost(following)
                         for(post in userPosts)
-                            if (post.share) posts.add(post)
+                            if (post.share) posts.add(PostItem(following,post.action,post.score))
                     }
                     else Log.e("lol","fail")
                 }catch (e : ConnectException){
