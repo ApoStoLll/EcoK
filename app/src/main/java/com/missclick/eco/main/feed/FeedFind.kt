@@ -29,7 +29,6 @@ import com.missclick.eco.R
 
 class FeedFind : Fragment() {
 
-    //private val found:MutableList<FeedFindItem> = mutableListOf()
     private var nicknames:List<String> = listOf()
     private var currentNicknames:MutableList<String> = mutableListOf()
     override fun onCreateView(
@@ -42,6 +41,7 @@ class FeedFind : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val client = HttpClient("95.158.11.238", 8080)
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
@@ -53,8 +53,7 @@ class FeedFind : Fragment() {
                 }
             }
         }
-
-
+        find_profile_edit_text.setSelection(0)
         find_profile_edit_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 Log.e("after","onText")

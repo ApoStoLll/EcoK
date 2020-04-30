@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.missclick.eco.R
+import java.net.ConnectException
 
 class FeedFindAdapter(var items: List<FeedFindItem>, val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedFindAdapter.MainHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
@@ -25,8 +26,11 @@ class FeedFindAdapter(var items: List<FeedFindItem>, val callback: Callback) : a
             findName1.text = item.name
             findUsername1.text = item.username
             var imageBit =  BitmapFactory.decodeFile(item.imageName)
-            imageBit = if (image != null) Bitmap.createScaledBitmap(imageBit, 150, 150, false) else return
-            image.setImageBitmap(imageBit)
+            if(imageBit != null){
+                imageBit = if (imageBit.width != null) Bitmap.createScaledBitmap(imageBit, 150, 150, false) else return
+                image.setImageBitmap(imageBit)
+            }
+
             itemView.setOnClickListener {
                 if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }

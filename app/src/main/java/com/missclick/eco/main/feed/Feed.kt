@@ -2,6 +2,7 @@ package com.missclick.eco.main.feed
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +14,18 @@ import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.main.profile.PositiveItem
+import com.missclick.eco.main.profile.ProfilePostInfo
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.ConnectException
 
 
 class Feed : androidx.fragment.app.Fragment() {
 
-    private val posts = listOf(
+    private var posts: MutableList<PositiveItem> = mutableListOf(
         PositiveItem(-1,"Выкинул бутылку", -10),
         PositiveItem(-2,"Выкинул бумажку", -5)
 
@@ -44,12 +47,20 @@ class Feed : androidx.fragment.app.Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
-
+        getPosts()
         val myAdapter = FeedPostAdapter(
             posts,
             object : FeedPostAdapter.Callback {
                 override fun onItemClicked(item: PositiveItem) {
-
+                    val profileInfo = ProfilePostInfo()
+                    val bundle = Bundle()
+                    bundle.putParcelable("arg",item)
+                    profileInfo.arguments = bundle
+                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+                    // transaction.addSharedElement(view!!, "info")
+                    transaction.replace(R.id.fragment_holder, profileInfo)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
                 }
             })
 
@@ -57,15 +68,28 @@ class Feed : androidx.fragment.app.Fragment() {
         feedRecycle.adapter = myAdapter
     }
 
-    fun createData(){
+    fun getPosts(){
         GlobalScope.launch {
             withContext(Dispatchers.IO){
-                val client = HttpClient("95.158.11.238", 8080)
-                client.connect()
-                val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
-
+                try{
+                    val client = HttpClient("95.158.11.238", 8080)
+                    client.connect()
+                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+                    val followings = user.followings
+                    if(followings != null) for(following in followings){
+                        val client2 = HttpClient("95.158.11.238", 8080)
+                        client2.connect()
+                        val userPosts: List<PositiveItem> = client2.getProfilePost(following)
+                        for(post in userPosts)
+                            if (post.share) posts.add(post)
+                    }
+                    else Log.e("lol","fail")
+                }catch (e : ConnectException){
+                    Log.e("Error",e.toString())
+                }
             }
         }
+        posts.sortBy { it.time }
     }
 
 }
