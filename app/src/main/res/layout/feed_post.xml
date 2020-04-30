@@ -39,16 +39,32 @@
                         android:layout_marginTop="16dp"
                         android:layout_toRightOf="@id/image1234"
                 />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/feed_post_score"
+                        android:textSize="12sp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_toRightOf="@id/feed_post_name"
+                />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.imageview.ShapeableImageView android:layout_width="match_parent"
-                                                                      android:layout_height="300dp"
+                                                                      android:layout_height="200dp"
             android:id="@+id/feed_post_image"
                                                                       android:src="@drawable/ic_home_black_24dp"/>
 
+            <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:id="@+id/feed_post_description"
+                                                                   android:hint="KEKW, here u can write description"
+            />
+
             <com.google.android.material.button.MaterialButton android:layout_width="wrap_content"
                                                                android:layout_height="wrap_content"
-            android:id="@+id/feed_post_like"/>
+            android:id="@+id/feed_post_like"
+            android:layout_marginTop="8dp"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.cardview.widget.CardView>
