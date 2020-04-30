@@ -7,15 +7,15 @@ data class PostItem(
     val username: String,
     val action: String,
     val score: Int,
-    var time: Int = 0,
     var description : String = "NULL",
+    var time: Int = 0,
     var imageName : String = "NULL"):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readInt(),
-        parcel.readInt(),
         parcel.readString(),
+        parcel.readInt(),
         parcel.readString()
     ) {
     }
@@ -24,8 +24,8 @@ data class PostItem(
         parcel.writeString(username)
         parcel.writeString(action)
         parcel.writeInt(score)
-        parcel.writeInt(time)
         parcel.writeString(description)
+        parcel.writeInt(time)
         parcel.writeString(imageName)
     }
 

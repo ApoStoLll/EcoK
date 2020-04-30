@@ -22,7 +22,7 @@ class Post{
         Log.e("desk",description.split("'")[1])
         item.description = description.split("'")[1]
         item.share = share.split("'")[1].toBoolean()
-        item.imageName = imageName.split("'")[1]
+        item.imageName = imageName
         return item
     }
 }

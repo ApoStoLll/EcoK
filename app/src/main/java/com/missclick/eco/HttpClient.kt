@@ -48,11 +48,15 @@ class HttpClient(private val ip : String,private val port : Int){
         val answ = writeRequest("/user_data?username=$username", "GET")
         val imageName = getImage(answ.body[4], context)
         val followers:MutableList<String> = mutableListOf()
-        for(follower in answ.body[5].split("_"))
+        for(follower in answ.body[5].split("_")){
+            if(follower == "1") continue
             followers.add(follower)
+        }
         val followings:MutableList<String> = mutableListOf()
-        for(following in answ.body[6].split("_"))
+        for(following in answ.body[6].split("_")){
+            if(following == "1") continue
             followings.add(following)
+        }
         return  User(username, answ.body[1], answ.body[3], imageName, followers, followings)
     }
 
@@ -86,13 +90,15 @@ class HttpClient(private val ip : String,private val port : Int){
         writeRequest("/addProfilePost?action=$id&username=$username&score=$score&share=$share&image=$imageName&text=$description", "POST")
     }
 
-    fun getProfilePost(username : String):List<PositiveItem>{
+    fun getProfilePost(username : String,context: Context):List<PositiveItem>{
         val answ = writeRequest("/getProfilePost?username=$username", "POST")
         val actions:MutableList<PositiveItem> = mutableListOf()
         for(kek in answ.body){
             if(kek[0] == 'C') continue
             val arr = kek.split(',')
-            val item = Post().getItem(arr[1].split(' ')[1].toInt(),arr[2],arr[4],arr[5],arr[6])
+            val imageName = getImage(arr[4].split("'")[1],context)
+            Log.e("hhtp",arr[4])
+            val item = Post().getItem(arr[1].split(' ')[1].toInt(),arr[2],imageName,arr[5],arr[6])
             actions.add(item)
 
         }

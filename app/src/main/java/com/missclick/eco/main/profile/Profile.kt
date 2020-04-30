@@ -80,7 +80,7 @@ class Profile : androidx.fragment.app.Fragment() {
                     client.connect()
                     val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
                     client.connect()
-                    val actions = client.getProfilePost((activity as MainActivity).nickname)
+                    val actions = client.getProfilePost((activity as MainActivity).nickname,activity as MainActivity)
                     (activity as MainActivity).runOnUiThread { upd(user,actions) }
                     (activity as MainActivity).runOnUiThread {updateToFile(user.name,user.score,user.imageName,actions)}
                 }catch (e : ConnectException){

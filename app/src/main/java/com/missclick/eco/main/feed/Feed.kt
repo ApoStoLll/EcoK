@@ -21,14 +21,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.ConnectException
+import java.util.concurrent.TimeUnit
 
 
 class Feed : androidx.fragment.app.Fragment() {
 
-    private var posts: MutableList<PostItem> = mutableListOf(
-        PostItem("aloxa","Выкинул бутылку", -10),
-        PostItem("aloxa","Выкинул бумажку", -5)
-    )
+    private var posts: MutableList<PostItem> = mutableListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -64,9 +62,12 @@ class Feed : androidx.fragment.app.Fragment() {
                     if(followings != null) for(following in followings){
                         val client2 = HttpClient("95.158.11.238", 8080)
                         client2.connect()
-                        val userPosts: List<PositiveItem> = client2.getProfilePost(following)
-                        for(post in userPosts)
-                            if (post.share) posts.add(PostItem(following,post.action,post.score))
+                        val userPosts: List<PositiveItem> = client2.getProfilePost(following,activity as MainActivity)
+                        for(post in userPosts){
+                            if (post.share) posts.add(PostItem(following,post.action,post.score,post.description,0,
+                                (activity as MainActivity).filesDir.path + "/"+ post.imageName))
+                        }
+
                     }
                     else Log.e("lol","fail")
                 }catch (e : ConnectException){
