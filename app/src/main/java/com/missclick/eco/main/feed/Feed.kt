@@ -9,10 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialFadeThrough
+import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
 import com.missclick.eco.main.profile.PositiveItem
 import kotlinx.android.synthetic.main.fragment_feed.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class Feed : androidx.fragment.app.Fragment() {
@@ -50,6 +55,17 @@ class Feed : androidx.fragment.app.Fragment() {
 
         feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         feedRecycle.adapter = myAdapter
+    }
+
+    fun createData(){
+        GlobalScope.launch {
+            withContext(Dispatchers.IO){
+                val client = HttpClient("95.158.11.238", 8080)
+                client.connect()
+                val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+
+            }
+        }
     }
 
 }
