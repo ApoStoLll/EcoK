@@ -39,32 +39,18 @@ class Feed : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        update()
+        feed_refresh.setOnRefreshListener{
+            update()
+            feed_refresh.isRefreshing = false
+        }
         view.findViewById<MaterialButton>(R.id.search_friend_btn).setOnClickListener {
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_holder,FeedFind())
             transaction.addToBackStack(null)
             transaction.commit()
         }
-        getPosts()
-        val myAdapter = FeedAdapter(
-            posts,
-            object : FeedAdapter.Callback {
-                override fun onItemClicked(item: PostItem) {
-                    val profileInfo = ProfilePostInfo()
-                    val bundle = Bundle()
-                    bundle.putParcelable("arg",item)
-                    profileInfo.arguments = bundle
-                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-                    // transaction.addSharedElement(view!!, "info")
-                    transaction.replace(R.id.fragment_holder, profileInfo)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                }
-            })
 
-        feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        feedRecycle.adapter = myAdapter
     }
 
     fun getPosts(){
@@ -89,6 +75,28 @@ class Feed : androidx.fragment.app.Fragment() {
             }
         }
         posts.sortBy { it.time }
+    }
+
+    fun update(){
+        getPosts()
+        val myAdapter = FeedAdapter(
+            posts,
+            object : FeedAdapter.Callback {
+                override fun onItemClicked(item: PostItem) {
+                    val profileInfo = ProfilePostInfo()
+                    val bundle = Bundle()
+                    bundle.putParcelable("arg",item)
+                    profileInfo.arguments = bundle
+                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+                    // transaction.addSharedElement(view!!, "info")
+                    transaction.replace(R.id.fragment_holder, profileInfo)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                }
+            })
+
+        feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        feedRecycle.adapter = myAdapter
     }
 
 }
