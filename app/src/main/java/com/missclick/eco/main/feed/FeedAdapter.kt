@@ -10,7 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.missclick.eco.R
 
-class FeedAdapter(var items: List<PostItem>, val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
+class FeedAdapter(val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
+
+    var items = ArrayList<PostItem>()
+
+    fun addItem(post : PostItem){
+        items.add(post)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = MainHolder(LayoutInflater.from(parent.context).inflate(R.layout.feed_post, parent, false))
 

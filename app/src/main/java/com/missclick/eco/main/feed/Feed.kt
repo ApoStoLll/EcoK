@@ -37,9 +37,24 @@ class Feed : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        update()
+        val myAdapter = FeedAdapter(object : FeedAdapter.Callback {
+                override fun onItemClicked(item: PostItem) {
+                    val profileInfo = ProfilePostInfo()
+                    val bundle = Bundle()
+                    bundle.putParcelable("arg",item)
+                    profileInfo.arguments = bundle
+                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+                    // transaction.addSharedElement(view!!, "info")
+                    transaction.replace(R.id.fragment_holder, profileInfo)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                }
+            })
+        feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        feedRecycle.adapter = myAdapter
+        getPosts(myAdapter)
         feed_refresh.setOnRefreshListener{
-            update()
+            getPosts(myAdapter)
             feed_refresh.isRefreshing = false
         }
         view.findViewById<MaterialButton>(R.id.search_friend_btn).setOnClickListener {
@@ -51,7 +66,7 @@ class Feed : androidx.fragment.app.Fragment() {
 
     }
 
-    private fun getPosts():MutableList<PostItem>{
+    private fun getPosts(adapter : FeedAdapter){
         val posts: MutableList<PostItem> = mutableListOf()
         GlobalScope.launch {
             withContext(Dispatchers.IO){
@@ -66,8 +81,13 @@ class Feed : androidx.fragment.app.Fragment() {
                         client2.connect()
                         val userPosts: List<PositiveItem> = client2.getProfilePost(following,activity as MainActivity)
                         for(post in userPosts){
-                            if (post.share) posts.add(PostItem(following,post.action,post.score,post.description,0,
-                                (activity as MainActivity).filesDir.path + "/"+ post.imageName))
+                            if (post.share){
+//                                posts.add(PostItem(following,post.action,post.score,post.description,0,
+//                                    (activity as MainActivity).filesDir.path + "/"+ post.imageName))
+                                (activity as MainActivity).runOnUiThread { adapter.addItem(PostItem(following,post.action,post.score,post.description,0,
+                                    (activity as MainActivity).filesDir.path + "/"+ post.imageName)) }
+
+                            }
                         }
                     }
                     else Log.e("lol","fail")
@@ -76,30 +96,29 @@ class Feed : androidx.fragment.app.Fragment() {
                 }
             }
         }
-        posts.sortBy { it.time }
-        return posts
+//        posts.sortBy { it.time }
+//        return posts
     }
 
     private fun update(){
-        val posts: MutableList<PostItem> = getPosts()
-        val myAdapter = FeedAdapter(
-            posts,
-            object : FeedAdapter.Callback {
-                override fun onItemClicked(item: PostItem) {
-                    val profileInfo = ProfilePostInfo()
-                    val bundle = Bundle()
-                    bundle.putParcelable("arg",item)
-                    profileInfo.arguments = bundle
-                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-                    // transaction.addSharedElement(view!!, "info")
-                    transaction.replace(R.id.fragment_holder, profileInfo)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                }
-            })
+//        val posts: MutableList<PostItem> = getPosts()
+//        val myAdapter = FeedAdapter(
+//            posts,
+//            object : FeedAdapter.Callback {
+//                override fun onItemClicked(item: PostItem) {
+//                    val profileInfo = ProfilePostInfo()
+//                    val bundle = Bundle()
+//                    bundle.putParcelable("arg",item)
+//                    profileInfo.arguments = bundle
+//                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+//                    // transaction.addSharedElement(view!!, "info")
+//                    transaction.replace(R.id.fragment_holder, profileInfo)
+//                    transaction.addToBackStack(null)
+//                    transaction.commit()
+//                }
+//            })
 
-        feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        feedRecycle.adapter = myAdapter
+
     }
 
 }
