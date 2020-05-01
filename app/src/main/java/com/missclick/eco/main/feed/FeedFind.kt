@@ -30,7 +30,6 @@ import com.missclick.eco.R
 class FeedFind : Fragment() {
 
     private var nicknames:List<String> = listOf()
-    private var currentNicknames:MutableList<String> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +55,12 @@ class FeedFind : Fragment() {
         find_profile_edit_text.setSelection(0)
         find_profile_edit_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                Log.e("after","onText")
+                 var currentNicknames:MutableList<String> = mutableListOf()
+                if(s.toString() == ""){
+                    addToRec()
+                } else {
+                    currentNicknames = filter(s.toString().toLowerCase())
+                }
                 GlobalScope.launch {
                     withContext(Dispatchers.IO) {
                         try{
@@ -65,7 +69,8 @@ class FeedFind : Fragment() {
                                 val client2 = HttpClient("95.158.11.238", 8080)
                                 client2.connect()
                                 val user = client2.getUserData(nick,activity as MainActivity)
-                                found.add(FeedFindItem(user.username,user.name,(activity as MainActivity).filesDir.path + "/" +user.imageName))
+                                found.add(FeedFindItem(user.username,user.name,
+                                    (activity as MainActivity).filesDir.path + "/" +user.imageName))
                             }
                             (activity as MainActivity).runOnUiThread{addToRec(found)}
                         }catch (e : ConnectException){
@@ -77,14 +82,7 @@ class FeedFind : Fragment() {
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                Log.e("textch","onText")
-                if(s.toString() == ""){
-                    addToRec()
-                } else {
-                    filter(s.toString().toLowerCase())
-                }
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int){}
         })
 
 
@@ -111,13 +109,14 @@ class FeedFind : Fragment() {
         findRecycle.adapter = myAdapter
     }
 
-    private fun filter(text : String){
-        currentNicknames = mutableListOf()
+    private fun filter(text : String): MutableList<String>{
+        val currentNicknames : MutableList<String> = mutableListOf()
         for (nick in nicknames) {
             if (nick.toLowerCase().contains(text) && nick != (activity as MainActivity).nickname) {
                 currentNicknames.add(nick)
             }
         }
+        return currentNicknames
     }
 
 

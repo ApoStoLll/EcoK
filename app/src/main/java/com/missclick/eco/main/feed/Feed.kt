@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 
 class Feed : androidx.fragment.app.Fragment() {
 
-    private var posts: MutableList<PostItem> = mutableListOf()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -51,10 +51,12 @@ class Feed : androidx.fragment.app.Fragment() {
 
     }
 
-    fun getPosts(){
+    private fun getPosts():MutableList<PostItem>{
+        val posts: MutableList<PostItem> = mutableListOf()
         GlobalScope.launch {
             withContext(Dispatchers.IO){
                 try{
+
                     val client = HttpClient("95.158.11.238", 8080)
                     client.connect()
                     val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
@@ -67,7 +69,6 @@ class Feed : androidx.fragment.app.Fragment() {
                             if (post.share) posts.add(PostItem(following,post.action,post.score,post.description,0,
                                 (activity as MainActivity).filesDir.path + "/"+ post.imageName))
                         }
-
                     }
                     else Log.e("lol","fail")
                 }catch (e : ConnectException){
@@ -76,10 +77,11 @@ class Feed : androidx.fragment.app.Fragment() {
             }
         }
         posts.sortBy { it.time }
+        return posts
     }
 
-    fun update(){
-        getPosts()
+    private fun update(){
+        val posts: MutableList<PostItem> = getPosts()
         val myAdapter = FeedAdapter(
             posts,
             object : FeedAdapter.Callback {
