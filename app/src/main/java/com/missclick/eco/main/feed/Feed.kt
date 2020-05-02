@@ -54,7 +54,6 @@ class Feed : androidx.fragment.app.Fragment() {
     private fun getPosts(adapter : FeedAdapter){
 //        val posts: MutableList<PostItem> = mutableListOf()
         GlobalScope.launch(Dispatchers.Main) {
-            feedLoadingPanel.visibility = View.VISIBLE
             val client = HttpClient("95.158.11.238", 8080)
             val user = withContext(Dispatchers.IO){
                 client.connect()
@@ -74,14 +73,19 @@ class Feed : androidx.fragment.app.Fragment() {
                         client3.getUserData(following,(activity as MainActivity)).imageName
                     }
                     if(post.share){
+                        val client4 = HttpClient("95.158.11.238", 8080)
+                        val imageName = withContext(Dispatchers.IO){
+                            client.connect()
+                            client.getImage(post.imageName,activity as MainActivity)
+                        }
                         adapter.addItem(
                             PostItem(
                                 following, post.action, post.score, post.description, 0,
-                                (activity as MainActivity).filesDir.path + "/" + post.imageName,
+                                (activity as MainActivity).filesDir.path + "/" + imageName,
                                 (activity as MainActivity).filesDir.path + "/" + imageProfile
                             )
                         )
-                        feedLoadingPanel.visibility = View.GONE
+                        if (feedLoadingPanel != null) feedLoadingPanel.visibility = View.GONE
                     }
                 }
             }
