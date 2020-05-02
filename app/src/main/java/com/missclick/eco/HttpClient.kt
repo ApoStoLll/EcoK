@@ -60,6 +60,22 @@ class HttpClient(private val ip : String,private val port : Int){
         return  User(username, answ.body[1], answ.body[3], imageName, followers, followings)
     }
 
+//     fun newGetUserData(username : String, context : Context) : User {
+//        val answ = writeRequest("/user_data?username=$username", "GET")
+//        val imageName = getImage(answ.body[4], context)
+//        val followers:MutableList<String> = mutableListOf()
+//        for(follower in answ.body[5].split("_")){
+//            if(follower == "1") continue
+//            followers.add(follower)
+//        }
+//        val followings:MutableList<String> = mutableListOf()
+//        for(following in answ.body[6].split("_")){
+//            if(following == "1") continue
+//            followings.add(following)
+//        }
+//        return  User(username, answ.body[1], answ.body[3], imageName, followers, followings)
+//    }
+
     fun addUser(username : String, name : String, pass : String, email : String) : Boolean{
         val answ = writeRequest("/users?username=$username&name=$name&password=$pass&email=$email", "POST")
         if(answ.code == 204) return true

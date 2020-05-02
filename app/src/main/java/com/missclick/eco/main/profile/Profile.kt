@@ -73,20 +73,41 @@ class Profile : androidx.fragment.app.Fragment() {
     }
 
     private fun update(){
-        GlobalScope.launch {
-            val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
-            withContext(Dispatchers.IO) {
-                try{
+//        GlobalScope.launch {
+//            val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
+//            withContext(Dispatchers.IO) {
+//                try{
+//                    client.connect()
+//                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+//                    client.connect()
+//                    val actions = client.getProfilePost((activity as MainActivity).nickname,activity as MainActivity)
+//                    (activity as MainActivity).runOnUiThread { upd(user,actions) }
+//                    (activity as MainActivity).runOnUiThread {updateToFile(user.name,user.score,user.imageName,actions)}
+//                }catch (e : ConnectException){
+//                    Log.e("ERROR", e.toString())
+//                }
+//            }
+//        }
+        GlobalScope.launch(Dispatchers.Main) {
+            val client = HttpClient("95.158.11.238", 8080)
+            val user = withContext(Dispatchers.IO){
+                try {
                     client.connect()
-                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
-                    client.connect()
-                    val actions = client.getProfilePost((activity as MainActivity).nickname,activity as MainActivity)
-                    (activity as MainActivity).runOnUiThread { upd(user,actions) }
-                    (activity as MainActivity).runOnUiThread {updateToFile(user.name,user.score,user.imageName,actions)}
-                }catch (e : ConnectException){
+                } catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
+                    client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
             }
+            addProfileInfo(user)
+            val actions = withContext(Dispatchers.IO){
+                try {
+                    client.connect()
+                } catch (e : ConnectException){
+                    Log.e("ERROR", e.toString())
+                }
+                client.getProfilePost((activity as MainActivity).nickname,activity as MainActivity)
+            }
+            upd(actions)
         }
     }
 
@@ -150,13 +171,24 @@ class Profile : androidx.fragment.app.Fragment() {
             val name = br.readLine()
             val score = br.readLine()
             val imageName = br.readLine()
-            upd(User("null",name,score,imageName),actions)
+            addProfileInfo(User("null",name,score,imageName))
+            upd(actions)
         }catch (e: FileNotFoundException) {
             return
         }
     }
 
-    private fun upd(user : User,actions:List<PositiveItem>){
+    fun addProfileInfo(user : User){
+        if(name_profile == null) return
+        name_profile.text = user.name
+        score_profile.text = user.score
+        profile_name_toolbar.text = (activity as MainActivity).nickname
+        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
+        image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
+        image_profile.setImageBitmap(image)
+    }
+
+    private fun upd(actions:List<PositiveItem>){
         if(name_profile == null) return
         val myAdapter = PositiveAdapter(
             actions,
@@ -176,12 +208,7 @@ class Profile : androidx.fragment.app.Fragment() {
         recV.setHasFixedSize(true)
         recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         recV.adapter = myAdapter
-        name_profile.text = user.name
-        score_profile.text = user.score
-        profile_name_toolbar.text = (activity as MainActivity).nickname
-        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
-        image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
-        image_profile.setImageBitmap(image)
+
     }
 
 }
