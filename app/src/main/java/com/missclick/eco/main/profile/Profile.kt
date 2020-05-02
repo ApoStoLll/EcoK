@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-
 import com.missclick.eco.DBHelper
 import com.missclick.eco.main.MainActivity
 import kotlinx.coroutines.*
@@ -26,7 +25,6 @@ import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.User
 
-//import com.google.android.material.transition.Hold
 
 
 class Profile : androidx.fragment.app.Fragment() {
@@ -35,8 +33,6 @@ class Profile : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       // exitTransition = Hold()
-
         exitTransition = MaterialFadeThrough.create(requireContext())
         reenterTransition = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
         (activity as MainActivity).setSupportActionBar(profile_toolbar)
@@ -74,21 +70,6 @@ class Profile : androidx.fragment.app.Fragment() {
     }
 
     private fun update(){
-//        GlobalScope.launch {
-//            val client = HttpClient("95.158.11.238", 8080)//(activity as MainActivity).client
-//            withContext(Dispatchers.IO) {
-//                try{
-//                    client.connect()
-//                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
-//                    client.connect()
-//                    val actions = client.getProfilePost((activity as MainActivity).nickname,activity as MainActivity)
-//                    (activity as MainActivity).runOnUiThread { upd(user,actions) }
-//                    (activity as MainActivity).runOnUiThread {updateToFile(user.name,user.score,user.imageName,actions)}
-//                }catch (e : ConnectException){
-//                    Log.e("ERROR", e.toString())
-//                }
-//            }
-//        }
         GlobalScope.launch(Dispatchers.Main) {
             loadingPanelProfile.visibility = View.VISIBLE
             val client = HttpClient("95.158.11.238", 8080)
@@ -98,9 +79,9 @@ class Profile : androidx.fragment.app.Fragment() {
                 } catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
-                    client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+                client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
             }
-            addProfileInfo(user)
+//            addProfileInfo(user)
             val actions = withContext(Dispatchers.IO){
                 try {
                     client.connect()
@@ -110,7 +91,8 @@ class Profile : androidx.fragment.app.Fragment() {
                 client.getProfilePost((activity as MainActivity).nickname)
             }
             loadingPanelProfile.visibility = View.GONE
-            upd(actions)
+            upd(user,actions)
+            updateToFile(user.name,user.score,user.imageName,actions)
         }
     }
 
@@ -174,25 +156,22 @@ class Profile : androidx.fragment.app.Fragment() {
             val name = br.readLine()
             val score = br.readLine()
             val imageName = br.readLine()
-            addProfileInfo(User("null",name,score,imageName))
-            upd(actions)
+            upd(User("null",name,score,imageName),actions)
         }catch (e: FileNotFoundException) {
             return
         }
     }
 
-    fun addProfileInfo(user : User){
+    private fun upd(user: User, actions:List<PositiveItem>){
         if(name_profile == null) return
+
         name_profile.text = user.name
         score_profile.text = user.score
         profile_name_toolbar.text = (activity as MainActivity).nickname
         var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
         image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
         image_profile.setImageBitmap(image)
-    }
 
-    private fun upd(actions:List<PositiveItem>){
-        if(name_profile == null) return
         val myAdapter = PositiveAdapter(
             actions,
             object : PositiveAdapter.Callback {
@@ -211,7 +190,6 @@ class Profile : androidx.fragment.app.Fragment() {
         recV.setHasFixedSize(true)
         recV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         recV.adapter = myAdapter
-
     }
 
 }

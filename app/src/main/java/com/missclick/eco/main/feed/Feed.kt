@@ -26,8 +26,6 @@ import java.util.concurrent.TimeUnit
 
 class Feed : androidx.fragment.app.Fragment() {
 
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         exitTransition = MaterialFadeThrough.create(requireContext())
@@ -52,7 +50,7 @@ class Feed : androidx.fragment.app.Fragment() {
     }
 
     private fun getPosts(adapter : FeedAdapter){
-//        val posts: MutableList<PostItem> = mutableListOf()
+        val activity = activity as MainActivity
         GlobalScope.launch(Dispatchers.Main) {
             val client = HttpClient("95.158.11.238", 8080)
             val user = withContext(Dispatchers.IO){
@@ -70,19 +68,15 @@ class Feed : androidx.fragment.app.Fragment() {
                     val client3 = HttpClient("95.158.11.238", 8080)
                     val imageProfile = withContext(Dispatchers.IO){
                         client3.connect()
-                        client3.getUserData(following,(activity as MainActivity)).imageName
+                        client3.getUserData(following,activity).imageName
                     }
                     if(post.share){
-                        val client4 = HttpClient("95.158.11.238", 8080)
-                        val imageName = withContext(Dispatchers.IO){
-                            client.connect()
-                            client.getImage(post.imageName,activity as MainActivity)
-                        }
+
                         adapter.addItem(
                             PostItem(
                                 following, post.action, post.score, post.description, 0,
-                                (activity as MainActivity).filesDir.path + "/" + imageName,
-                                (activity as MainActivity).filesDir.path + "/" + imageProfile
+                                post.imageName,
+                                activity.filesDir.path + "/" + imageProfile
                             )
                         )
                         if (feedLoadingPanel != null) feedLoadingPanel.visibility = View.GONE
@@ -91,47 +85,13 @@ class Feed : androidx.fragment.app.Fragment() {
             }
 
         }
-//            withContext(Dispatchers.IO){
-//                try{
-//
-//                    val client = HttpClient("95.158.11.238", 8080)
-//                    client.connect()
-//                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
-//                    val followings = user.followings
-//                    for(following in followings) {
-//                        val client2 = HttpClient("95.158.11.238", 8080)
-//                        client2.connect()
-//                        val userPosts: List<PositiveItem> = client2.getProfilePost(following)
-//                        for (post in userPosts) {
-//                            val client3 = HttpClient("95.158.11.238", 8080)
-//                            client3.connect()
-//                            val imageProfile = client3.getUserData(following,(activity as MainActivity)).imageName
-//                            if (post.share) {
-////
-//                                (activity as MainActivity).runOnUiThread {
-//                                    adapter.addItem(
-//                                        PostItem(
-//                                            following, post.action, post.score, post.description, 0,
-//                                            (activity as MainActivity).filesDir.path + "/" + post.imageName,
-//                                            (activity as MainActivity).filesDir.path + "/" + imageProfile
-//                                        )
-//                                    )
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//                }catch (e : ConnectException){
-//                    Log.e("Error",e.toString())
-//                }
-//            }
-//        }
+
 //        posts.sortBy { it.time }
 //        return posts
     }
 
     private fun update(){
-        val myAdapter = FeedAdapter(object : FeedAdapter.Callback {
+        val myAdapter = FeedAdapter(activity as MainActivity, object : FeedAdapter.Callback {
                 override fun onItemClicked(item: PostItem) {
                     val profileInfo = ProfilePostInfo()
                     val bundle = Bundle()

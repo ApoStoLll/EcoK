@@ -50,10 +50,22 @@
                 />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.imageview.ShapeableImageView android:layout_width="match_parent"
-                                                                      android:layout_height="200dp"
-            android:id="@+id/feed_post_image"
-                                                                      android:src="@drawable/ic_home_black_24dp"/>
+
+            <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.google.android.material.imageview.ShapeableImageView android:layout_width="match_parent"
+                                                                          android:layout_height="200dp"
+                                                                          android:id="@+id/feed_post_image"
+                                                                          android:src="@drawable/ic_home_black_24dp"/>
+                <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/loadingPanelFeedPost"/>
+
+
+            </RelativeLayout>
 
             <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent"
                                                                    android:layout_height="wrap_content"

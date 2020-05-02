@@ -42,7 +42,7 @@ class HttpClient(private val ip : String,private val port : Int){
         val arr = imagePath.split("/")
         val imageName = arr[arr.size - 1]
         ftp.getImage(imageName,imagePath,context)
-        soc.close()
+        if (!soc.isClosed) soc.close()
         return imageName//ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
     }
     fun getUserData(username : String, context : Context) : User {

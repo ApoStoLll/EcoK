@@ -1,5 +1,6 @@
 package com.missclick.eco.main.feed
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -7,10 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import com.missclick.eco.HttpClient
 import com.missclick.eco.R
+import com.missclick.eco.main.MainActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class FeedAdapter(val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
+class FeedAdapter(val context : Context,val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
 
     var items = ArrayList<PostItem>()
 
@@ -34,22 +42,33 @@ class FeedAdapter(val callback: Callback) : androidx.recyclerview.widget.Recycle
         private val like = itemView.findViewById<TextView>(R.id.feed_post_like)
         private val image = itemView.findViewById<ImageView>(R.id.feed_post_image)
         private val imageProfile = itemView.findViewById<ImageView>(R.id.feed_post_image_profile)
+        private val loading = itemView.findViewById<ProgressBar>(R.id.loadingPanelFeedPost)
         fun bind(item: PostItem) {
             username.text = item.username
             score.text = item.score.toString()
-            Log.e("des",item.imageName)
             val desc = if(item.description != "NULL") " and says " + item.description else ""
             description.text = item.action + desc
-            var imageBit =  BitmapFactory.decodeFile(item.imageName)
+
             var imageBitProfile =  BitmapFactory.decodeFile(item.imageProfileName)
-            if(imageBit != null){
-                imageBit = if (imageBit.width != null) Bitmap.createScaledBitmap(imageBit, 150, 150, false) else return
-                image.setImageBitmap(imageBit)
-            }
             if(imageBitProfile != null){
                 imageBitProfile = if (imageBitProfile.width != null) Bitmap.createScaledBitmap(imageBitProfile, 150, 150, false) else return
                 imageProfile.setImageBitmap(imageBitProfile)
             }
+
+            GlobalScope.launch(Dispatchers.Main) {
+                val client = HttpClient("95.158.11.238", 8080)
+                val imageName = withContext(Dispatchers.IO) {
+                    client.connect()
+                    client.getImage(item.imageName, context)
+                }
+                var imageBit =  BitmapFactory.decodeFile(context.filesDir.path + "/" +imageName)
+                if(imageBit != null){
+                    imageBit = Bitmap.createScaledBitmap(imageBit, 150, 150, false)
+                    image.setImageBitmap(imageBit)
+                    loading.visibility = View.GONE
+                }
+            }
+
             itemView.setOnClickListener {
                 if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
