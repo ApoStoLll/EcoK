@@ -117,18 +117,34 @@ android:id="@+id/tlb">
 
         </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/refresh" android:layout_width="match_parent"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_height="match_parent" tools:context=".main.profile.Profile">
-    <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recV"
+        <RelativeLayout
+                android:id="@+id/loadingPanel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center" >
 
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+        android:id="@+id/loadingPanelProfile"/>
+
+        </RelativeLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -36,6 +36,7 @@ class Profile : androidx.fragment.app.Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        // exitTransition = Hold()
+
         exitTransition = MaterialFadeThrough.create(requireContext())
         reenterTransition = MaterialSharedAxis.create(requireContext(), MaterialSharedAxis.Z, true)
         (activity as MainActivity).setSupportActionBar(profile_toolbar)
@@ -89,6 +90,7 @@ class Profile : androidx.fragment.app.Fragment() {
 //            }
 //        }
         GlobalScope.launch(Dispatchers.Main) {
+            loadingPanelProfile.visibility = View.VISIBLE
             val client = HttpClient("95.158.11.238", 8080)
             val user = withContext(Dispatchers.IO){
                 try {
@@ -107,6 +109,7 @@ class Profile : androidx.fragment.app.Fragment() {
                 }
                 client.getProfilePost((activity as MainActivity).nickname,activity as MainActivity)
             }
+            loadingPanelProfile.visibility = View.GONE
             upd(actions)
         }
     }
