@@ -50,11 +50,11 @@ class ProfilePostInfo : Fragment() {
         else infoDescription.text = ""
         if (item?.share == true) infoShare.text = "You have shared this post with your friends"
         else infoShare.text = "You have not shared this post with your friends"
-        var imageName = ""
+        if(item?.imageName != "NULL")
         GlobalScope.launch(Dispatchers.Main) {
-            loadingPanelProfileInfo.visibility = View.VISIBLE
+//            loadingPanelProfileInfo.visibility = View.VISIBLE
             val client = HttpClient("95.158.11.238", 8080)
-            imageName = withContext(Dispatchers.IO){
+            val imageName = withContext(Dispatchers.IO){
                 try {
                     client.connect()
                 } catch (e : ConnectException){
@@ -63,15 +63,14 @@ class ProfilePostInfo : Fragment() {
                 client.getImage(item!!.imageName, (activity as MainActivity))
             }
 
-            loadingPanelProfileInfo.visibility = View.GONE
-
-        }
-        Log.e("new",imageName)
-        if(imageName != "NULL"){
             var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
-            image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
-            infoImage.setImageBitmap(image)
-
+            Log.e("new",context!!.filesDir.path + "/" + imageName)
+            if(image != null && image.width != null){
+                Log.e("new2",image.width.toString())
+                image = Bitmap.createScaledBitmap(image, 250, 250, false)
+                infoImage.setImageBitmap(image)
+            }
+            loadingPanelProfileInfo.visibility = View.GONE
         }
     }
 

@@ -18,12 +18,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <RelativeLayout android:layout_width="230dp"
-                        android:layout_height="205dp"
-                        android:id="@+id/loadingPanelProfileInfo">
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       >
             <ImageView
                     android:id="@+id/infoImage"
-                    android:layout_width="230dp" android:layout_height="205dp"
+                    android:layout_width="230dp"
+                    android:layout_height="205dp"
                     tools:src="@tools:sample/backgrounds/scenic"/>
             <ProgressBar
                     android:layout_width="wrap_content"
@@ -31,9 +31,11 @@
                     android:indeterminate="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:id="@+id/loadingPanelProfile"/>
+                    android:id="@+id/loadingPanelProfileInfo"/>
 
-        </RelativeLayout>
+
+
+         </RelativeLayout>
 
 
         <TextView

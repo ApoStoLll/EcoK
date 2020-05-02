@@ -105,6 +105,7 @@ class FeedFind : Fragment() {
                 }
             })
 
+        if(findRecycle == null) return
         findRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         findRecycle.adapter = myAdapter
     }

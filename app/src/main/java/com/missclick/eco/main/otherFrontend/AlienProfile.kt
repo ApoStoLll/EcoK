@@ -87,7 +87,7 @@ class AlienProfile : Fragment() {
         if(alien_name_profile == null) return
         val actionNew : MutableList<PositiveItem> = mutableListOf()
         alien_btnFollow.text = "follow"
-        if(user.followers != null) for(follower in user.followers)
+        for(follower in user.followers)
             if (follower == (activity as MainActivity).nickname) alien_btnFollow.text = "unfollow"
 
         for(item in actions) if (item.share) actionNew.add(item)
