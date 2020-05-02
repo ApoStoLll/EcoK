@@ -42,6 +42,7 @@ class HttpClient(private val ip : String,private val port : Int){
         val arr = imagePath.split("/")
         val imageName = arr[arr.size - 1]
         ftp.getImage(imageName,imagePath,context)
+        soc.close()
         return imageName//ЭТА ШТУКА КРАШНЕТСЯ ЕСЛИ ДОБАВИТЬ ЕЩЕ ПАПОК в папку
     }
     fun getUserData(username : String, context : Context) : User {
@@ -93,6 +94,7 @@ class HttpClient(private val ip : String,private val port : Int){
         //ftp.deleteAllfiles("/$username/")
         ftp.uploadImage(path, fileName, username)
         if(!post) writeRequest("/changeAvatar?image=/$username/$fileName&username=$username", "POST")
+        else soc.close()
     }
 
     fun addProfilePost(item : PositiveItem, username: String){
@@ -106,14 +108,13 @@ class HttpClient(private val ip : String,private val port : Int){
         writeRequest("/addProfilePost?action=$id&username=$username&score=$score&share=$share&image=$imageName&text=$description", "POST")
     }
 
-    fun getProfilePost(username : String,context: Context):List<PositiveItem>{
+    fun getProfilePost(username : String):List<PositiveItem>{
         val answ = writeRequest("/getProfilePost?username=$username", "POST")
         val actions:MutableList<PositiveItem> = mutableListOf()
         for(kek in answ.body){
             if(kek[0] == 'C') continue
             val arr = kek.split(',')
-            val imageName = getImage(arr[4].split("'")[1],context)
-            Log.e("hhtp",arr[4])
+            val imageName = arr[4].split("'")[1]
             val item = Post().getItem(arr[1].split(' ')[1].toInt(),arr[2],imageName,arr[5],arr[6])
             actions.add(item)
 

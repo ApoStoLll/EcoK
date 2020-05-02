@@ -107,7 +107,7 @@ class Profile : androidx.fragment.app.Fragment() {
                 } catch (e : ConnectException){
                     Log.e("ERROR", e.toString())
                 }
-                client.getProfilePost((activity as MainActivity).nickname,activity as MainActivity)
+                client.getProfilePost((activity as MainActivity).nickname)
             }
             loadingPanelProfile.visibility = View.GONE
             upd(actions)

@@ -18,6 +18,7 @@ import com.google.android.material.transition.SlideDistance
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile_post_info.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -49,9 +50,25 @@ class ProfilePostInfo : Fragment() {
         else infoDescription.text = ""
         if (item?.share == true) infoShare.text = "You have shared this post with your friends"
         else infoShare.text = "You have not shared this post with your friends"
+        var imageName = ""
+        GlobalScope.launch(Dispatchers.Main) {
+            loadingPanelProfileInfo.visibility = View.VISIBLE
+            val client = HttpClient("95.158.11.238", 8080)
+            imageName = withContext(Dispatchers.IO){
+                try {
+                    client.connect()
+                } catch (e : ConnectException){
+                    Log.e("ERROR", e.toString())
+                }
+                client.getImage(item!!.imageName, (activity as MainActivity))
+            }
 
-        if(item?.imageName != "NULL"){
-            var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + item!!.imageName)
+            loadingPanelProfileInfo.visibility = View.GONE
+
+        }
+        Log.e("new",imageName)
+        if(imageName != "NULL"){
+            var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
             image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
             infoImage.setImageBitmap(image)
 

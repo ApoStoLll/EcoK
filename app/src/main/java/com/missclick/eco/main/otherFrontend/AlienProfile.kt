@@ -74,7 +74,7 @@ class AlienProfile : Fragment() {
                     client.connect()
                     val user = client.getUserData(alienUsername!!, (activity as MainActivity))
                     client.connect()
-                    val actions = client.getProfilePost(alienUsername!!,activity as MainActivity)
+                    val actions = client.getProfilePost(alienUsername!!)
                     (activity as MainActivity).runOnUiThread { upd(user, actions) }
                 }catch (e : ConnectException){
                     Log.e("ERROR", e.toString())

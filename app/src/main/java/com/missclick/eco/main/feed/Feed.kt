@@ -64,7 +64,7 @@ class Feed : androidx.fragment.app.Fragment() {
                     for(following in followings) {
                         val client2 = HttpClient("95.158.11.238", 8080)
                         client2.connect()
-                        val userPosts: List<PositiveItem> = client2.getProfilePost(following, activity as MainActivity)
+                        val userPosts: List<PositiveItem> = client2.getProfilePost(following)
                         for (post in userPosts) {
                             val client3 = HttpClient("95.158.11.238", 8080)
                             client3.connect()
