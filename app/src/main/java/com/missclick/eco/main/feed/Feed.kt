@@ -53,42 +53,75 @@ class Feed : androidx.fragment.app.Fragment() {
 
     private fun getPosts(adapter : FeedAdapter){
 //        val posts: MutableList<PostItem> = mutableListOf()
-        GlobalScope.launch {
-            withContext(Dispatchers.IO){
-                try{
-
-                    val client = HttpClient("95.158.11.238", 8080)
-                    client.connect()
-                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
-                    val followings = user.followings
-                    for(following in followings) {
-                        val client2 = HttpClient("95.158.11.238", 8080)
-                        client2.connect()
-                        val userPosts: List<PositiveItem> = client2.getProfilePost(following)
-                        for (post in userPosts) {
-                            val client3 = HttpClient("95.158.11.238", 8080)
-                            client3.connect()
-                            val imageProfile = client3.getUserData(following,(activity as MainActivity)).imageName
-                            if (post.share) {
-//
-                                (activity as MainActivity).runOnUiThread {
-                                    adapter.addItem(
-                                        PostItem(
-                                            following, post.action, post.score, post.description, 0,
-                                            (activity as MainActivity).filesDir.path + "/" + post.imageName,
-                                            (activity as MainActivity).filesDir.path + "/" + imageProfile
-                                        )
-                                    )
-                                }
-
-                            }
-                        }
+        GlobalScope.launch(Dispatchers.Main) {
+            feedLoadingPanel.visibility = View.VISIBLE
+            val client = HttpClient("95.158.11.238", 8080)
+            val user = withContext(Dispatchers.IO){
+                client.connect()
+                client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+            }
+            val followings = user.followings
+            for(following in followings) {
+                val client2 = HttpClient("95.158.11.238", 8080)
+                val userPosts = withContext(Dispatchers.IO){
+                    client2.connect()
+                    client2.getProfilePost(following)
+                }
+                for(post in userPosts){
+                    val client3 = HttpClient("95.158.11.238", 8080)
+                    val imageProfile = withContext(Dispatchers.IO){
+                        client3.connect()
+                        client3.getUserData(following,(activity as MainActivity)).imageName
                     }
-                }catch (e : ConnectException){
-                    Log.e("Error",e.toString())
+                    if(post.share){
+                        adapter.addItem(
+                            PostItem(
+                                following, post.action, post.score, post.description, 0,
+                                (activity as MainActivity).filesDir.path + "/" + post.imageName,
+                                (activity as MainActivity).filesDir.path + "/" + imageProfile
+                            )
+                        )
+                        feedLoadingPanel.visibility = View.GONE
+                    }
                 }
             }
+
         }
+//            withContext(Dispatchers.IO){
+//                try{
+//
+//                    val client = HttpClient("95.158.11.238", 8080)
+//                    client.connect()
+//                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+//                    val followings = user.followings
+//                    for(following in followings) {
+//                        val client2 = HttpClient("95.158.11.238", 8080)
+//                        client2.connect()
+//                        val userPosts: List<PositiveItem> = client2.getProfilePost(following)
+//                        for (post in userPosts) {
+//                            val client3 = HttpClient("95.158.11.238", 8080)
+//                            client3.connect()
+//                            val imageProfile = client3.getUserData(following,(activity as MainActivity)).imageName
+//                            if (post.share) {
+////
+//                                (activity as MainActivity).runOnUiThread {
+//                                    adapter.addItem(
+//                                        PostItem(
+//                                            following, post.action, post.score, post.description, 0,
+//                                            (activity as MainActivity).filesDir.path + "/" + post.imageName,
+//                                            (activity as MainActivity).filesDir.path + "/" + imageProfile
+//                                        )
+//                                    )
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }catch (e : ConnectException){
+//                    Log.e("Error",e.toString())
+//                }
+//            }
+//        }
 //        posts.sortBy { it.time }
 //        return posts
     }
