@@ -37,6 +37,63 @@ class Feed : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        update()
+        feed_refresh.setOnRefreshListener{
+            update()
+            feed_refresh.isRefreshing = false
+        }
+        view.findViewById<MaterialButton>(R.id.search_friend_btn).setOnClickListener {
+            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_holder,FeedFind())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+    }
+
+    private fun getPosts(adapter : FeedAdapter){
+//        val posts: MutableList<PostItem> = mutableListOf()
+        GlobalScope.launch {
+            withContext(Dispatchers.IO){
+                try{
+
+                    val client = HttpClient("95.158.11.238", 8080)
+                    client.connect()
+                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+                    val followings = user.followings
+                    for(following in followings) {
+                        val client2 = HttpClient("95.158.11.238", 8080)
+                        client2.connect()
+                        val userPosts: List<PositiveItem> = client2.getProfilePost(following, activity as MainActivity)
+                        for (post in userPosts) {
+                            val client3 = HttpClient("95.158.11.238", 8080)
+                            client3.connect()
+                            val imageProfile = client3.getUserData(following,(activity as MainActivity)).imageName
+                            if (post.share) {
+//
+                                (activity as MainActivity).runOnUiThread {
+                                    adapter.addItem(
+                                        PostItem(
+                                            following, post.action, post.score, post.description, 0,
+                                            (activity as MainActivity).filesDir.path + "/" + post.imageName,
+                                            (activity as MainActivity).filesDir.path + "/" + imageProfile
+                                        )
+                                    )
+                                }
+
+                            }
+                        }
+                    }
+                }catch (e : ConnectException){
+                    Log.e("Error",e.toString())
+                }
+            }
+        }
+//        posts.sortBy { it.time }
+//        return posts
+    }
+
+    private fun update(){
         val myAdapter = FeedAdapter(object : FeedAdapter.Callback {
                 override fun onItemClicked(item: PostItem) {
                     val profileInfo = ProfilePostInfo()
@@ -50,73 +107,9 @@ class Feed : androidx.fragment.app.Fragment() {
                     transaction.commit()
                 }
             })
+        getPosts(myAdapter)
         feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         feedRecycle.adapter = myAdapter
-        getPosts(myAdapter)
-        feed_refresh.setOnRefreshListener{
-            getPosts(myAdapter)
-            feed_refresh.isRefreshing = false
-        }
-        view.findViewById<MaterialButton>(R.id.search_friend_btn).setOnClickListener {
-            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_holder,FeedFind())
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
-
-    }
-
-    private fun getPosts(adapter : FeedAdapter){
-        val posts: MutableList<PostItem> = mutableListOf()
-        GlobalScope.launch {
-            withContext(Dispatchers.IO){
-                try{
-
-                    val client = HttpClient("95.158.11.238", 8080)
-                    client.connect()
-                    val user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
-                    val followings = user.followings
-                    if(followings != null) for(following in followings){
-                        val client2 = HttpClient("95.158.11.238", 8080)
-                        client2.connect()
-                        val userPosts: List<PositiveItem> = client2.getProfilePost(following,activity as MainActivity)
-                        for(post in userPosts){
-                            if (post.share){
-//                                posts.add(PostItem(following,post.action,post.score,post.description,0,
-//                                    (activity as MainActivity).filesDir.path + "/"+ post.imageName))
-                                (activity as MainActivity).runOnUiThread { adapter.addItem(PostItem(following,post.action,post.score,post.description,0,
-                                    (activity as MainActivity).filesDir.path + "/"+ post.imageName)) }
-
-                            }
-                        }
-                    }
-                    else Log.e("lol","fail")
-                }catch (e : ConnectException){
-                    Log.e("Error",e.toString())
-                }
-            }
-        }
-//        posts.sortBy { it.time }
-//        return posts
-    }
-
-    private fun update(){
-//        val posts: MutableList<PostItem> = getPosts()
-//        val myAdapter = FeedAdapter(
-//            posts,
-//            object : FeedAdapter.Callback {
-//                override fun onItemClicked(item: PostItem) {
-//                    val profileInfo = ProfilePostInfo()
-//                    val bundle = Bundle()
-//                    bundle.putParcelable("arg",item)
-//                    profileInfo.arguments = bundle
-//                    val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-//                    // transaction.addSharedElement(view!!, "info")
-//                    transaction.replace(R.id.fragment_holder, profileInfo)
-//                    transaction.addToBackStack(null)
-//                    transaction.commit()
-//                }
-//            })
 
 
     }

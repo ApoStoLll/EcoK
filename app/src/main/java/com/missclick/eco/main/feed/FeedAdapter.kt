@@ -33,6 +33,7 @@ class FeedAdapter(val callback: Callback) : androidx.recyclerview.widget.Recycle
         private val description = itemView.findViewById<TextView>(R.id.feed_post_description)
         private val like = itemView.findViewById<TextView>(R.id.feed_post_like)
         private val image = itemView.findViewById<ImageView>(R.id.feed_post_image)
+        private val imageProfile = itemView.findViewById<ImageView>(R.id.feed_post_image_profile)
         fun bind(item: PostItem) {
             username.text = item.username
             score.text = item.score.toString()
@@ -40,9 +41,14 @@ class FeedAdapter(val callback: Callback) : androidx.recyclerview.widget.Recycle
             val desc = if(item.description != "NULL") " and says " + item.description else ""
             description.text = item.action + desc
             var imageBit =  BitmapFactory.decodeFile(item.imageName)
+            var imageBitProfile =  BitmapFactory.decodeFile(item.imageProfileName)
             if(imageBit != null){
                 imageBit = if (imageBit.width != null) Bitmap.createScaledBitmap(imageBit, 150, 150, false) else return
                 image.setImageBitmap(imageBit)
+            }
+            if(imageBitProfile != null){
+                imageBitProfile = if (imageBitProfile.width != null) Bitmap.createScaledBitmap(imageBitProfile, 150, 150, false) else return
+                imageProfile.setImageBitmap(imageBitProfile)
             }
             itemView.setOnClickListener {
                 if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
