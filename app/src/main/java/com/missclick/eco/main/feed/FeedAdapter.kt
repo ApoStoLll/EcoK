@@ -18,14 +18,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FeedAdapter(val context : Context,val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
+class FeedAdapter(val items: MutableList<PostItem>,val context : Context,val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
 
-    var items : MutableList <PostItem> = mutableListOf()
-
-    fun addItem(posts : List<PostItem>){
-        items.addAll(posts)
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = MainHolder(LayoutInflater.from(parent.context).inflate(R.layout.feed_post, parent, false))
@@ -49,31 +43,17 @@ class FeedAdapter(val context : Context,val callback: Callback) : androidx.recyc
             val desc = if(item.description != "NULL") " and says " + item.description else ""
             description.text = item.action + desc
 
-            GlobalScope.launch(Dispatchers.Main) {
-                val client = HttpClient("95.158.11.238", 8080)
-                val imageName = withContext(Dispatchers.IO) {
-                    client.connect()
-                    client.getImage(item.imageProfileName, context)
-                }
-                var imageBit =  BitmapFactory.decodeFile(context.filesDir.path + "/" +imageName)
-                if(imageBit != null){
-                    imageBit = Bitmap.createScaledBitmap(imageBit, 150, 150, false)
-                    imageProfile.setImageBitmap(imageBit)
-                }
+            var imageBitProfile =  BitmapFactory.decodeFile(context.filesDir.path + "/" +item.imageProfileName)
+            if(imageBitProfile != null){
+                imageBitProfile = Bitmap.createScaledBitmap(imageBitProfile, 150, 150, false)
+                imageProfile.setImageBitmap(imageBitProfile)
             }
 
-            GlobalScope.launch(Dispatchers.Main) {
-                val client = HttpClient("95.158.11.238", 8080)
-                val imageName = withContext(Dispatchers.IO) {
-                    client.connect()
-                    client.getImage(item.imageName, context)
-                }
-                var imageBit =  BitmapFactory.decodeFile(context.filesDir.path + "/" +imageName)
-                if(imageBit != null){
-                    imageBit = Bitmap.createScaledBitmap(imageBit, 150, 150, false)
-                    image.setImageBitmap(imageBit)
-                    loading.visibility = View.GONE
-                }
+            var imageBit =  BitmapFactory.decodeFile(context.filesDir.path + "/" +item.imageName)
+            if(imageBit != null){
+                imageBit = Bitmap.createScaledBitmap(imageBit, 150, 150, false)
+                image.setImageBitmap(imageBit)
+                loading.visibility = View.GONE
             }
 
             itemView.setOnClickListener {

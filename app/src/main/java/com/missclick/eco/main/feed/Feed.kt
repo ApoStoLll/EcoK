@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -33,14 +32,14 @@ class Feed : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var count = 1
-        val myAdapter = FeedAdapter(activity as MainActivity, object : FeedAdapter.Callback {
+        var actions : MutableList<PostItem> = mutableListOf()
+        val myAdapter = FeedAdapter(actions,activity as MainActivity, object : FeedAdapter.Callback {
             override fun onItemClicked(item: PostItem) {
                 val profileInfo = ProfilePostInfo()
                 val bundle = Bundle()
                 bundle.putParcelable("arg",item)
                 profileInfo.arguments = bundle
                 val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-                // transaction.addSharedElement(view!!, "info")
                 transaction.replace(R.id.fragment_holder, profileInfo)
                 transaction.addToBackStack(null)
                 transaction.commit()
@@ -48,11 +47,12 @@ class Feed : androidx.fragment.app.Fragment() {
         })
         feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         feedRecycle.adapter = myAdapter
-        getPosts(myAdapter,count)
+        getPosts(actions,count)
         count++
         feed_refresh.setOnRefreshListener{
             count = 1
-            getPosts(myAdapter,count)
+            actions = mutableListOf()
+            getPosts(actions,count)
             feed_refresh.isRefreshing = false
         }
         view.findViewById<MaterialButton>(R.id.search_friend_btn).setOnClickListener {
@@ -66,14 +66,15 @@ class Feed : androidx.fragment.app.Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                   getPosts(myAdapter,count)
+                   getPosts(actions,count)
+                    myAdapter.notifyDataSetChanged()
                     count++
                 }
             }
         })
     }
 
-    private fun getPosts(adapter : FeedAdapter,count: Int){
+    private fun getPosts(actions: MutableList<PostItem>,count: Int){
         val activity = activity as MainActivity
         GlobalScope.launch(Dispatchers.Main) {
             val client = HttpClient("95.158.11.238", 8080)
@@ -81,14 +82,21 @@ class Feed : androidx.fragment.app.Fragment() {
                 client.connect()
                 client.getFeedPosts(activity.nickname, count)
             }
-            adapter.addItem(posts)
+            for( post in posts){
+                val imageName = withContext(Dispatchers.IO) {
+                    client.connect()
+                    client.getImage(post.imageName, activity)
+                }
+                val imageNameProfile = withContext(Dispatchers.IO) {
+                    client.connect()
+                    client.getImage(post.imageProfileName, activity)
+                }
+                post.imageName = imageName
+                post.imageProfileName = imageNameProfile
+            }
+            actions.addAll(posts)
             if (feedLoadingPanel != null) feedLoadingPanel.visibility = View.GONE
         }
-
-    }
-
-    private fun update(){
-
     }
 
 }

@@ -81,7 +81,7 @@ class Profile : androidx.fragment.app.Fragment() {
                 }
                 client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
             }
-//            addProfileInfo(user)
+
             val actions = withContext(Dispatchers.IO){
                 try {
                     client.connect()

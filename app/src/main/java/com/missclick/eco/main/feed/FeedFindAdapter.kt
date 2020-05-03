@@ -11,7 +11,8 @@ import android.widget.TextView
 import com.missclick.eco.R
 import java.net.ConnectException
 
-class FeedFindAdapter(var items: List<FeedFindItem>, val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedFindAdapter.MainHolder>() {
+class FeedFindAdapter(val items: List<FeedFindItem>, val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedFindAdapter.MainHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = MainHolder(LayoutInflater.from(parent.context).inflate(R.layout.feed_find_item, parent, false))
     override fun getItemCount() = items.size
