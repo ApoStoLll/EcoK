@@ -2,6 +2,7 @@ package com.missclick.eco
 
 import android.content.Context
 import android.util.Log
+import com.missclick.eco.main.feed.PostItem
 import com.missclick.eco.main.profile.PositiveItem
 import java.net.Socket
 import java.io.*
@@ -120,6 +121,25 @@ class HttpClient(private val ip : String,private val port : Int){
 
         }
         actions.reverse()
+        return actions
+    }
+
+    fun getFeedPosts(username : String,count : Int):List<PostItem>{
+        val answ = writeRequest("/getFeed?username=$username&count=$count", "POST")
+        val actions:MutableList<PostItem> = mutableListOf()
+        for(kek in answ.body){
+            if(kek[0] == 'C') continue
+            val arr = kek.split(',')
+            val nickname = arr[3].split("'")[1]
+            val action = Post().getAction(arr[1].split(' ')[1].toInt())
+            val score = Post().getScore(arr[1].split(' ')[1].toInt())
+            val description = arr[5].split("'")[1]
+            val time = arr[2].split("'")[1].toInt()
+            val imageName = arr[4].split("'")[1]
+            val imageProfileName = arr[0].split("'")[1]
+            val item = PostItem(nickname,action,score,description,time,imageName,imageProfileName)
+            actions.add(item)
+        }
         return actions
     }
 

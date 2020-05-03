@@ -2,6 +2,7 @@ package com.missclick.eco.main.feed
 
 
 import android.os.Bundle
+import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,41 +54,14 @@ class Feed : androidx.fragment.app.Fragment() {
         val activity = activity as MainActivity
         GlobalScope.launch(Dispatchers.Main) {
             val client = HttpClient("95.158.11.238", 8080)
-            val user = withContext(Dispatchers.IO){
+            val posts = withContext(Dispatchers.IO) {
                 client.connect()
-                client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+                client.getFeedPosts(activity.nickname, 1)
             }
-            val followings = user.followings
-            for(following in followings) {
-                val client2 = HttpClient("95.158.11.238", 8080)
-                val userPosts = withContext(Dispatchers.IO){
-                    client2.connect()
-                    client2.getProfilePost(following)
-                }
-                for(post in userPosts){
-                    val client3 = HttpClient("95.158.11.238", 8080)
-                    val imageProfile = withContext(Dispatchers.IO){
-                        client3.connect()
-                        client3.getUserData(following,activity).imageName
-                    }
-                    if(post.share){
-
-                        adapter.addItem(
-                            PostItem(
-                                following, post.action, post.score, post.description, 0,
-                                post.imageName,
-                                activity.filesDir.path + "/" + imageProfile
-                            )
-                        )
-                        if (feedLoadingPanel != null) feedLoadingPanel.visibility = View.GONE
-                    }
-                }
-            }
-
+            adapter.addItem(posts)
+            if (feedLoadingPanel != null) feedLoadingPanel.visibility = View.GONE
         }
 
-//        posts.sortBy { it.time }
-//        return posts
     }
 
     private fun update(){
@@ -107,8 +81,6 @@ class Feed : androidx.fragment.app.Fragment() {
         getPosts(myAdapter)
         feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         feedRecycle.adapter = myAdapter
-
-
     }
 
 }

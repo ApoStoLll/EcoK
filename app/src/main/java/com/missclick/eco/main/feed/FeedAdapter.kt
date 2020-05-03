@@ -20,10 +20,10 @@ import kotlinx.coroutines.withContext
 
 class FeedAdapter(val context : Context,val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
 
-    var items = ArrayList<PostItem>()
+    var items : MutableList <PostItem> = mutableListOf()
 
-    fun addItem(post : PostItem){
-        items.add(post)
+    fun addItem(posts : List<PostItem>){
+        items.addAll(posts)
         notifyDataSetChanged()
     }
 
@@ -49,10 +49,17 @@ class FeedAdapter(val context : Context,val callback: Callback) : androidx.recyc
             val desc = if(item.description != "NULL") " and says " + item.description else ""
             description.text = item.action + desc
 
-            var imageBitProfile =  BitmapFactory.decodeFile(item.imageProfileName)
-            if(imageBitProfile != null){
-                imageBitProfile = if (imageBitProfile.width != null) Bitmap.createScaledBitmap(imageBitProfile, 150, 150, false) else return
-                imageProfile.setImageBitmap(imageBitProfile)
+            GlobalScope.launch(Dispatchers.Main) {
+                val client = HttpClient("95.158.11.238", 8080)
+                val imageName = withContext(Dispatchers.IO) {
+                    client.connect()
+                    client.getImage(item.imageProfileName, context)
+                }
+                var imageBit =  BitmapFactory.decodeFile(context.filesDir.path + "/" +imageName)
+                if(imageBit != null){
+                    imageBit = Bitmap.createScaledBitmap(imageBit, 150, 150, false)
+                    imageProfile.setImageBitmap(imageBit)
+                }
             }
 
             GlobalScope.launch(Dispatchers.Main) {
