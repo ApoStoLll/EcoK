@@ -30,7 +30,6 @@ import com.missclick.eco.R
 class FeedFind : Fragment() {
 
     private var nicknames:List<String> = listOf()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +39,7 @@ class FeedFind : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var found: MutableList<FeedFindItem> = mutableListOf()
+        val found: MutableList<FeedFindItem> = mutableListOf()
         val myAdapter = FeedFindAdapter(
             found,
             object : FeedFindAdapter.Callback {
@@ -67,28 +66,30 @@ class FeedFind : Fragment() {
                 client.getAllNicknames()
             }
         }
+
         find_profile_edit_text.setSelection(0)
         find_profile_edit_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                 var currentNicknames:MutableList<String> = mutableListOf()
                 if(s.toString() == ""){
-                    found =  mutableListOf()
+                    found.clear()
+                    myAdapter.notifyDataSetChanged()
                 } else {
-                    currentNicknames = filter(s.toString().toLowerCase())
-                }
-                GlobalScope.launch(Dispatchers.Main) {
-//                    found =  mutableListOf()
-                    val client = HttpClient("95.158.11.238", 8080)
-                    for(nick in currentNicknames){
+                    GlobalScope.launch(Dispatchers.Main) {
+                        val currentNicknames = filter(s.toString().toLowerCase())
+                        val client = HttpClient("95.158.11.238", 8080)
+                        found.clear()
+                        for(nick in currentNicknames){
                         val user = withContext(Dispatchers.IO) {
                             client.connect()
                             client.getUserData(nick,activity as MainActivity)
                         }
-                        if(found.all { it.username != user.username }) found.add(FeedFindItem(user.username,user.name,
+                        if(found.all { it.username != user.username })
+                            found.add(FeedFindItem(user.username,user.name,
                             (activity as MainActivity).filesDir.path + "/" +user.imageName))
                     }
+                    myAdapter.notifyDataSetChanged()
+                    }
                 }
-                myAdapter.notifyDataSetChanged()
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

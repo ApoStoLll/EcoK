@@ -19,6 +19,7 @@ class FeedFindAdapter(val items: List<FeedFindItem>, val callback: Callback) : a
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         holder.bind(items[position])
     }
+
     inner class MainHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         private val findName1 = itemView.findViewById<TextView>(R.id.findName)
         private val findUsername1 = itemView.findViewById<TextView>(R.id.findUsername)
