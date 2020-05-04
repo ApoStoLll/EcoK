@@ -55,7 +55,7 @@ class Feed : androidx.fragment.app.Fragment() {
         count++
         feed_refresh.setOnRefreshListener{
             count = 1
-            actions = mutableListOf()
+            actions.clear()
             getPosts(actions,count)
             feed_refresh.isRefreshing = false
         }
