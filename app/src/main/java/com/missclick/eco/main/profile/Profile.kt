@@ -168,7 +168,7 @@ class Profile : androidx.fragment.app.Fragment() {
         name_profile.text = user.name
         score_profile.text = user.score
         profile_name_toolbar.text = (activity as MainActivity).nickname
-        var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + user.imageName)
+        var image =  BitmapFactory.decodeFile(context?.filesDir?.path + "/" + user.imageName)
         image = if (image != null) Bitmap.createScaledBitmap(image, 250, 250, false) else return
         image_profile.setImageBitmap(image)
 
