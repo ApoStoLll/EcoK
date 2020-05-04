@@ -13,51 +13,67 @@
             android:id="@+id/cv"
             android:transitionName="info"
     >
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                      android:layout_height="match_parent"
+                                                      android:orientation="vertical">
+            <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                          android:layout_height="wrap_content"
+                                                          android:orientation="horizontal">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/info_post_image_profile"
+                        android:src="@drawable/ic_home_black_24dp"
+                        android:minHeight="48dp"
+                        android:minWidth="48dp"
+                        android:maxHeight="48dp"
+                        android:maxWidth="48dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
 
-        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                       >
-            <ImageView
-                    android:id="@+id/infoImage"
-                    android:layout_width="230dp"
-                    android:layout_height="205dp"
-                    tools:src="@tools:sample/backgrounds/scenic"/>
-            <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/loadingPanelProfileInfo"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/info_post_name"
+                        android:textSize="12sp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_toRightOf="@id/image1234"
+                />
+                <TextView
+                        android:id="@+id/info_post_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_toRightOf="@id/info_post_name"
+                        android:textSize="12sp"
+                />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+            <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.google.android.material.imageview.ShapeableImageView android:layout_width="match_parent"
+                                                                          android:layout_height="200dp"
+                                                                          android:id="@+id/info_post_image"
+                                                                          android:src="@drawable/ic_home_black_24dp"/>
+                <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/loadingPanelInfoPost"/>
 
-         </RelativeLayout>
 
+            </RelativeLayout>
 
-        <TextView
-                android:id="@+id/infoAction"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:text="TextView"/>
-        <TextView
-                android:id="@+id/infoScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:text="TextView"/>
-        <TextView
-                android:id="@+id/infoTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:text="TextView"/>
-        <TextView
-                android:id="@+id/infoShare"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:text="TextView"/>
-        <TextView
-                android:id="@+id/infoDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:text="TextView"/>
-    </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:id="@+id/info_post_description"
+                                                                   android:hint="KEKW, here u can write description"
+            />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

@@ -36,7 +36,7 @@ class Feed : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var count = 1
-        var actions : MutableList<PostItem> = mutableListOf()
+        val actions : MutableList<PostItem> = mutableListOf()
         val myAdapter = FeedAdapter(actions,activity as MainActivity, object : FeedAdapter.Callback {
             override fun onItemClicked(item: PostItem) {
                 val profileInfo = ProfilePostInfo()

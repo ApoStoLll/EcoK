@@ -18,6 +18,7 @@ import com.google.android.material.transition.SlideDistance
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
+import com.missclick.eco.main.feed.PostItem
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile_post_info.*
 import kotlinx.coroutines.Dispatchers
@@ -40,39 +41,47 @@ class ProfilePostInfo : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val item = arguments?.getParcelable<PositiveItem>("arg")
 
-        infoAction.text = item?.action
-        infoScore.text = item?.score.toString()
-        infoTime.text = item?.time
+        val item = arguments?.getParcelable<PostItem>("arg")
 
-        if(item?.description != "NULL") infoDescription.text = item?.description
-        else infoDescription.text = ""
-        if (item?.share == true) infoShare.text = "You have shared this post with your friends"
-        else infoShare.text = "You have not shared this post with your friends"
-        if(item?.imageName != "NULL")
+        val description = if(item?.description != "NULL") " and says " + item?.description else ""
+        info_post_description.text = item?.action + description
+        info_post_score.text = item?.score.toString()
+        info_post_name.text = item?.username
+
         GlobalScope.launch(Dispatchers.Main) {
-//            loadingPanelProfileInfo.visibility = View.VISIBLE
             val client = HttpClient("95.158.11.238", 8080)
-            val imageName = withContext(Dispatchers.IO){
+            val imageNameProfile = withContext(Dispatchers.IO) {
+                try{
+                    client.connect()
+                    client.getImage(item!!.imageProfileName, activity as MainActivity)
+                } catch (e : ConnectException){
+                    "NULL"
+                }
+
+            }
+            val imageName = withContext(Dispatchers.IO) {
                 try {
                     client.connect()
-                } catch (e : ConnectException){
-                    Log.e("ERROR", e.toString())
+                    client.getImage(item!!.imageName, activity as MainActivity)
+                }catch (e : ConnectException){
+                    "NULL"
                 }
-                client.getImage(item!!.imageName, (activity as MainActivity))
             }
-
-            var image =  BitmapFactory.decodeFile(context!!.filesDir.path + "/" + imageName)
-            Log.e("new",context!!.filesDir.path + "/" + imageName)
-            if(image != null && image.width != null){
-                Log.e("new2",image.width.toString())
-                image = Bitmap.createScaledBitmap(image, 250, 250, false)
-                infoImage.setImageBitmap(image)
+            var imageBitPost =  BitmapFactory.decodeFile(context?.filesDir?.path + "/" +imageName)
+            if(imageBitPost != null){
+                imageBitPost = Bitmap.createScaledBitmap(imageBitPost, 150, 150, false)
+                info_post_image.setImageBitmap(imageBitPost)
             }
-            loadingPanelProfileInfo.visibility = View.GONE
+            var imageBitProfile =  BitmapFactory.decodeFile(context?.filesDir?.path + "/" +imageNameProfile)
+            if(imageBitProfile != null){
+                imageBitProfile = Bitmap.createScaledBitmap(imageBitProfile, 150, 150, false)
+                info_post_image_profile.setImageBitmap(imageBitProfile)
+            }
+            loadingPanelInfoPost.visibility = View.GONE
         }
     }
-
-
 }
+
+
+

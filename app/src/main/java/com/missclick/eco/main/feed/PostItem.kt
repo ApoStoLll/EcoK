@@ -7,10 +7,12 @@ data class PostItem(
     val username: String,
     val action: String,
     val score: Int,
-    var description : String = "NULL",
-    var time: Int = 0,
-    var imageName : String = "NULL",
-    var imageProfileName : String):Parcelable {
+    val description: String = "NULL",
+    val time: Int = 0,
+    var imageName: String = "NULL",
+    var imageProfileName: String,
+    val share: Boolean = true
+    ):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
@@ -18,7 +20,8 @@ data class PostItem(
         parcel.readString(),
         parcel.readInt(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readByte() != 0.toByte()
     ) {
     }
 
@@ -30,6 +33,7 @@ data class PostItem(
         parcel.writeInt(time)
         parcel.writeString(imageName)
         parcel.writeString(imageProfileName)
+        parcel.writeByte(if (share) 1 else 0)
     }
 
     override fun describeContents(): Int {
