@@ -2,6 +2,7 @@ package com.missclick.eco.main.feed
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +13,15 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.missclick.eco.HttpClient
 import com.missclick.eco.R
 import com.missclick.eco.main.MainActivity
+import com.missclick.eco.main.profile.PositiveItem
 import com.missclick.eco.main.profile.ProfilePostInfo
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.ConnectException
+import java.util.concurrent.TimeUnit
 
 
 class Feed : androidx.fragment.app.Fragment() {
@@ -66,7 +70,7 @@ class Feed : androidx.fragment.app.Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                   getPosts(actions,count)
+                    getPosts(actions,count)
                     myAdapter.notifyDataSetChanged()
                     count++
                 }
@@ -74,13 +78,23 @@ class Feed : androidx.fragment.app.Fragment() {
         })
     }
 
-    private fun getPosts(actions: MutableList<PostItem>,count: Int){
+//    try{
+//
+//    } catch (e : ConnectException){
+//        Log.e("ERROR", e.toString())
+//    }
+
+    private fun getPosts(actions: MutableList<PostItem>,count: Int){ // Костыль с созданием пустого списка
         val activity = activity as MainActivity
         GlobalScope.launch(Dispatchers.Main) {
             val client = HttpClient("95.158.11.238", 8080)
             val posts = withContext(Dispatchers.IO) {
-                client.connect()
-                client.getFeedPosts(activity.nickname, count)
+                try{
+                    client.connect()
+                    client.getFeedPosts(activity.nickname, count)
+                } catch (e : ConnectException){
+                    mutableListOf<PostItem>()
+                }
             }
             for( post in posts){
                 val imageName = withContext(Dispatchers.IO) {

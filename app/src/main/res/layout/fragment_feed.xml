@@ -32,7 +32,6 @@
             android:layout_marginRight="8dp"
             android:layout_height="match_parent" tools:context=".main.profile.Profile">
         <RelativeLayout
-                android:id="@+id/loadingPanel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" >

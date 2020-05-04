@@ -69,31 +69,61 @@ class Profile : androidx.fragment.app.Fragment() {
 
     }
 
-    private fun update(){
-        GlobalScope.launch(Dispatchers.Main) {
-            loadingPanelProfile.visibility = View.VISIBLE
+    private fun update(){ // Костыль с трай кэч
+        GlobalScope.launch ( Dispatchers.IO ) {
+            withContext(Dispatchers.Main){
+                loadingPanelProfile.visibility = View.VISIBLE
+            }
+            lateinit var user : User
+            lateinit var actions : List<PositiveItem>
             val client = HttpClient("95.158.11.238", 8080)
-            val user = withContext(Dispatchers.IO){
-                try {
-                    client.connect()
-                } catch (e : ConnectException){
-                    Log.e("ERROR", e.toString())
-                }
-                client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+            try {
+                client.connect()
+                user = client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+            } catch (e : ConnectException){
+                Log.e("ERROR", e.toString())
+                withContext(Dispatchers.Main) { loadingPanelProfile.visibility = View.GONE }
+                cancel()
             }
-
-            val actions = withContext(Dispatchers.IO){
-                try {
-                    client.connect()
-                } catch (e : ConnectException){
-                    Log.e("ERROR", e.toString())
-                }
-                client.getProfilePost((activity as MainActivity).nickname)
+            try{
+                client.connect()
+                actions = client.getProfilePost((activity as MainActivity).nickname)
+            } catch (e : ConnectException){
+                Log.e("ERROR", e.toString())
+                withContext(Dispatchers.Main) { loadingPanelProfile.visibility = View.GONE }
+                cancel()
             }
-            loadingPanelProfile.visibility = View.GONE
-            upd(user,actions)
-            updateToFile(user.name,user.score,user.imageName,actions)
+            withContext(Dispatchers.Main){
+                loadingPanelProfile.visibility = View.GONE
+                upd(user, actions)
+                updateToFile(user.name,user.score,user.imageName,actions)
+            }
         }
+//        GlobalScope.launch(Dispatchers.Main) {
+//            loadingPanelProfile.visibility = View.VISIBLE
+//            val client = HttpClient("95.158.11.238", 8080)
+//            val user = withContext(Dispatchers.IO){
+//                try {
+//                    client.connect()
+//                    client.getUserData((activity as MainActivity).nickname, (activity as MainActivity))
+//                } catch (e : ConnectException){
+//                    Log.e("ERROR", e.toString())
+//
+//                }
+//            }
+//
+//            val actions = withContext(Dispatchers.IO){
+//                try {
+//                    client.connect()
+//                } catch (e : ConnectException){
+//                    Log.e("ERROR", e.toString())
+//                }
+//                client.getProfilePost((activity as MainActivity).nickname)
+//            }
+//            loadingPanelProfile.visibility = View.GONE
+//            upd(user,actions)
+//            updateToFile(user.name,user.score,user.imageName,actions)
+//        }
     }
 
     private fun updateToFile(name: String,score: String,imageName: String,actions: List<PositiveItem>){

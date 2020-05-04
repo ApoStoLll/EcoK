@@ -14,7 +14,6 @@ class HttpClient(private val ip : String,private val port : Int){
     private lateinit var ftp : FtpManager
 
     fun connect(){
-
         soc = Socket(ip, port)
         out = BufferedWriter(OutputStreamWriter(soc.getOutputStream()))
         input = BufferedReader(InputStreamReader(soc.getInputStream()))
