@@ -37,7 +37,7 @@ class Feed : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var count = 1
         val actions : MutableList<PostItem> = mutableListOf()
-        val myAdapter = FeedAdapter(actions,activity as MainActivity, object : FeedAdapter.Callback {
+        val myAdapter = FeedAdapter(activity as MainActivity, object : FeedAdapter.Callback {
             override fun onItemClicked(item: PostItem) {
                 val profileInfo = ProfilePostInfo()
                 val bundle = Bundle()
@@ -51,12 +51,12 @@ class Feed : androidx.fragment.app.Fragment() {
         })
         feedRecycle.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         feedRecycle.adapter = myAdapter
-        getPosts(actions,count)
+        getPosts(actions, count, myAdapter)
         count++
         feed_refresh.setOnRefreshListener{
             count = 1
-            actions.clear()
-            getPosts(actions,count)
+            //actions.clear()
+            getPosts(actions, count, myAdapter)
             feed_refresh.isRefreshing = false
         }
         view.findViewById<MaterialButton>(R.id.search_friend_btn).setOnClickListener {
@@ -70,7 +70,7 @@ class Feed : androidx.fragment.app.Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    getPosts(actions,count)
+                    getPosts(actions, count, myAdapter)
                     myAdapter.notifyDataSetChanged()
                     count++
                 }
@@ -84,7 +84,7 @@ class Feed : androidx.fragment.app.Fragment() {
 //        Log.e("ERROR", e.toString())
 //    }
 
-    private fun getPosts(actions: MutableList<PostItem>,count: Int){ // Костыль с созданием пустого списка
+    private fun getPosts(actions: MutableList<PostItem>, count: Int, myAdapter : FeedAdapter){ // Костыль с созданием пустого списка
         val activity = activity as MainActivity
         GlobalScope.launch(Dispatchers.Main) {
             val client = HttpClient("95.158.11.238", 8080)
@@ -96,7 +96,7 @@ class Feed : androidx.fragment.app.Fragment() {
                     mutableListOf<PostItem>()
                 }
             }
-            for( post in posts){
+            for(post in posts){
                 val imageName = withContext(Dispatchers.IO) {
                     client.connect()
                     client.getImage(post.imageName, activity)
@@ -108,7 +108,11 @@ class Feed : androidx.fragment.app.Fragment() {
                 post.imageName = imageName
                 post.imageProfileName = imageNameProfile
             }
-            actions.addAll(posts)
+            if(count == 1) myAdapter.setItems(posts)
+            for(post in posts){
+                myAdapter.addItem(post, posts.size - 1)
+            }
+            //actions.addAll(posts)
             if (feedLoadingPanel != null) feedLoadingPanel.visibility = View.GONE
         }
     }

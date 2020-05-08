@@ -17,17 +17,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
-class FeedAdapter(val items: MutableList<PostItem>,val context : Context,val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
-
+class FeedAdapter(val context : Context,val callback: Callback) : androidx.recyclerview.widget.RecyclerView.Adapter<FeedAdapter.MainHolder>() {
+    val postItems :  MutableList<PostItem> = LinkedList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = MainHolder(LayoutInflater.from(parent.context).inflate(R.layout.feed_post, parent, false))
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = postItems.size
+
+    fun setItems(items : List<PostItem>){
+        postItems.clear()
+        postItems.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun addItem(item : PostItem, position: Int){
+        postItems.add(position, item)
+        notifyItemInserted(position)
+    }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(postItems[position])
     }
     inner class MainHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         private val username = itemView.findViewById<TextView>(R.id.feed_post_name)
@@ -57,7 +69,7 @@ class FeedAdapter(val items: MutableList<PostItem>,val context : Context,val cal
             }
 
             itemView.setOnClickListener {
-                if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
+                if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) callback.onItemClicked(postItems[adapterPosition])
             }
         }
     }
